@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Pet Shop</title>
+    <link rel="stylesheet" href="style.css?v=2">
+    
+    <!-- Estilo forçado inline para garantir que NADA sobressaia esta linha -->
+    <style>
+        .texto-cadastro {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 6px !important;
+            width: 100% !important;
+            margin-top: 15px !important;
+            font-size: 13px !important;
+            color: #8D6E63 !important;
+        }
+
+        .texto-cadastro span {
+            display: inline !important;
+            white-space: nowrap !important;
+        }
+
+        .texto-cadastro a {
+            display: inline !important;
+            white-space: nowrap !important;
+            width: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            color: #4CAF50 !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            background: none !important;
+            box-shadow: none !important;
+        }
+
+        .texto-cadastro a:hover {
+            color: #388E3C !important;
+            text-decoration: underline !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="conteiner">
+        <div class="card">
+            <h1>LOGIN</h1>
+            
+            <form id="formLogin" onsubmit="validarEEntrar(event)">
+                <label for="user">Usuário:</label>
+                <input type="email" id="user" placeholder="Email" required>
+
+                <label for="pass">Senha:</label>
+                <input type="password" id="pass" placeholder="**********" required>
+                
+                <button type="submit" class="btn-entrar">Entrar</button>
+                
+                <a href="#" class="link-esqueci">Esqueci minha senha.</a>
+
+                <!-- Linha única e contínua -->
+                <div class="texto-cadastro">
+                    <span>Não tem conta?</span>
+                    <a href="index.html">Clique aqui!</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function validarEEntrar(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('user').value.trim();
+            const senha = document.getElementById('pass').value.trim();
+
+            if (email !== "" && senha !== "") {
+                window.location.href = "dashboard.html";
+            } else {
+                alert("Por favor, preencha todos os campos antes de entrar.");
+            }
+        }
+    </script>
+</body>
+</html>

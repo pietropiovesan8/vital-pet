@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="conteiner">
+        <div class="card">
+            <h1>CADASTRO</h1>
+            
+            <form id="formCadastro" onsubmit="validarECadastrar(event)">
+                <label for="user">Nome:</label>
+                <input type="text" id="user" placeholder="Seu Nome" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Email" required>
+
+                <label for="pass">Senha:</label>
+                <input type="password" id="pass" placeholder="**********" required>
+                
+                <button type="submit" class="btn-entrar">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Função em JS para validar e redirecionar -->
+    <script>
+        function validarECadastrar(event) {
+            // Impede o envio padrão do formulário
+            event.preventDefault();
+
+            const nome = document.getElementById('user').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const senha = document.getElementById('pass').value.trim();
+
+            if (nome !== "" && email !== "" && senha !== "") {
+                // Redireciona para o dashboard após preencher tudo
+                window.location.href = "dashboard.html";
+            } else {
+                alert("Por favor, preencha todos os campos antes de continuar.");
+            }
+        }
+    </script>
+</body>
+</html>
