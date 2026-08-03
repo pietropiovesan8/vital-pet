@@ -47,17 +47,18 @@ h1 {
     width: 100%;
 }
 
-/* Rotulos alinhados a esquerda, na ponta da caixa */
+/* Rotulos centralizados */
 label {
     display: block;
     font-size: 14px;
     font-weight: 600;
-    text-align: left !important;
+    text-align: center;
     margin-bottom: 4px;
     color: #8D6E63;
     width: 100%;
 }
 
+/* Texto dentro do input alinhado a esquerda */
 input {
     width: 100%;
     padding: 10px 14px;
@@ -66,7 +67,7 @@ input {
     background-color: #FFFFFF;
     color: #424242;
     font-size: 14px;
-    text-align: center;
+    text-align: left !important;
     outline: none;
     transition: all 0.3s ease;
     margin-bottom: 16px;
