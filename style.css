@@ -4,11 +4,10 @@
     margin: 0;
     padding: 0;
     font-family: 'Poppins', Arial, sans-serif;
-    box-sizing: border-box; /* Previne que o padding quebre o tamanho dos elementos */
+    box-sizing: border-box;
 }
 
 body {
-    /* Imagem do Pet Shop no fundo com pelicula escura para contraste */
     background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://t3.ftcdn.net/jpg/13/24/96/34/360_F_1324963406_trhm4Rx5knKaIUMwDJmlYToqcy3bgZPJ.jpg');
     display: flex;
     justify-content: center;
@@ -22,23 +21,22 @@ body {
 
 h1 {
     text-align: center;
-    color: #424242; /* Cinza escuro elegante */
+    color: #424242;
     font-size: 24px;
     font-weight: 700;
     letter-spacing: 1px;
     margin-bottom: 20px;
 }
 
-/* Card estilo Vidro Fosco (Glassmorphism) com tom Bege */
 .card {
-    background-color: rgba(245, 241, 232, 0.93); /* Bege suave levemente transparente */
-    backdrop-filter: blur(8px);                  /* Efeito de desfoque */
+    background-color: rgba(245, 241, 232, 0.93);
+    backdrop-filter: blur(8px);
     padding: 35px 30px;
     border-radius: 20px;
     width: 320px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.6);
-    color: #8D6E63; /* Marrom Elegante */
+    color: #8D6E63;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,17 +47,17 @@ h1 {
     width: 100%;
 }
 
-/* Rotulos centralizados e colados no input */
+/* Rotulos alinhados a esquerda, na ponta da caixa */
 label {
     display: block;
     font-size: 14px;
     font-weight: 600;
-    text-align: center;
-    margin-bottom: 4px; /* Proximo da caixa de texto */
+    text-align: left !important;
+    margin-bottom: 4px;
     color: #8D6E63;
+    width: 100%;
 }
 
-/* Caixas de texto centralizadas */
 input {
     width: 100%;
     padding: 10px 14px;
@@ -71,7 +69,7 @@ input {
     text-align: center;
     outline: none;
     transition: all 0.3s ease;
-    margin-bottom: 16px; /* Espaco ate o proximo label */
+    margin-bottom: 16px;
 }
 
 input:focus {
@@ -79,12 +77,11 @@ input:focus {
     box-shadow: 0 0 8px rgba(76, 175, 80, 0.25);
 }
 
-/* Botao Principal (Entrar / Cadastrar) */
 button, .btn-entrar {
     display: block;
     width: 100%;
     padding: 12px; 
-    background: linear-gradient(135deg, #4CAF50, #45a049); /* Verde sustentavel */
+    background: linear-gradient(135deg, #4CAF50, #45a049);
     color: #FFFFFF;
     border: none; 
     border-radius: 10px;
@@ -105,7 +102,6 @@ button:hover, .btn-entrar:hover {
     text-decoration: none;
 }
 
-/* Link Esqueci minha senha */
 .link-esqueci {
     display: block;
     text-align: center;
@@ -122,12 +118,11 @@ button:hover, .btn-entrar:hover {
     text-decoration: underline;
 }
 
-/* FORCA O TEXTO E O LINK A FICAREM NA MESMA LINHA HORIZONTAL, CENTRALIZADOS */
 .texto-cadastro {
     display: flex !important;
-    justify-content: center !important; /* Centraliza o bloco */
-    align-items: center !important;     /* Alinha verticalmente */
-    gap: 5px !important;               /* Espaco exato entre o texto e o link */
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 5px !important;
     font-size: 13px !important;
     color: #8D6E63 !important;
     margin-top: 10px !important;
@@ -135,12 +130,11 @@ button:hover, .btn-entrar:hover {
     text-align: center !important;
 }
 
-/* Garante que o link DENTRO do paragrafo nao vire bloco */
 .texto-cadastro a {
     display: inline-block !important;
-    width: auto !important;             /* Remove a largura de 100% */
-    margin: 0 !important;               /* Zera margens extras */
-    color: #4CAF50 !important;          /* Verde de destaque */
+    width: auto !important;
+    margin: 0 !important;
+    color: #4CAF50 !important;
     font-weight: 600 !important;
     text-decoration: none !important;
     transition: color 0.2s !important;
