@@ -18,26 +18,29 @@
             margin-top: 15px !important;
             font-size: 13px !important;
             color: #8D6E63 !important;
+            position: relative !important;
+            z-index: 10 !important;
         }
-
         .texto-cadastro span {
             display: inline !important;
             white-space: nowrap !important;
         }
-
         .texto-cadastro a {
-            display: inline !important;
+            display: inline-block !important;
             white-space: nowrap !important;
             width: auto !important;
             margin: 0 !important;
-            padding: 0 !important;
+            padding: 4px 2px !important;
             color: #4CAF50 !important;
             font-weight: 600 !important;
             text-decoration: none !important;
             background: none !important;
             box-shadow: none !important;
+            position: relative !important;
+            z-index: 20 !important;
+            pointer-events: auto !important;
+            cursor: pointer !important;
         }
-
         .texto-cadastro a:hover {
             color: #388E3C !important;
             text-decoration: underline !important;
@@ -52,14 +55,12 @@
             <form id="formLogin" onsubmit="validarEEntrar(event)">
                 <label for="user">Usuário:</label>
                 <input type="email" id="user" placeholder="Email" required>
-
                 <label for="pass">Senha:</label>
                 <input type="password" id="pass" placeholder="**********" required>
                 
                 <button type="submit" class="btn-entrar">Entrar</button>
                 
                 <a href="#" class="link-esqueci">Esqueci minha senha.</a>
-
                 <!-- Linha única e contínua -->
                 <div class="texto-cadastro">
                     <span>Não tem conta?</span>
@@ -68,14 +69,11 @@
             </form>
         </div>
     </div>
-
     <script>
         function validarEEntrar(event) {
             event.preventDefault();
-
             const email = document.getElementById('user').value.trim();
             const senha = document.getElementById('pass').value.trim();
-
             if (email !== "" && senha !== "") {
                 window.location.href = "dashboard.html";
             } else {
