@@ -1,12 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
 * {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', Arial, sans-serif;
     box-sizing: border-box;
 }
-
 body {
     background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://t3.ftcdn.net/jpg/13/24/96/34/360_F_1324963406_trhm4Rx5knKaIUMwDJmlYToqcy3bgZPJ.jpg');
     display: flex;
@@ -18,7 +16,6 @@ body {
     background-size: cover; 
     background-attachment: fixed;
 }
-
 h1 {
     text-align: center;
     color: #424242;
@@ -27,7 +24,6 @@ h1 {
     letter-spacing: 1px;
     margin-bottom: 20px;
 }
-
 .card {
     background-color: rgba(245, 241, 232, 0.93);
     backdrop-filter: blur(8px);
@@ -37,18 +33,16 @@ h1 {
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.6);
 }
-
-/* Centraliza os títulos dos campos */
+/* Titulos dos campos alinhados a esquerda */
 label {
     display: block;
     color: #8D6E63;
     font-size: 14px;
     font-weight: 600;
-    text-align: center; /* Alinha o texto do label no meio */
-    margin-bottom: 4px; /* Mantém bem próximo da caixa */
+    text-align: left; /* Alinha o texto do label na ponta */
+    margin-bottom: 4px;
 }
-
-/* Campos de entrada com texto centralizado */
+/* Campos de entrada com texto alinhado a esquerda */
 input {
     width: 100%;
     padding: 10px 14px;
@@ -57,17 +51,15 @@ input {
     background-color: #FFFFFF;
     color: #424242;
     font-size: 14px;
-    text-align: center; /* Centraliza a escrita e os placeholders */
+    text-align: left; /* Alinha a escrita e os placeholders na ponta */
     outline: none;
     transition: all 0.3s ease;
-    margin-bottom: 16px; /* Espaçamento ideal para o próximo campo */
+    margin-bottom: 16px;
 }
-
 input:focus {
     border-color: #4CAF50;
     box-shadow: 0 0 8px rgba(76, 175, 80, 0.25);
 }
-
 a {
     display: block;
     text-align: center;
@@ -76,12 +68,10 @@ a {
     text-decoration: none;
     transition: color 0.2s;
 }
-
 a:hover {
     color: #4CAF50;
     text-decoration: underline;
 }
-
 /* Botão Centralizado */
 button, .btn-entrar {
     display: block;
@@ -100,7 +90,6 @@ button, .btn-entrar {
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
     transition: all 0.3s ease;
 }
-
 button:hover, .btn-entrar:hover {
     background: linear-gradient(135deg, #45a049, #388E3C);
     transform: translateY(-2px);
