@@ -121,6 +121,10 @@ input{
 #cadastrar:hover{
     transform: translateY(-1px);
 }
+a{
+    text-decoration: none;
+    color: #000;
+}
 
 #linha {
     position: relative;
