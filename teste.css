@@ -1,0 +1,239 @@
+/* RESET BÁSICO E CORES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  :root {
+    --primary-blue: #094eb2;
+    --secondary-orange: #ff9900;
+    --bg-cream: #fffdf0;
+    --text-dark: #333333;
+  }
+  
+  body {
+    background-color: var(--primary-blue);
+  }
+  
+  /* NAVBAR */
+  .navbar {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 40px;
+    border-radius: 0 0 25px 25px;
+    margin: 0 20px;
+  }
+  
+  .logo img {
+    height: 50px;
+  }
+  
+  .nav-links a {
+    margin: 0 12px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: bold;
+  }
+  
+  .nav-links a.active {
+    color: var(--secondary-orange);
+    border-bottom: 2px solid var(--secondary-orange);
+  }
+  
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .btn-contact {
+    background-color: var(--secondary-orange);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  /* HERO SECTION */
+  .hero {
+    background-color: var(--bg-cream);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px;
+  }
+  
+  .hero-content {
+    max-width: 50%;
+  }
+  
+  .subtitle {
+    color: var(--secondary-orange);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  
+  .hero-content h1 {
+    font-size: 32px;
+    color: var(--primary-blue);
+    margin: 15px 0;
+  }
+  
+  .hero-content h1 span {
+    color: var(--secondary-orange);
+  }
+  
+  .hero-content p {
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.5;
+  }
+  
+  .hero-buttons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .btn-primary {
+    background-color: var(--secondary-orange);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .btn-secondary {
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-blue);
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .hero-image img {
+    max-width: 450px;
+  }
+  
+  /* DIVISOR */
+  .divider {
+    height: 15px;
+    background-color: var(--secondary-orange);
+  }
+  
+  /* SERVIÇOS */
+  .services {
+    background-color: var(--bg-cream);
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .services h2 {
+    color: var(--primary-blue);
+    margin-bottom: 30px;
+  }
+  
+  .services h2 span {
+    color: var(--secondary-orange);
+  }
+  
+  .services-grid {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .service-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 150px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  
+  .service-card.highlight h3 {
+    color: var(--secondary-orange);
+  }
+  
+  .service-card h3 {
+    color: var(--primary-blue);
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .service-card p {
+    font-size: 11px;
+    color: #666;
+  }
+  
+  /* BANNER FINAL */
+  .about-banner {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 40px;
+  }
+  
+  .about-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .about-img img {
+    width: 200px;
+    border-radius: 15px;
+  }
+  
+  .about-text {
+    max-width: 350px;
+  }
+  
+  .about-text h3 span {
+    color: var(--secondary-orange);
+  }
+  
+  .about-text p {
+    font-size: 12px;
+    margin: 10px 0 15px 0;
+    line-height: 1.4;
+  }
+  
+  .about-features {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .feature-item {
+    text-align: center;
+    font-size: 11px;
+  }
+  
+  /* BARRA FLUTUANTE WHATSAPP */
+  .cta-banner {
+    background-color: var(--secondary-orange);
+    border-radius: 25px;
+    padding: 12px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+  }
+  
+  .btn-whatsapp {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+  }
