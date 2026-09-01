@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendar Consulta - VitalPet</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background-color: #FFFDE7;
+    }
+
+    /* Faixa Azul Superior */
+    .header-bg {
+      background-color: #0F52BA;
+      height: 120px;
+      width: 100%;
+    }
+
+    /* Container Principal */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Barra Superior Flutuante */
+    .navbar {
+      background: white;
+      border-radius: 20px;
+      padding: 10px 20px;
+      margin-top: -50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #F89E1B;
+    }
+
+    .logo span {
+      color: #0F52BA;
+    }
+
+    .nav-links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .btn-fale {
+      background: #F89E1B;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 15px;
+      font-weight: bold;
+    }
+
+    /* Card do Formulário Central */
+    .card-form {
+      background: rgb(231, 229, 229);
+      border-radius: 15px;
+      padding: 30px;
+      margin-top: 30px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-fale:hover {
+      background-color: #ca861f;
+      cursor: pointer;
+    }
+
+    span {
+      font-family: arial, sans-serif;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+
+      /* Ajusta o padding do container em telas pequenas */
+      .container {
+        padding: 0 10px;
+      }
+    }
+
+    .confirm {
+      font-size: 40px;
+      color: #042f70;
+    }
+
+    hr {
+      height: 2px;
+      background-color: #333;
+      border: none;
+      margin: 20px 0;
+    }
+    .data{
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header-bg"></div>
+
+  <div class="container">
+    <div class="navbar">
+      <div class="logo">Vital<span>Pet</span></div>
+      <nav class="nav-links">
+        <a href="#" style="color:#FFA726; border-bottom: 2px solid #FFA726;">Início</a>
+        <a href="#">Login</a>
+        <a href="#">Cadastre-se</a>
+        <a href="#">Loja</a>
+      </nav>
+      <button class="btn-fale">📞 Fale Conosco</button>
+    </div>
+
+    <div class="card-form">
+      <div class="card-body">
+        <div id="confirm">
+          <span class="confirm">Consulta agendada com sucesso!</span>
+        </div>
+        <hr>
+        <div id="detalhes">
+          <span>Detalhes do Atendimento</span>
+          <span id="medico" style="display: block; margin-top: 5px;">Profissional: </span>
+        </div>
+        <hr>
+        <div id="hora">
+          <span class="data">--/--/----</span><span class="hora">às --h</span>
+          <span class="endereco" style="display: block;">Unidade VitalPet Jardins</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
