@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VitalPet - Loja Oficial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: #fffde9;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    .navbar {
+      width: 100%;
+      background-color: #0b4ca1;
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+      position: relative;
+      z-index: 10;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+      max-width: 550px;
+    }
+
+    /* Nova Logo VitalPet */
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .brand-logo img {
+      height: 120px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-logo .brand-name {
+      color: #ffffff;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 40px 10px 18px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      font-size: 0.88rem;
+    }
+
+    .search-box i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #0b4ca1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-links a.active {
+      border-bottom: 3px solid #ff9d00;
+      padding-bottom: 3px;
+    }
+
+    .nav-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btn-contact {
+      background: #e07300;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 25px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .btn-contact:hover {
+      background: #c96600;
+    }
+
+    .nav-right-icons {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .hero-bg-curve {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 38vw;
+      height: 400px;
+      background-color: #0b4ca1;
+      border-bottom-left-radius: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .main-content {
+      width: 100%;
+      padding: 30px 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Banner Horizontal Lado a Lado */
+    .hero-banner {
+      width: 100%;
+      background-color: #f78d00;
+      border: 10px solid #0b4ca1;
+      border-radius: 18px;
+      padding: 15px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 35px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    /* Imagem 1 - Esquerda */
+    .banner-img-left {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner-img-left img {
+      max-height: 170px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+    }
+
+    /* Conteúdo do Meio - Texto e Botões */
+    .banner-center-content {
+      flex: 1 1 auto;
+      max-width: 480px;
+      padding: 0 10px;
+    }
+
+    .banner-center-content h2 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #0b4ca1;
+      line-height: 1.15;
+      margin-bottom: 6px;
+      text-transform: none;
+    }
+
+    .banner-center-content p {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+
+    .banner-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background-color: #0b4ca1;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.04);
+    }
+
+    .btn-secondary {
+      background-color: #f78d00;
+      color: white;
+      border: 2px solid white;
+      padding: 7px 18px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.2s;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-secondary:hover {
+      transform: scale(1.04);
+      background-color: #e07f00;
+    }
+
+    /* Imagem 2 - Direita */
+    .banner-img-right {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner-img-right img {
+      max-height: 160px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+    }
+
+    /* Texto de Desconto - Extremidade Direita */
+    .banner-discount-side {
+      flex: 0 0 auto;
+      text-align: center;
+      color: #0b4ca1;
+      font-weight: 900;
+      line-height: 0.9;
+      padding-left: 10px;
+      white-space: nowrap;
+    }
+
+    .banner-discount-side .big-num {
+      font-size: 3.2rem;
+      display: block;
+      letter-spacing: -1px;
+    }
+
+    .banner-discount-side .sub-text {
+      font-size: 1.15rem;
+      display: block;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    /* Categorias */
+    .categories {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 30px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .cat-btn {
+      background-color: white;
+      border: 1px solid #e2e8f0;
+      padding: 9px 22px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .cat-btn.active {
+      background-color: #0b4ca1;
+      color: white;
+      border-color: #0b4ca1;
+    }
+
+    /* Grid de Produtos */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+      width: 100%;
+    }
+
+    .product-card {
+      background-color: white;
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #f1f5f9;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .product-image-container {
+      width: 100%;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .product-image {
+      max-width: 100%;
+      max-height: 120px;
+      object-fit: contain;
+    }
+
+    .product-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      min-height: 2.6em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rating {
+      color: #ffc107;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    .rating span {
+      color: #777;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-left: 4px;
+    }
+
+    .price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #000;
+    }
+
+    /* Responsividade */
+    @media (max-width: 1100px) {
+      .hero-banner {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+      }
+      .banner-center-content {
+        max-width: 100%;
+      }
+      .banner-buttons {
+        justify-content: center;
+      }
+      .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 850px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .nav-links {
+        display: none;
+      }
+      .main-content {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* CHATBOT STYLES */
+    .chat-toggle-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .chat-toggle-btn:hover {
+      transform: scale(1.1);
+      background: #0b5ed7;
+    }
+
+    .chat-container {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 90%;
+      max-width: 400px;
+      height: 550px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 9999;
+    }
+
+    .chat-container.open {
+      display: flex !important;
+    }
+
+    .chat-header {
+      background: #0d6efd;
+      color: white;
+      padding: 15px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .message { max-width: 80%; padding: 10px 14px; border-radius: 15px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
+    .user { align-self: flex-end; background: #0d6efd; color: white; border-bottom-right-radius: 2px; }
+    .bot { align-self: flex-start; background: #e9ecef; color: #333; border-bottom-left-radius: 2px; }
+    
+    .chat-input { display: flex; padding: 10px; border-top: 1px solid #ddd; background: #fff; }
+    .chat-input input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px; outline: none; }
+    .chat-input button { margin-left: 8px; padding: 10px 18px; background: #0d6efd; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
+    .chat-input button:hover { background: #0b5ed7; }
+  </style>
+</head>
+<body>
+
+  <div class="hero-bg-curve"></div>
+
+  <!-- Barra de Navegação -->
+  <header class="navbar">
+    <div class="nav-left">
+      <!-- Logo Atualizada com Imagem + Texto VitalPet -->
+      <a href="#" class="brand-logo">
+        <img src="Captura_de_tela_2026-09-04_094703-removebg-preview.png" alt="Logo VitalPet">
+        <span class="brand-name">VitalPet</span>
+      </a>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar na VitalPet">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#">Início</a></li>
+      <li><a href="#">Login</a></li>
+      <li><a href="#">Cadastre-se</a></li>
+      <li><a href="#" class="active">Loja</a></li>
+    </ul>
+
+    <div class="nav-right-actions">
+      <button class="btn-contact"><i class="fa-solid fa-phone"></i> Fale Conosco</button>
+      <div class="nav-right-icons">
+        <i class="fa-regular fa-user"></i>
+        <i class="fa-solid fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="main-content">
+    
+    <!-- Banner de Promoção com Imagens Lado a Lado -->
+    <section class="hero-banner">
+      <!-- Imagem Esquerda: Pet com Remédios -->
+      <div class="banner-img-left">
+        <img src="Gemini_Generated_Image_lv9iualv9iualv9i-removebg-preview.png" alt="Pet e Remédios VitalPet">
+      </div>
+
+      <!-- Texto Central e Botões -->
+      <div class="banner-center-content">
+        <h2>Remédios de farmácia para os seus pets, com segurança e qualidade!</h2>
+        <p>Medicamentos e cuidados que protegem e garantem mais saúde para o seu pet!</p>
+        <div class="banner-buttons">
+          <button class="btn-primary">Compre já!</button>
+          <button class="btn-secondary"><i class="fa-solid fa-cart-shopping"></i> Ver Ofertas</button>
+        </div>
+      </div>
+
+      <!-- Imagem Direita: Filhotes -->
+      <div class="banner-img-right">
+        <img src="Puppies-PNG-Photo-removebg-preview.png" alt="Filhotes VitalPet">
+      </div>
+
+      <!-- Texto 50% de Desconto na Extremidade Direita -->
+      <div class="banner-discount-side">
+        <span class="big-num">50%</span>
+        <span class="sub-text">DE DESCONTO!</span>
+      </div>
+    </section>
+
+    <!-- Filtros de Categoria -->
+    <div class="categories">
+      <button class="cat-btn active" data-category="todos">Todos</button>
+      <button class="cat-btn" data-category="brinquedos"><i class="fa-solid fa-bone"></i> Brinquedos</button>
+      <button class="cat-btn" data-category="remedios"><i class="fa-solid fa-pills"></i> Remédios</button>
+      <button class="cat-btn" data-category="higiene"><i class="fa-solid fa-soap"></i> Higiene</button>
+      <button class="cat-btn" data-category="outros">Outros <i class="fa-solid fa-chevron-down"></i></button>
+    </div>
+
+    <!-- Grade de Produtos -->
+    <div class="product-grid" id="productGrid">
+      
+      <div class="product-card" data-category="remedios">
+        <div class="product-image-container">
+          <img src="Simparic.png" alt="Simparic" class="product-image">
+        </div>
+        <div class="product-title">Simparic 3 comprimidos</div>
+        <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(+690)</span></div>
+        <div class="price">R$125,99</div>
+      </div>
+
+      <div class="product-card" data-category="brinquedos">
+        <div class="product-image-container">
+          <img src="Coleira.png" alt="Coleira" class="product-image">
+        </div>
+        <div class="product-title">Coleira minimalista filhote</div>
+        <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(3)</span></div>
+        <div class="price">R$25,00</div>
+      </div>
+
+      <div class="product-card" data-category="outros">
+        <div class="product-image-container">
+          <img src="Truly.png" alt="Petiscos" class="product-image">
+        </div>
+        <div class="product-title">Petiscos Truly</div>
+        <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(32)</span></div>
+        <div class="price">R$149,99</div>
+      </div>
+
+      <div class="product-card" data-category="remedios">
+        <div class="product-image-container">
+          <img src="Comprimido energy pet.png" alt="Energy pet" class="product-image">
+        </div>
+        <div class="product-title">Energy pet</div>
+        <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(13)</span></div>
+        <div class="price">R$49,99</div>
+      </div>
+
+      <div class="product-card" data-category="remedios">
+        <div class="product-image-container">
+          <img src="Plenipil.png" alt="Ourofino Plenipil" class="product-image">
+        </div>
+        <div class="product-title">Ourofino Plenipil</div>
+        <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(+999)</span></div>
+        <div class="price">R$105,89</div>
+      </div>
+
+      <div class="product-card" data-category="higiene">
+        <div class="product-image-container">
+          <img src="PetClean.png" alt="Petclean higiene" class="product-image">
+        </div>
+        <div class="product-title">Petclean higiene</div>
+        <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(+320)</span></div>
+        <div class="price">R$25,89</div>
+      </div>
+
+      <div class="product-card" data-category="outros">
+        <div class="product-image-container">
+          <img src="Kit.png" alt="Vasilha de comida" class="product-image">
+        </div>
+        <div class="product-title">Vasilha de comida/Água</div>
+        <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(280)</span></div>
+        <div class="price">R$20,01</div>
+      </div>
+
+      <div class="product-card" data-category="higiene">
+        <div class="product-image-container">
+          <img src="Clorexidina.png" alt="Shampoo Clorexidina" class="product-image">
+        </div>
+        <div class="product-title">Shampoo Clorexidina 500ml</div>
+        <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(+120)</span></div>
+        <div class="price">R$19,05</div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Botão Flutuante do Chatbot -->
+  <button class="chat-toggle-btn" onclick="toggleChat()" title="Abrir Chat">🐶</button>
+
+  <!-- Janela do Chatbot -->
+  <div class="chat-container" id="chatContainer">
+    <div class="chat-header">
+      <span>🤖 Bigodera</span>
+      <button class="close-btn" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="messages">
+      <div class="message bot">Olá! Sou seu assistente da VitalPet. Como posso te ajudar hoje?</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Digite sua dúvida..." onkeydown="if(event.key==='Enter') enviarMensagem()">
+      <button onclick="enviarMensagem()">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+    // Filtro por Categorias
+    const categoryButtons = document.querySelectorAll('.cat-btn');
+    const productCards = document.querySelectorAll('.product-card');
+
+    categoryButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        categoryButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const category = button.getAttribute('data-category');
+
+        productCards.forEach(card => {
+          if (category === 'todos' || card.getAttribute('data-category') === category) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Busca por Texto
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', (e) => {
+      const value = e.target.value.toLowerCase();
+      productCards.forEach(card => {
+        const title = card.querySelector('.product-title').innerText.toLowerCase();
+        if (title.includes(value)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    // Chatbot Functionality
+    function toggleChat() {
+      const chat = document.getElementById("chatContainer");
+      chat.classList.toggle("open");
+    }
+
+    const API_KEY = "AIzaSyCXh2nWiySXfV6o2W27lMn-nUrJD-ot1y0"; 
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${API_KEY}`;
+
+    const instrucaoSistema = `
+        Você é um especialista exclusivo sobre pets e o assistente virtual do Petshop VitalPet.
+        Sua função é tirar dúvidas APENAS sobre cuidados, alimentação, saúde, acessórios e serviços para animais de estimação (como cães, gatos, pássaros e pequenos animais).
+        Se o usuário perguntar sobre qualquer outro assunto fora do universo pet ou do Petshop VitalPet, recuse educadamente explicando que seu foco é apenas o cuidado com os bichinhos.
+        Utilize uma linguagem descontraída e acessível, que se aproxime dos jovens e adolescentes.
+    `;
+
+    async function enviarMensagem() {
+      const input = document.getElementById("userInput");
+      const textoUsuario = input.value.trim();
+      if (!textoUsuario) return;
+
+      adicionarMensagem(textoUsuario, "user");
+      input.value = "";
+
+      const botTempMessage = adicionarMensagem("Pensando...", "bot");
+
+      try {
+        const resposta = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            system_instruction: {
+              parts: [{ text: instrucaoSistema }]
+            },
+            contents: [
+              {
+                role: "user",
+                parts: [{ text: textoUsuario }]
+              }
+            ]
+          })
+        });
+
+        const data = await resposta.json();
+
+        if (!resposta.ok) {
+          console.error("Erro retornado pela API:", data);
+          botTempMessage.innerText = `Erro (${resposta.status}): ${data.error?.message || 'Falha ao processar requisição.'}`;
+          return;
+        }
+
+        if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+          botTempMessage.innerText = data.candidates[0].content.parts[0].text;
+        } else {
+          botTempMessage.innerText = "Ops! Ocorreu um erro ao gerar a resposta.";
+        }
+      } catch (erro) {
+        console.error("Erro na requisição:", erro);
+        botTempMessage.innerText = "Erro de conexão com a API do Gemini.";
+      }
+    }
+
+    function adicionarMensagem(texto, tipo) {
+      const container = document.getElementById("messages");
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("message", tipo);
+      msgDiv.innerText = texto;
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+      return msgDiv;
+    }
+  </script>
+</body>
+</html>
