@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VitalPet - Loja Oficial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: #fffde9;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    .navbar {
+      width: 100%;
+      background-color: #0b4ca1;
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+      position: relative;
+      z-index: 10;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+      max-width: 550px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .brand-logo img {
+      height: 70px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-logo .brand-name {
+      color: #ffffff;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 40px 10px 18px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      font-size: 0.88rem;
+    }
+
+    .search-box i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #0b4ca1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-links a.active {
+      border-bottom: 3px solid #ff9d00;
+      padding-bottom: 3px;
+    }
+
+    .nav-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btn-contact {
+      background: #e07300;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 25px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .btn-contact:hover {
+      background: #c96600;
+    }
+
+    .nav-right-icons {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .hero-bg-curve {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 38vw;
+      height: 400px;
+      background-color: #0b4ca1;
+      border-bottom-left-radius: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .main-content {
+      width: 100%;
+      padding: 30px 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Banner Horizontal */
+    .hero-banner {
+      width: 100%;
+      background-color: #f78d00;
+      border: 10px solid #0b4ca1;
+      border-radius: 18px;
+      padding: 15px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 35px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .banner-img-left {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner-img-left img {
+      max-height: 170px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+    }
+
+    .banner-center-content {
+      flex: 1 1 auto;
+      max-width: 480px;
+      padding: 0 10px;
+    }
+
+    .banner-center-content h2 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #0b4ca1;
+      line-height: 1.15;
+      margin-bottom: 6px;
+      text-transform: none;
+    }
+
+    .banner-center-content p {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+
+    .banner-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background-color: #0b4ca1;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.04);
+    }
+
+    .btn-secondary {
+      background-color: #f78d00;
+      color: white;
+      border: 2px solid white;
+      padding: 7px 18px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.2s;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-secondary:hover {
+      transform: scale(1.04);
+      background-color: #e07f00;
+    }
+
+    .banner-img-right {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner-img-right img {
+      max-height: 160px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+    }
+
+    .banner-discount-side {
+      flex: 0 0 auto;
+      text-align: center;
+      color: #0b4ca1;
+      font-weight: 900;
+      line-height: 0.9;
+      padding-left: 10px;
+      white-space: nowrap;
+    }
+
+    .banner-discount-side .big-num {
+      font-size: 3.2rem;
+      display: block;
+      letter-spacing: -1px;
+    }
+
+    .banner-discount-side .sub-text {
+      font-size: 1.15rem;
+      display: block;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    /* Categorias */
+    .categories {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 30px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .cat-btn {
+      background-color: white;
+      border: 1px solid #e2e8f0;
+      padding: 9px 22px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .cat-btn.active {
+      background-color: #0b4ca1;
+      color: white;
+      border-color: #0b4ca1;
+    }
+
+    /* Grid de Produtos */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+      width: 100%;
+    }
+
+    .product-card {
+      background-color: white;
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #f1f5f9;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .product-image-container {
+      width: 100%;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .product-image {
+      max-width: 100%;
+      max-height: 120px;
+      object-fit: contain;
+    }
+
+    .product-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      min-height: 2.6em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rating {
+      color: #ffc107;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    .rating span {
+      color: #777;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-left: 4px;
+    }
+
+    .price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #000;
+    }
+
+    /* =========================================
+       ESTILOS DA PÁGINA DE COMPRAS (DETALHES)
+       ========================================= */
+    #productDetailView {
+      display: none; /* Escondido por padrão */
+      width: 100%;
+    }
+
+    .btn-back {
+      background: transparent;
+      border: none;
+      color: #0b4ca1;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      transition: color 0.2s;
+    }
+
+    .btn-back:hover {
+      color: #e07300;
+    }
+
+    .product-detail-card {
+      background: white;
+      border-radius: 18px;
+      padding: 35px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 30px;
+    }
+
+    .detail-image-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 30px;
+      border: 1px solid #f1f5f9;
+    }
+
+    .detail-image-box img {
+      max-width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+    }
+
+    .detail-info-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .detail-category-badge {
+      align-self: flex-start;
+      background: #e0f2fe;
+      color: #0b4ca1;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .detail-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #1e293b;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .detail-price-box {
+      margin: 20px 0;
+      padding: 15px 0;
+      border-top: 1px solid #f1f5f9;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .detail-price-main {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #0b4ca1;
+    }
+
+    .detail-price-installments {
+      font-size: 0.88rem;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    /* Seletor de Quantidade */
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .quantity-selector label {
+      font-weight: 600;
+      color: #334155;
+      font-size: 0.95rem;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .qty-btn {
+      background: #f1f5f9;
+      border: none;
+      width: 36px;
+      height: 36px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #334155;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .qty-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .qty-input {
+      width: 45px;
+      text-align: center;
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    /* Botões de Ação de Compra */
+    .buy-actions {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .btn-buy-now {
+      flex: 1;
+      background: #f78d00;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 4px 12px rgba(247, 141, 0, 0.3);
+    }
+
+    .btn-buy-now:hover {
+      background: #e07f00;
+      transform: translateY(-2px);
+    }
+
+    .btn-add-cart {
+      flex: 1;
+      background: #0b4ca1;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 4px 12px rgba(11, 76, 161, 0.3);
+    }
+
+    .btn-add-cart:hover {
+      background: #083878;
+      transform: translateY(-2px);
+    }
+
+    /* Simulação de Frete */
+    .shipping-box {
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px dashed #cbd5e1;
+    }
+
+    .shipping-box p {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+
+    .shipping-input-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .shipping-input-group input {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      outline: none;
+      font-size: 0.88rem;
+      flex: 1;
+    }
+
+    .shipping-input-group button {
+      background: #0b4ca1;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Descrição estendida */
+    .product-description-tabs {
+      background: white;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      border: 1px solid #e2e8f0;
+    }
+
+    .product-description-tabs h3 {
+      color: #0b4ca1;
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+    }
+
+    .product-description-tabs p {
+      color: #475569;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    /* Responsividade */
+    @media (max-width: 1100px) {
+      .hero-banner {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+      }
+      .banner-center-content {
+        max-width: 100%;
+      }
+      .banner-buttons {
+        justify-content: center;
+      }
+      .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 850px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .product-detail-card {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+      .main-content {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+      .buy-actions {
+        flex-direction: column;
+      }
+    }
+
+    /* CHATBOT STYLES */
+    .chat-toggle-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .chat-toggle-btn:hover {
+      transform: scale(1.1);
+      background: #0b5ed7;
+    }
+
+    .chat-container {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 90%;
+      max-width: 400px;
+      height: 550px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 9999;
+    }
+
+    .chat-container.open {
+      display: flex !important;
+    }
+
+    .chat-header {
+      background: #0d6efd;
+      color: white;
+      padding: 15px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .message { max-width: 80%; padding: 10px 14px; border-radius: 15px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
+    .user { align-self: flex-end; background: #0d6efd; color: white; border-bottom-right-radius: 2px; }
+    .bot { align-self: flex-start; background: #e9ecef; color: #333; border-bottom-left-radius: 2px; }
+    
+    .chat-input { display: flex; padding: 10px; border-top: 1px solid #ddd; background: #fff; }
+    .chat-input input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px; outline: none; }
+    .chat-input button { margin-left: 8px; padding: 10px 18px; background: #0d6efd; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
+    .chat-input button:hover { background: #0b5ed7; }
+  </style>
+</head>
+<body>
+
+  <div class="hero-bg-curve"></div>
+
+  <!-- Barra de Navegação -->
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="#" class="brand-logo" onclick="closeProductDetail()">
+        <img src="Captura_de_tela_2026-09-04_094703-removebg-preview.png" alt="Logo VitalPet">
+        <span class="brand-name">VitalPet</span>
+      </a>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar na VitalPet">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#" onclick="closeProductDetail()">Início</a></li>
+      <li><a href="#">Login</a></li>
+      <li><a href="#">Cadastre-se</a></li>
+      <li><a href="#" class="active" onclick="closeProductDetail()">Loja</a></li>
+    </ul>
+
+    <div class="nav-right-actions">
+      <button class="btn-contact"><i class="fa-solid fa-phone"></i> Fale Conosco</button>
+      <div class="nav-right-icons">
+        <i class="fa-regular fa-user"></i>
+        <i class="fa-solid fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="main-content">
+    
+    <!-- VITRINE DA LOJA (CATÁLOGO) -->
+    <div id="catalogView">
+      
+      <!-- Banner de Promoção -->
+      <section class="hero-banner">
+        <div class="banner-img-left">
+          <img src="Gemini_Generated_Image_lv9iualv9iualv9i-removebg-preview.png" alt="Pet e Remédios VitalPet">
+        </div>
+
+        <div class="banner-center-content">
+          <h2>Remédios de farmácia para os seus pets, com segurança e qualidade!</h2>
+          <p>Medicamentos e cuidados que protegem e garantem mais saúde para o seu pet!</p>
+          <div class="banner-buttons">
+            <button class="btn-primary">Compre já!</button>
+            <button class="btn-secondary"><i class="fa-solid fa-cart-shopping"></i> Ver Ofertas</button>
+          </div>
+        </div>
+
+        <div class="banner-img-right">
+          <img src="Puppies-PNG-Photo-removebg-preview.png" alt="Filhotes VitalPet">
+        </div>
+
+        <div class="banner-discount-side">
+          <span class="big-num">50%</span>
+          <span class="sub-text">DE DESCONTO!</span>
+        </div>
+      </section>
+
+      <!-- Filtros de Categoria -->
+      <div class="categories">
+        <button class="cat-btn active" data-category="todos">Todos</button>
+        <button class="cat-btn" data-category="brinquedos"><i class="fa-solid fa-bone"></i> Brinquedos</button>
+        <button class="cat-btn" data-category="remedios"><i class="fa-solid fa-pills"></i> Remédios</button>
+        <button class="cat-btn" data-category="higiene"><i class="fa-solid fa-soap"></i> Higiene</button>
+        <button class="cat-btn" data-category="outros">Outros <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+
+      <!-- Grade de Produtos -->
+      <div class="product-grid" id="productGrid">
+        
+        <div class="product-card" data-category="remedios" data-description="Simparic é um comprimido mastigável altamente palatável para cães, indicado para o tratamento e prevenção de infestações por pulgas e carrapatos. Ação rápida e proteção contínua por até 35 dias.">
+          <div class="product-image-container">
+            <img src="Simparic.png" alt="Simparic" class="product-image">
+          </div>
+          <div class="product-title">Simparic 3 comprimidos</div>
+          <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(+690)</span></div>
+          <div class="price">R$125,99</div>
+        </div>
+
+        <div class="product-card" data-category="brinquedos" data-description="Coleira ajustável confeccionada em material resistente e macio, garantindo total conforto para filhotes em crescimento. Design minimalista e elegante.">
+          <div class="product-image-container">
+            <img src="Coleira.png" alt="Coleira" class="product-image">
+          </div>
+          <div class="product-title">Coleira minimalista filhote</div>
+          <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(3)</span></div>
+          <div class="price">R$25,00</div>
+        </div>
+
+        <div class="product-card" data-category="outros" data-description="Petiscos crocantes e saudáveis Truly. Elaborados com ingredientes selecionados de alta qualidade, ideais para momentos de adestramento ou recompensa diária.">
+          <div class="product-image-container">
+            <img src="Truly.png" alt="Petiscos" class="product-image">
+          </div>
+          <div class="product-title">Petiscos Truly</div>
+          <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(32)</span></div>
+          <div class="price">R$149,99</div>
+        </div>
+
+        <div class="product-card" data-category="remedios" data-description="Suplemento vitamínico e energético Energy Pet. Auxilia na recuperação rápida de animais desanimados ou em fase de convalescença, devolvendo a vitalidade ao seu pet.">
+          <div class="product-image-container">
+            <img src="Comprimido energy pet.png" alt="Energy pet" class="product-image">
+          </div>
+          <div class="product-title">Energy pet</div>
+          <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(13)</span></div>
+          <div class="price">R$49,99</div>
+        </div>
+
+        <div class="product-card" data-category="remedios" data-description="Ourofino Plenipil é indicado para o tratamento de problemas dermatológicos e fortalecimento da pelagem em cães e gatos. Deixa os pelos fortes, brilhantes e saudáveis.">
+          <div class="product-image-container">
+            <img src="Plenipil.png" alt="Ourofino Plenipil" class="product-image">
+          </div>
+          <div class="product-title">Ourofino Plenipil</div>
+          <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(+999)</span></div>
+          <div class="price">R$105,89</div>
+        </div>
+
+        <div class="product-card" data-category="higiene" data-description="Linha PetClean Higiene para a rotina diária de cuidados do seu animal de estimação. Elimina maus odores e limpa suavemente sem agredir a pele.">
+          <div class="product-image-container">
+            <img src="PetClean.png" alt="Petclean higiene" class="product-image">
+          </div>
+          <div class="product-title">Petclean higiene</div>
+          <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(+320)</span></div>
+          <div class="price">R$25,89</div>
+        </div>
+
+        <div class="product-card" data-category="outros" data-description="Conjunto prático de vasilhas antiderrapantes para água e ração. Fabricado em plástico atóxico, fácil de lavar e super durável.">
+          <div class="product-image-container">
+            <img src="Kit.png" alt="Vasilha de comida" class="product-image">
+          </div>
+          <div class="product-title">Vasilha de comida/Água</div>
+          <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(280)</span></div>
+          <div class="price">R$20,01</div>
+        </div>
+
+        <div class="product-card" data-category="higiene" data-description="Shampoo antisséptico com Clorexidina 500ml. Auxilia no controle e prevenção de infecções fúngicas e bacterianas da pele dos pets, mantendo a pelagem protegida.">
+          <div class="product-image-container">
+            <img src="Clorexidina.png" alt="Shampoo Clorexidina" class="product-image">
+          </div>
+          <div class="product-title">Shampoo Clorexidina 500ml</div>
+          <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(+120)</span></div>
+          <div class="price">R$19,05</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PÁGINA DE COMPRA DO PRODUTO (DETALHES) -->
+    <div id="productDetailView">
+      <button class="btn-back" onclick="closeProductDetail()">
+        <i class="fa-solid fa-arrow-left"></i> Voltar para os produtos
+      </button>
+
+      <div class="product-detail-card">
+        <!-- Imagem do Produto -->
+        <div class="detail-image-box">
+          <img id="detailImage" src="" alt="Produto VitalPet">
+        </div>
+
+        <!-- Informações e Ações de Compra -->
+        <div class="detail-info-box">
+          <div>
+            <span class="detail-category-badge" id="detailCategory">Categoria</span>
+            <h1 class="detail-title" id="detailTitle">Nome do Produto</h1>
+            <div class="rating" id="detailRating"></div>
+          </div>
+
+          <div class="detail-price-box">
+            <div class="detail-price-main" id="detailPrice">R$0,00</div>
+            <div class="detail-price-installments">ou até 3x de sem juros no cartão</div>
+          </div>
+
+          <!-- Quantidade -->
+          <div class="quantity-selector">
+            <label>Quantidade:</label>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="alterarQuantidade(-1)">-</button>
+              <input type="text" id="qtyInput" class="qty-input" value="1" readonly>
+              <button class="qty-btn" onclick="alterarQuantidade(1)">+</button>
+            </div>
+          </div>
+
+          <!-- Botões de Compra -->
+          <div class="buy-actions">
+            <button class="btn-buy-now" onclick="finalizarCompraSimulada()"><i class="fa-solid fa-bolt"></i> Comprar Agora</button>
+            <button class="btn-add-cart" onclick="adicionarAoCarrinho()"><i class="fa-solid fa-cart-plus"></i> Adicionar ao Carrinho</button>
+          </div>
+
+          <!-- Cálculo de Frete -->
+          <div class="shipping-box">
+            <p><i class="fa-solid fa-truck"></i> Calcular frete e prazo de entrega</p>
+            <div class="shipping-input-group">
+              <input type="text" id="cepInput" placeholder="Digite seu CEP (ex: 49000-000)" maxlength="9">
+              <button onclick="calcularFreteSimulado()">Calcular</button>
+            </div>
+            <p id="shippingResult" style="margin-top: 8px; font-weight: normal; font-size: 0.8rem;"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aba de Descrição -->
+      <div class="product-description-tabs">
+        <h3><i class="fa-solid fa-file-text"></i> Descrição do Produto</h3>
+        <p id="detailDescription">Descrição detalhada do produto selecionado...</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Botão Flutuante do Chatbot -->
+  <button class="chat-toggle-btn" onclick="toggleChat()" title="Abrir Chat">🐶</button>
+
+  <!-- Janela do Chatbot -->
+  <div class="chat-container" id="chatContainer">
+    <div class="chat-header">
+      <span>🤖 Bigodera</span>
+      <button class="close-btn" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="messages">
+      <div class="message bot">Olá! Sou seu assistente da VitalPet. Como posso te ajudar hoje?</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Digite sua dúvida..." onkeydown="if(event.key==='Enter') enviarMensagem()">
+      <button onclick="enviarMensagem()">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+    // =========================================
+    // LÓGICA DA PÁGINA DE COMPRAS E NAVEGAÇÃO
+    // =========================================
+    const productCards = document.querySelectorAll('.product-card');
+    const catalogView = document.getElementById('catalogView');
+    const productDetailView = document.getElementById('productDetailView');
+
+    // Ao clicar em qualquer card de produto
+    productCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const title = card.querySelector('.product-title').innerText;
+        const price = card.querySelector('.price').innerText;
+        const imgSrc = card.querySelector('.product-image').src;
+        const ratingHTML = card.querySelector('.rating').innerHTML;
+        const category = card.getAttribute('data-category');
+        const description = card.getAttribute('data-description') || 'Produto com selo de garantia VitalPet, promovendo saúde e bem-estar para o seu bichinho.';
+
+        openProductDetail({ title, price, imgSrc, ratingHTML, category, description });
+      });
+    });
+
+    function openProductDetail(product) {
+      catalogView.style.display = 'none';
+      productDetailView.style.display = 'block';
+
+      document.getElementById('detailTitle').innerText = product.title;
+      document.getElementById('detailPrice').innerText = product.price;
+      document.getElementById('detailImage').src = product.imgSrc;
+      document.getElementById('detailRating').innerHTML = product.ratingHTML;
+      document.getElementById('detailCategory').innerText = product.category;
+      document.getElementById('detailDescription').innerText = product.description;
+      
+      // Reseta quantidade e resultado de frete
+      document.getElementById('qtyInput').value = 1;
+      document.getElementById('shippingResult').innerText = '';
+      document.getElementById('cepInput').value = '';
+
+      // Rola para o topo
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeProductDetail() {
+      productDetailView.style.display = 'none';
+      catalogView.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function alterarQuantidade(delta) {
+      const input = document.getElementById('qtyInput');
+      let valorAtual = parseInt(input.value) || 1;
+      valorAtual += delta;
+      if (valorAtual < 1) valorAtual = 1;
+      input.value = valorAtual;
+    }
+
+    function calcularFreteSimulado() {
+      const cep = document.getElementById('cepInput').value.trim();
+      const result = document.getElementById('shippingResult');
+      if (cep.length >= 8) {
+        result.style.color = '#16a34a';
+        result.innerText = 'Frete Grátis com entrega estimada em até 3 dias úteis!';
+      } else {
+        result.style.color = '#dc2626';
+        result.innerText = 'Por favor, informe um CEP válido.';
+      }
+    }
+
+    function finalizarCompraSimulada() {
+      const titulo = document.getElementById('detailTitle').innerText;
+      const qtd = document.getElementById('qtyInput').value;
+      alert(`🎉 Pedido realizado com sucesso!\n\nProduto: ${titulo}\nQuantidade: ${qtd}\n\nObrigado por comprar na VitalPet!`);
+    }
+
+    function adicionarAoCarrinho() {
+      const titulo = document.getElementById('detailTitle').innerText;
+      alert(`🛒 ${titulo} foi adicionado ao seu carrinho de compras!`);
+    }
+
+    // =========================================
+    // FILTROS E BUSCA DO CATÁLOGO
+    // =========================================
+    const categoryButtons = document.querySelectorAll('.cat-btn');
+
+    categoryButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        categoryButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const category = button.getAttribute('data-category');
+
+        productCards.forEach(card => {
+          if (category === 'todos' || card.getAttribute('data-category') === category) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', (e) => {
+      const value = e.target.value.toLowerCase();
+      
+      // Se o usuário estiver na tela de detalhes e pesquisar, volta pro catálogo
+      if (productDetailView.style.display === 'block') {
+        closeProductDetail();
+      }
+
+      productCards.forEach(card => {
+        const title = card.querySelector('.product-title').innerText.toLowerCase();
+        if (title.includes(value)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    // =========================================
+    // CHATBOT (INTEGRAÇÃO GEMINI)
+    // =========================================
+    function toggleChat() {
+      const chat = document.getElementById("chatContainer");
+      chat.classList.toggle("open");
+    }
+
+    const API_KEY = "AIzaSyCXh2nWiySXfV6o2W27lMn-nUrJD-ot1y0"; 
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${API_KEY}`;
+
+    const instrucaoSistema = `
+        Você é um especialista exclusivo sobre pets e o assistente virtual do Petshop VitalPet.
+        Sua função é tirar dúvidas APENAS sobre cuidados, alimentação, saúde, acessórios e serviços para animais de estimação (como cães, gatos, pássaros e pequenos animais).
+        Se o usuário perguntar sobre qualquer outro assunto fora do universo pet ou do Petshop VitalPet, recuse educadamente explicando que seu foco é apenas o cuidado com os bichinhos.
+        Utilize uma linguagem descontraída e acessível, que se aproxime dos jovens e adolescentes.
+    `;
+
+    async function enviarMensagem() {
+      const input = document.getElementById("userInput");
+      const textoUsuario = input.value.trim();
+      if (!textoUsuario) return;
+
+      adicionarMensagem(textoUsuario, "user");
+      input.value = "";
+
+      const botTempMessage = adicionarMensagem("Pensando...", "bot");
+
+      try {
+        const resposta = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            system_instruction: {
+              parts: [{ text: instrucaoSistema }]
+            },
+            contents: [
+              {
+                role: "user",
+                parts: [{ text: textoUsuario }]
+              }
+            ]
+          })
+        });
+
+        const data = await resposta.json();
+
+        if (!resposta.ok) {
+          console.error("Erro retornado pela API:", data);
+          botTempMessage.innerText = `Erro (${resposta.status}): ${data.error?.message || 'Falha ao processar requisição.'}`;
+          return;
+        }
+
+        if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+          botTempMessage.innerText = data.candidates[0].content.parts[0].text;
+        } else {
+          botTempMessage.innerText = "Ops! Ocorreu um erro ao gerar a resposta.";
+        }
+      } catch (erro) {
+        console.error("Erro na requisição:", erro);
+        botTempMessage.innerText = "Erro de conexão com a API do Gemini.";
+      }
+    }
+
+    function adicionarMensagem(texto, tipo) {
+      const container = document.getElementById("messages");
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("message", tipo);
+      msgDiv.innerText = texto;
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+      return msgDiv;
+    }
+  </script>
+</body>
+</html>
