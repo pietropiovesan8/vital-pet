@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalPet - Agendar Banho e Tosa</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #fcf8e3;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .fundo-decorativo-azul {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 320px;
+            height: 450px;
+            background-color: #0b4f9e;
+            border-bottom-left-radius: 120px;
+            z-index: 1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        header {
+            background-color: #ffffff;
+            width: 100%;
+            border-radius: 50px;
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icone {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #e08b28;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            padding: 5px;
+        }
+
+        .logo-texto {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-titulo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #f39200;
+        }
+
+        .logo-subtitulo {
+            font-size: 11px;
+            color: #333333;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333333;
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        nav a.ativo, nav a:hover {
+            color: #f39200;
+            text-decoration: underline;
+        }
+
+        .header-direita {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icone-perfil {
+            width: 45px;
+            height: 45px;
+            background-color: #cccccc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 24px;
+        }
+
+        .btn-fale-conosco {
+            background-color: #f39200;
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-fale-conosco:hover {
+            background-color: #d88100;
+        }
+
+        .card-agendamento {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 750px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-titulo {
+            background-color: #0b4f9e;
+            color: #ffffff;
+            padding: 20px 30px;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .card-corpo {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .secao-especialidade {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .label-especialidade {
+            color: #0b4f9e;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .opcoes-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-opcao {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 2px solid #0b4f9e;
+            background-color: #ffffff;
+            color: #000000;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-opcao.ativo {
+            background-color: #0b4f9e;
+            color: #ffffff;
+        }
+
+        .btn-opcao:hover {
+            opacity: 0.9;
+        }
+
+        .caixa-aviso {
+            background-color: #dddddd;
+            border-radius: 15px;
+            padding: 20px;
+            color: #000000;
+            font-weight: bold;
+            font-size: 13.5px;
+            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-agendar {
+            background-color: #f39200;
+            color: #ffffff;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            align-self: center;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(243, 146, 0, 0.3);
+            transition: transform 0.1s, background-color 0.2s;
+        }
+
+        .btn-agendar:hover {
+            background-color: #d88100;
+        }
+
+        .btn-agendar:active {
+            transform: scale(0.98);
+        }
+
+        .mensagem-sucesso {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .fundo-decorativo-azul {
+                width: 150px;
+                height: 250px;
+            }
+
+            header {
+                flex-direction: column;
+                border-radius: 25px;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .header-direita {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .card-titulo {
+                font-size: 20px;
+                padding: 15px 20px;
+                text-align: center;
+            }
+
+            .card-corpo {
+                padding: 20px 15px;
+            }
+
+            .opcoes-grid {
+                flex-direction: column;
+            }
+
+            .btn-opcao {
+                width: 100%;
+                text-align: center;
+            }
+
+            .btn-agendar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fundo-decorativo-azul"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo-icone">
+                    <svg viewBox="0 0 24 24" fill="#e08b28" width="35" height="35">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9c.83 0 1.5-.67 1.5-1.5S10.33 8 9.5 8 8 8.67 8 9.5s.67 1.5 1.5 1.5zm5 0c.83 0 1.5-.67 1.5-1.5S15.33 8 14.5 8 13 8.67 13 9.5s.67 1.5 1.5 1.5zm-2.5 4c-1.66 0-3-1.34-3-3h6c0 1.66-1.34 3-3 3z"/>
+                    </svg>
+                </div>
+                <div class="logo-texto">
+                    <span class="logo-titulo">VitalPet</span>
+                    <span class="logo-subtitulo">Cuidado especializado<br>para o seu melhor amigo</span>
+                </div>
+            </div>
+
+            <nav>
+                <a href="#" class="ativo">Início</a>
+                <a href="#">Login</a>
+                <a href="#">Cadastre-se</a>
+                <a href="#">Loja</a>
+            </nav>
+
+            <div class="header-direita">
+                <div class="icone-perfil">
+                    <svg viewBox="0 0 24 24" fill="#ffffff" width="28" height="28">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <button class="btn-fale-conosco">
+                    📞 Fale Conosco
+                </button>
+            </div>
+        </header>
+
+        <main class="card-agendamento">
+            <div class="card-titulo">
+                Agendar Banho e Tosa
+            </div>
+
+            <div class="card-corpo">
+                <div class="secao-especialidade">
+                    <span class="label-especialidade">Especialidade :</span>
+                    
+                    <div class="opcoes-grid" id="gridEspecialidades">
+                        <button class="btn-opcao ativo" onclick="selecionarEspecialidade(this)">Banho higiênico</button>
+                        <button class="btn-opcao" onclick="selecionarEspecialidade(this)">Tosa higiênica</button>
+                        <button class="btn-opcao" onclick="selecionarEspecialidade(this)">Tosa geral</button>
+                        <button class="btn-opcao" onclick="selecionarEspecialidade(this)">Tosa tesoura</button>
+                        <button class="btn-opcao" onclick="selecionarEspecialidade(this)">Banho seco</button>
+                        <button class="btn-opcao" onclick="selecionarEspecialidade(this)">Tosa bebê</button>
+                        <button class="btn-opcao" onclick="selecionarEspecialidade(this)">Stripping</button>
+                    </div>
+                </div>
+
+                <div class="caixa-aviso">
+                    <span>🚨</span>
+                    <span><strong>Atenção:</strong> Gatos geralmente NÃO precisam de banho, não de banhos tradicionais em casa nos animais exóticos</span>
+                </div>
+
+                <div class="mensagem-sucesso" id="mensagemSucesso">
+                    Agendamento realizado com sucesso para a opção selecionada!
+                </div>
+
+                <button class="btn-agendar" onclick="agendar()">
+                    Agendar Procedimento!
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function selecionarEspecialidade(botaoClicado) {
+            var botoes = document.querySelectorAll('.btn-opcao');
+            
+            botoes.forEach(function(btn) {
+                btn.classList.remove('ativo');
+            });
+            
+            botaoClicado.classList.add('ativo');
+        }
+
+        function agendar() {
+            var opcaoSelecionada = document.querySelector('.btn-opcao.ativo').innerText;
+            var msg = document.getElementById('mensagemSucesso');
+            
+            msg.innerText = "Procedimento (" + opcaoSelecionada + ") agendado com sucesso!";
+            msg.style.display = "block";
+
+            setTimeout(function() {
+                msg.style.display = "none";
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
