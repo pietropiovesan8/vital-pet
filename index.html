@@ -3,26 +3,536 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VitalPet</title>
-  <link rel="stylesheet" href="style.css">
+  <title>VitalPet - Cuidado Especial para o seu Pet</title>
+  <style>
+    /* ==========================================
+       RESET BÁSICO E CORES (VITALPET)
+       ========================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    :root {
+      --primary-blue: #094eb2;
+      --secondary-orange: #ff9900;
+      --bg-cream: #fffade;
+      --text-dark: #333333;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--primary-blue);
+      min-height: 100vh;
+    }
+    .navbar {
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 40px;
+      border-radius: 0 0 25px 25px;
+      margin: 0 20px;
+    }
+
+    .logo img {
+      height: 50px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .nav-links a {
+      margin: 0 12px;
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .nav-links a.active {
+      color: var(--secondary-orange);
+      border-bottom: 2px solid var(--secondary-orange);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .nav-actions img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .btn-contact {
+      background-color: var(--secondary-orange);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    .btn-contact:hover, .btn-primary:hover, .btn-whatsapp:hover {
+      opacity: 0.9;
+      transform: scale(1.03);
+    }
+
+    /* ==========================================
+       HERO SECTION
+       ========================================== */
+    .hero {
+      background-color: var(--bg-cream);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 20px;
+    }
+
+    .hero-content {
+      max-width: 50%;
+      margin: 30px;
+    }
+
+    .subtitle {
+      color: var(--secondary-orange);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .hero-content h1 {
+      font-size: 32px;
+      color: var(--primary-blue);
+    }
+
+    .hero-content h1 span {
+      color: var(--secondary-orange);
+    }
+
+    .hero-content p {
+      color: #555;
+      line-height: 1.5;
+      margin: 15px 0;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn-primary {
+      background-color: var(--secondary-orange);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-secondary {
+      border: 2px solid var(--primary-blue);
+      color: var(--primary-blue);
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      background: transparent;
+      display: inline-block;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--primary-blue);
+      color: white;
+    }
+
+    .hero-image img {
+      max-width: 450px;
+      width: 100%;
+      margin: 0;
+      display: block;
+    }
+
+    /* DIVISOR */
+    .divider {
+      margin: 0;
+      height: 15px;
+      background-color: var(--secondary-orange);
+    }
+
+    /* ==========================================
+       SERVIÇOS
+       ========================================== */
+    .services {
+      background-color: var(--bg-cream);
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .services h2 {
+      color: var(--primary-blue);
+      margin-bottom: 30px;
+    }
+
+    .services h2 span {
+      color: var(--secondary-orange);
+    }
+
+    .services-grid {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .service-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 160px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .service-card.highlight h3 {
+      color: var(--secondary-orange);
+    }
+
+    .service-card h3 {
+      color: var(--primary-blue);
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      font-size: 11px;
+      color: #666;
+    }
+
+    /*==========================================
+       BANNER SOBRE
+       ==========================================*/
+    .about-banner {
+      background-color: var(--primary-blue);
+      color: white;
+      padding: 40px;
+    }
+
+    .about-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .about-img img {
+      width: 200px;
+      border-radius: 15px;
+    }
+
+    .about-text {
+      max-width: 350px;
+    }
+
+    .about-text h3 span {
+      color: var(--secondary-orange);
+    }
+
+    .about-text p {
+      font-size: 12px;
+      margin: 10px 0 15px 0;
+      line-height: 1.4;
+    }
+
+    .about-features {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .feature-item {
+      text-align: center;
+      font-size: 11px;
+    }
+    #img2{
+      margin-bottom: 5px;
+    }
+
+    #img3{
+      width: 40px;
+      height: 40px;
+      margin-bottom: 11px;
+    }
+    
+
+    /* BARRA FLUTUANTE WHATSAPP */
+    .cta-banner {
+      background-color: var(--secondary-orange);
+      border-radius: 25px;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 30px;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn-whatsapp {
+      background-color: var(--primary-blue);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 15px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    /* ==========================================
+       MODAIS DE AGENDAMENTO, SOBRE E CONTATO
+       ========================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 450px;
+      position: relative;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      font-weight: bold;
+      color: #888;
+      cursor: pointer;
+    }
+
+    .modal-content h3 {
+      color: var(--primary-blue);
+      margin-bottom: 15px;
+    }
+
+    .modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-form input, .modal-form select, .modal-form textarea {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .modal-form button {
+      margin-top: 10px;
+    }
+
+    #animalsorrindo {
+      margin: 0px;
+    }
+
+    /* ==========================================
+       ESTILOS DO CHATBOT FLUTUANTE (BIGODERA)
+       ========================================== */
+    .chat-toggle-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--secondary-orange);
+      color: white;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .chat-toggle-btn:hover {
+      transform: scale(1.1);
+      background: #e68a00;
+    }
+
+    .chat-container {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 90%;
+      max-width: 380px;
+      height: 520px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 9999;
+      border: 2px solid var(--secondary-orange);
+    }
+
+    .chat-container.open {
+      display: flex !important;
+    }
+
+    .chat-header {
+      background: var(--primary-blue);
+      color: white;
+      padding: 15px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .chat-messages { 
+      flex: 1; 
+      padding: 15px; 
+      overflow-y: auto; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 10px; 
+      background-color: #f9f9f9;
+    }
+
+    .message { 
+      max-width: 80%; 
+      padding: 10px 14px; 
+      border-radius: 15px; 
+      font-size: 14px; 
+      line-height: 1.4; 
+      word-wrap: break-word; 
+    }
+
+    .user { 
+      align-self: flex-end; 
+      background: var(--primary-blue); 
+      color: white; 
+      border-bottom-right-radius: 2px; 
+    }
+
+    .bot { 
+      align-self: flex-start; 
+      background: #e9ecef; 
+      color: #333; 
+      border-bottom-left-radius: 2px; 
+    }
+    
+    .chat-input { 
+      display: flex; 
+      padding: 10px; 
+      border-top: 1px solid #ddd; 
+      background: #fff; 
+    }
+
+    .chat-input input { 
+      flex: 1; 
+      padding: 10px; 
+      border: 1px solid #ccc; 
+      border-radius: 20px; 
+      outline: none; 
+    }
+
+    .chat-input button { 
+      margin-left: 8px; 
+      padding: 10px 18px; 
+      background: var(--secondary-orange); 
+      color: white; 
+      border: none; 
+      border-radius: 20px; 
+      cursor: pointer; 
+      font-weight: bold; 
+    }
+
+    .chat-input button:hover { 
+      background: #e68a00; 
+    }
+  </style>
 </head>
 <body>
 
-  <!-- CABEÇALHO / NAVBAR -->
+  <!-- ==========================================
+       CABEÇALHO / NAVBAR
+       ========================================== -->
   <header class="navbar">
     <div class="logo">
-      <img src="logo.png" alt="VitalPet Logo">
+      <img src="Captura_de_tela_2026-09-04_094703-removebg-preview.png" alt="Logo VitalPet">
     </div>
     <nav class="nav-links">
       <a href="#" class="active">Início</a>
       <a href="login.html">Login</a>
       <a href="Cadastro.html">Cadastre-se</a>
-      <a href="#">Loja</a>
+      <a href="produtos.html">Loja</a>
     </nav>
     <div class="nav-actions">
-      <div class="user-icon">👤</div>
-      <img src="" alt="">
-      <a href="#" class="btn-contact">📞 Fale Conosco</a>
+      <img src="usuario.png" alt="Usuário">
+      <button class="btn-contact" id="btnFaleConosco">📞 Fale Conosco</button>
     </div>
   </header>
 
@@ -34,12 +544,12 @@
         <h1>Cuidado <span>especial</span> para quem você mais ama.</h1>
         <p>Oferecemos atendimento veterinário com amor, profissionalismo e dedicação para garantir saúde, bem-estar e qualidade de vida para o seu pet.</p>
         <div class="hero-buttons">
-          <a href="#" class="btn-primary">Nossos Serviços</a>
-          <a href="#" class="btn-secondary">Agende uma Consulta</a>
+          <a href="#servicos" class="btn-primary">Nossos Serviços</a>
+          <button class="btn-secondary" id="btnAgendeHero">Agende uma Consulta</button>
         </div>
       </div>
       <div class="hero-image">
-        <img id="animalsorrindo" src="/imagens/animaissorrindo.png" alt="Pets">
+        <img id="animalsorrindo" src="animaissorrindo.png" alt="Pets">
       </div>
     </section>
 
@@ -47,30 +557,31 @@
     <div class="divider"></div>
 
     <!-- SEÇÃO DE SERVIÇOS -->
-    <section class="services">
+    <section class="services" id="servicos">
       <h2>Nossos <span>Serviços</span></h2>
+      <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Clique em um serviço para agendá-lo diretamente!</p>
       <div class="services-grid">
-        <div class="service-card">
+        <div class="service-card" data-service="Consultas">
           <h3>Consultas</h3>
           <p>Atendimento clínico completo para cães, gatos e animais exóticos.</p>
         </div>
-        <div class="service-card highlight">
+        <div class="service-card highlight" data-service="Vacinação">
           <h3>Vacinação</h3>
           <p>Vacinas essenciais para a prevenção e saúde do seu pet.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" data-service="Exames">
           <h3>Exames</h3>
           <p>Exames laboratoriais e de imagem com precisão e agilidade.</p>
         </div>
-        <div class="service-card highlight">
+        <div class="service-card highlight" data-service="Banho e Tosa">
           <h3>Banho e Tosa</h3>
           <p>Higiene e cuidado com muito carinho e segurança.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" data-service="Odontologia">
           <h3>Odontologia</h3>
           <p>Saúde bucal completa para mais qualidade de vida.</p>
         </div>
-        <div class="service-card highlight">
+        <div class="service-card highlight" data-service="Atendimento Domiciliar">
           <h3>Atendimento Domiciliar</h3>
           <p>Cuidado veterinário no conforto da sua casa.</p>
         </div>
@@ -78,36 +589,31 @@
     </section>
 
     <!-- BANNER SOBRE A VITALPET -->
-    <section class="about-banner">
+    <section class="about-banner" id="sobre">
       <div class="about-container">
         <div class="about-img">
-          <img src="/imagens/animal.png" alt="Cão e Gato">
-          <img src="/imagens/Cachorro Alana.webp" alt="pietro">
+          <img src="animal.png" alt="Cão e Gato">''
         </div>
         <div class="about-text">
           <h3>Sobre a <span>VitalPet</span></h3>
           <p>A VitalPet nasceu do amor pelos animais e do compromisso do bem-estar deles. Nossa equipe é formada por profissionais qualificados, prontos para oferecer o melhor atendimento e cuidado para o seu melhor amigo.</p>
-          <a href="#" class="btn-primary">Saiba mais</a>
+          <button class="btn-primary" id="btnSaibaMais">Saiba mais</button>
         </div>
         <div class="about-features">
           <div class="feature-item">
-            <span class="icon">🎖️</span>
-            <img src="/imagens/logo1.png" alt="logo">
+            <img src="LOgo.png" alt="logo" id="img1">
             <p>Profissionais Qualificados</p>
           </div>
           <div class="feature-item">
-            <span class="icon">🤍</span>
-            <img src="" alt="">
+            <img src="logui.png" alt="logo" id="img2">
             <p>Atendimento Humanizado</p>
           </div>
           <div class="feature-item">
-            <span class="icon">🛡️</span>
-            <img src="" alt="">
+            <img src="LOOGO.PNG" alt="logo" id="img3">
             <p>Estrutura Completa</p>
           </div>
           <div class="feature-item">
-            <span class="icon">🐾</span>
-            <img src="" alt="">
+            <img src="loog.png" alt="logo" id="img4">
             <p>Segurança e Conforto</p>
           </div>
         </div>
@@ -116,11 +622,235 @@
       <!-- BARRA FLUTUANTE WHATSAPP -->
       <div class="cta-banner">
         <span>Agende agora uma consulta e proporcione mais saúde e felicidade para o seu pet!</span>
-        <a href="#" class="btn-whatsapp">Agendar pelo WhatsApp</a>
+        <button class="btn-whatsapp" id="btnCtaWhatsapp">Agendar pelo WhatsApp</button>
       </div>
     </section>
   </main>
- <script src="texte.js"> </script>
-</body>
 
+  <!-- ==========================================
+       MODAIS DO SITE (AGENDAMENTO / SOBRE / CONTATO)
+       ========================================== -->
+  <!-- MODAL 1: FORMULÁRIO DE AGENDAMENTO -->
+  <div class="modal-overlay" id="modalAgendamento">
+    <div class="modal-content">
+      <button class="modal-close" onclick="fecharModais()">&times;</button>
+      <h3>Agendar Atendimento 🐾</h3>
+      <form class="modal-form" id="formAgendamento">
+        <input type="text" id="nomeTutor" placeholder="Seu Nome Completo" required>
+        <input type="text" id="nomePet" placeholder="Nome do seu Pet" required>
+        <select id="selectServico" required>
+          <option value="">Selecione o Serviço</option>
+          <option value="Consultas">Consultas</option>
+          <option value="Vacinação">Vacinação</option>
+          <option value="Exames">Exames</option>
+          <option value="Banho e Tosa">Banho e Tosa</option>
+          <option value="Odontologia">Odontologia</option>
+          <option value="Atendimento Domiciliar">Atendimento Domiciliar</option>
+        </select>
+        <input type="date" id="dataAgendamento" required>
+        <button type="submit" class="btn-primary">Confirmar via WhatsApp 📲</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: SAIBA MAIS -->
+  <div class="modal-overlay" id="modalSobre">
+    <div class="modal-content">
+      <button class="modal-close" onclick="fecharModais()">&times;</button>
+      <h3>Sobre a VitalPet 🐶🐱</h3>
+      <p style="color: #555; line-height: 1.6; font-size: 14px; margin-bottom: 15px;">
+        Na <strong>VitalPet</strong>, oferecemos infraestrutura moderna para diagnóstico, prevenção e cirurgias veterinárias. Nossa clínica conta com atendimento 24h para emergências, instalações climatizadas e laboratório próprio para resultados rápidos.
+      </p>
+      <p style="color: #555; line-height: 1.6; font-size: 14px;">
+        Tratamos cada paciente com carinho individualizado e acompanhamento contínuo.
+      </p>
+      <button class="btn-primary" style="margin-top: 15px;" onclick="fecharModais()">Fechar</button>
+    </div>
+  </div>
+
+  <!-- MODAL 3: FALE CONOSCO -->
+  <div class="modal-overlay" id="modalContato">
+    <div class="modal-content">
+      <button class="modal-close" onclick="fecharModais()">&times;</button>
+      <h3>Fale Conosco 📞</h3>
+      <p style="color: #555; font-size: 14px; margin-bottom: 15px;">Escolha o canal de atendimento de sua preferência:</p>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button class="btn-primary" id="btnContatoWhats">💬 Conversar no WhatsApp</button>
+        <a href="tel:0800123456" class="btn-secondary" style="text-align: center;">📞 Ligar: (11) 99999-9999</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       CHATBOT FLUTUANTE "BIGODERA"
+       ========================================== -->
+  <!-- Botão Flutuante -->
+  <button class="chat-toggle-btn" onclick="toggleChat()" title="Abrir Chatbot VitalPet">🐶</button>
+
+  <!-- Janela do Chatbot -->
+  <div class="chat-container" id="chatContainer">
+    <div class="chat-header">
+      <span>🤖 Bigodera - Assistente VitalPet</span>
+      <button class="close-btn" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="messages">
+      <div class="message bot">Olá! Sou o Bigodera, assistente virtual da VitalPet. Como posso te ajudar com seu pet hoje? 🐾</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Digite sua dúvida..." onkeydown="if(event.key==='Enter') enviarMensagem()">
+      <button onclick="enviarMensagem()">Enviar</button>
+    </div>
+  </div>
+  <script>
+    /* ------------------------------------------
+       1. FUNCIONALIDADES DO SITE VITALPET
+       ------------------------------------------ */
+    document.addEventListener('DOMContentLoaded', () => {
+      const TELEFONE_WHATSAPP = "5511999999999"; 
+
+      const modalAgendamento = document.getElementById('modalAgendamento');
+      const modalSobre = document.getElementById('modalSobre');
+      const modalContato = document.getElementById('modalContato');
+      const selectServico = document.getElementById('selectServico');
+
+      const abrirAgendamento = (servicoPadrao = '') => {
+        fecharModais();
+        if (servicoPadrao) {
+          selectServico.value = servicoPadrao;
+        }
+        modalAgendamento.classList.add('active');
+      };
+
+      document.getElementById('btnAgendeHero').addEventListener('click', () => abrirAgendamento());
+      document.getElementById('btnCtaWhatsapp').addEventListener('click', () => abrirAgendamento());
+
+      const serviceCards = document.querySelectorAll('.service-card');
+      serviceCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const nomeServico = card.getAttribute('data-service') || card.querySelector('h3').innerText;
+          abrirAgendamento(nomeServico);
+        });
+      });
+
+      document.getElementById('formAgendamento').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const tutor = document.getElementById('nomeTutor').value;
+        const pet = document.getElementById('nomePet').value;
+        const servico = selectServico.value;
+        const data = document.getElementById('dataAgendamento').value;
+        const dataFormatada = data.split('-').reverse().join('/');
+
+        const mensagem = `Olá, gostaria de agendar uma consulta na VitalPet!%0A%0A` +
+                         `👤 *Tutor:* ${tutor}%0A` +
+                         `🐾 *Pet:* ${pet}%0A` +
+                         `🏥 *Serviço:* ${servico}%0A` +
+                         `📅 *Data Pretendida:* ${dataFormatada}`;
+
+        window.open(`https://wa.me/${TELEFONE_WHATSAPP}?text=${mensagem}`, '_blank');
+        fecharModais();
+      });
+
+      document.getElementById('btnSaibaMais').addEventListener('click', () => {
+        fecharModais();
+        modalSobre.classList.add('active');
+      });
+
+      document.getElementById('btnFaleConosco').addEventListener('click', () => {
+        fecharModais();
+        modalContato.classList.add('active');
+      });
+
+      document.getElementById('btnContatoWhats').addEventListener('click', () => {
+        const mensagem = encodeURIComponent("Olá! Gostaria de tirar algumas dúvidas sobre os serviços da VitalPet.");
+        window.open(`https://wa.me/${TELEFONE_WHATSAPP}?text=${mensagem}`, '_blank');
+      });
+    });
+
+    function fecharModais() {
+      document.querySelectorAll('.modal-overlay').forEach(modal => {
+        modal.classList.remove('active');
+      });
+    }
+
+    window.addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-overlay')) {
+        fecharModais();
+      }
+    });
+
+    /* ------------------------------------------
+       2. LÓGICA DO CHATBOT BIGODERA (GEMINI API)
+       ------------------------------------------ */
+    function toggleChat() {
+      const chat = document.getElementById("chatContainer");
+      chat.classList.toggle("open");
+    }
+
+    const API_KEY = "AIzaSyCXh2nWiySXfV6o2W27lMn-nUrJD-ot1y0"; 
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${API_KEY}`;
+
+    const instrucaoSistema = `
+        Você é um especialista exclusivo sobre pets e o assistente virtual do Petshop VitalPet.
+        Sua função é tirar dúvidas APENAS sobre cuidados, alimentação, saúde, acessórios e serviços para animais de estimação (como cães, gatos, pássaros e pequenos animais).
+        Se o usuário perguntar sobre qualquer outro assunto fora do universo pet ou do Petshop VitalPet, recuse educadamente explicando que seu foco é apenas o cuidado com os bichinhos.
+        Utilize uma linguagem descontraída e acessível, que se aproxime dos jovens e adolescentes.
+    `;
+
+    async function enviarMensagem() {
+      const input = document.getElementById("userInput");
+      const textoUsuario = input.value.trim();
+      if (!textoUsuario) return;
+
+      adicionarMensagem(textoUsuario, "user");
+      input.value = "";
+
+      const botTempMessage = adicionarMensagem("Pensando...", "bot");
+
+      try {
+        const resposta = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            system_instruction: {
+              parts: [{ text: instrucaoSistema }]
+            },
+            contents: [
+              {
+                role: "user",
+                parts: [{ text: textoUsuario }]
+              }
+            ]
+          })
+        });
+
+        const data = await resposta.json();
+
+        if (!resposta.ok) {
+          console.error("Erro retornado pela API:", data);
+          botTempMessage.innerText = `Erro (${resposta.status}): ${data.error?.message || 'Falha ao processar requisição.'}`;
+          return;
+        }
+
+        if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+          botTempMessage.innerText = data.candidates[0].content.parts[0].text;
+        } else {
+          botTempMessage.innerText = "Ops! Ocorreu um erro ao gerar a resposta.";
+        }
+      } catch (erro) {
+        console.error("Erro na requisição:", erro);
+        botTempMessage.innerText = "Erro de conexão com a API do Gemini.";
+      }
+    }
+
+    function adicionarMensagem(texto, tipo) {
+      const container = document.getElementById("messages");
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("message", tipo);
+      msgDiv.innerText = texto;
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+      return msgDiv;
+    }
+  </script>
+</body>
 </html>
