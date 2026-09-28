@@ -5,206 +5,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-image: url('foto_fundo.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #bloco_1 {
+            background-color: #EFE6D5;
+            border: 3px solid #E0913E;
+            border-radius: 25px;
+            padding: 25px;
+            width: 340px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            /* Removido o margin-right excessivo */
+        }
+
+        h1 {
+            color: #000;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 248px;
+            height: 38px;
+            border-radius: 8px;
+            padding: 0 12px;
+            border: 2px solid #3B6BB0;
+            background-color: #EFE6D5;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .opcoes {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.72rem;
+            margin-bottom: 18px;
+            padding: 0 2px;
+        }
+
+        .lembrar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        #lembrar {
+            width: 13px;
+            height: 13px;
+            accent-color: #3B6BB0;
+        }
+
+        #esqueci {
+            color: #1A4B8C;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        #btn {
+            width: 100%;
+            height: 38px;
+            border-radius: 20px;
+            background-color: #FF9425;
+            color: #FFF;
+            border: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            transition: transform 0.1s;
+        }
+
+        #btn:hover {
+            transform: translateY(-2px);
+        }
+
+        #cadastrar {
+            width: 100%;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #FFF;
+            border: 2px solid #FF9425;
+            color: #000;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            transition: transform 0.05s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #cadastrar:hover {
+            transform: translateY(-1px);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        #msg {
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            min-height: 20px;
+        }
+
+        #linha {
+            position: relative;
+            text-align: center;
+            margin: 10px 0 20px 0;
+        }
+
+        #linha::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #D3A261;
+            z-index: 1;
+        }
+
+        #linha span {
+            position: relative;
+            background-color: #EFE6D5;
+            padding: 0 10px;
+            color: #000;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        #social {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        #imagem_google {
+            width: 35px;
+            height: 35px;
+        }
+
+        #imagem_facebook {
+            width: 33px;
+            height: 33px;
+        }
+
+        #imagem_apple {
+            width: 28px;
+            height: 28px;
+        }
+
+        #frase {
+            font-size: medium;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-weight: 800;
+            color: #000;
+            line-height: 1.3;
+        }
+    </style>
 </head>
-<style>
-    * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
 
-body {
-    min-height: 100vh;
-    background-image: url('foto_fundo.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#bloco_1 {
-    background-color: #EFE6D5;
-    border: 3px solid #E0913E;
-    border-radius: 25px;
-    padding: 25px;
-    width: 340px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    margin-right: 800px;
-}
-
-h1 {
-    color: #000;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-form {
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-}
-
-input{
-    width: 248px;
-    height: 38px;
-    border-radius: 8px;
-    padding: 0 12px;
-    border: 2px solid #3B6BB0;
-    background-color: #EFE6D5;
-    margin-bottom: 12px;
-    font-size: 0.85rem;
-    outline: none;
-}
-
-.opcoes {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.72rem;
-    margin-bottom: 18px;
-    padding: 0 2px;
-}
-
-.lembrar {
-    display: block;
-    align-items: center;
-    gap: 4px;
-    color: #000;
-    font-weight: 600;
-    cursor: pointer;
-    margin: 5px;    
-
-}
-
-#lembrar {
-    width: 13px;
-    height: 13px;
-    accent-color: #3B6BB0;
-}
-
-#esqueci {
-    color: #1A4B8C;
-    text-decoration: none;
-    font-weight: 700;
-}
-
-#logar {
-    width: 100%;
-    height: 38px;
-    border-radius: 20px;
-    background-color: #FF9425;
-    color: #FFF;
-    border: none;
-    font-weight: bold;
-    font-size: 0.95rem;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    margin-bottom: 10px;
-    transition: transform 0.1s;
-}
-#logar:hover{
-    transform: translateY(-2px);
-}
-
-#cadastrar {
-    width: 50%;
-    height: 40px;
-    border-radius: 20px;
-    background-color: #FFF;
-    border: 2px solid #FF9425;
-    color: #000;
-    font-weight: bold;
-    font-size: 0.9rem;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-    margin-bottom: 20px;
-    transition: transform 0.05s;  
-}
-#cadastrar:hover{
-    transform: translateY(-1px);
-}
-a{
-    text-decoration: none;
-    color: #000;
-}
-
-#linha {
-    position: relative;
-    text-align: center;
-    margin: 10px 0 20px 0;
-}
-
-#linha::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #D3A261;
-    z-index: 1;
-}
-
-#linha span {
-    position: relative;
-    background-color: #EFE6D5;
-    padding: 0 10px;
-    color: #000;
-    font-size: 0.8rem;
-    font-weight: bold;
-    z-index: 2;
-}
-
-#social {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-
-#imagem_google { 
-     width: 35px;
-     height: 35px;
-     margin-top: -12px;
-}
-#imagem_facebook {
-     width: 33px; 
-    height: 33px; 
-    margin-top: -12px;
-}
-#imagem_apple { 
-    width: 28px;
-    height: 28px;
-    margin-top: -12px;
- }
-
-#frase {
-    font-size:medium;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: 800;
-    color: #000;
-    line-height: 1.3;
-}
-</style>
 <body>
     <main id="caixa">
         <div id="bloco_1">
             <h1>Login</h1>
-            
-            <form>
-                <input type="text" id="user" placeholder="Usuário/E-mail">
-                
+
+            <!-- Adicionado o ID formLogin para conexão com o JS -->
+            <form id="formLogin">
+                <input type="text" id="user" placeholder="Usuário/E-mail" required>
+
                 <div class="senha">
-                    <input type="password" id="senha" placeholder="Senha">
+                    <input type="password" id="senha" placeholder="Senha" required>
                 </div>
 
                 <div class="opcoes">
@@ -215,8 +227,12 @@ a{
                     <a id="esqueci" href="#">Esqueci a senha</a>
                 </div>
 
-                <button id="logar" type="submit"><a href="index.html">Entrar</a></button>
-                <button id="cadastrar" type="button"><a href="Cadastro.html">Cadastrar-se</a></button>
+                <!-- Elemento para exibir mensagens de validação/erro -->
+                <div id="msg"></div>
+
+                <!-- Botão configurado com ID "btn" para o JS controlar -->
+                <button id="btn" type="submit">Entrar</button>
+                <a href="Cadastro.html" id="cadastrar">Cadastrar-se</a>
             </form>
 
             <div id="linha">
@@ -224,48 +240,50 @@ a{
             </div>
 
             <div id="social">
-                <img id="imagem_google" src="google_logo_g_logo_icon_159348.webp">
-                <img id="imagem_facebook" src="10000171-removebg-preview.png" >
-                <img id="imagem_apple" src="apple.png.png">
+                <img id="imagem_google" src="google_logo_g_logo_icon_159348.webp" alt="Google">
+                <img id="imagem_facebook" src="10000171-removebg-preview.png" alt="Facebook">
+                <img id="imagem_apple" src="apple.png.png" alt="Apple">
             </div>
 
             <p id="frase">Faça parte da família VitalPet e cuide<br>do seu melhor amigo !</p>
         </div>
     </main>
+
     <script>
-     const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbysFJ7FyPTTP4fSg5ziT01UA4W8v1aXHBCZB7vL3bQ9RxurzPQwGnp3yzeHK-xOtaBu/exec';
+        const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbysFJ7FyPTTP4fSg5ziT01UA4W8v1aXHBCZB7vL3bQ9RxurzPQwGnp3yzeHK-xOtaBu/exec';
 
-document.getElementById('formLogin').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const msg = document.getElementById('msg');
-  const btn = document.getElementById('btn');
-  
-  btn.disabled = true;
-  msg.innerText = "Validando...";
+        document.getElementById('formLogin').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const msg = document.getElementById('msg');
+            const btn = document.getElementById('btn');
 
-  const formData = new FormData();
-  formData.append('action', 'login');
-  formData.append('nome', document.getElementById('user').value);
-  formData.append('email', document.getElementById('user').value);
-  formData.append('senha', document.getElementById('senha').value);
+            btn.disabled = true;
+            msg.style.color = '#333';
+            msg.innerText = "Validando...";
 
-  fetch(URL_APPS_SCRIPT, { method: 'POST', body: formData })
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === 'sucesso') {
-        // Salva as informações do usuário na memória do navegador
-        localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-        
-        // Redireciona para a página restrita/protegida
-        window.location.href = 'index.html';
-      } else {
-        msg.style.color = 'red';
-        msg.innerText = data.mensagem;
-      }
-    })
-    .catch(() => { msg.style.color = 'red'; msg.innerText = "Erro ao conectar! Tente novamente ou Cadastre-se!"; })
-    .finally(() => btn.disabled = false);
-});
+            const formData = new FormData();
+            formData.append('action', 'login');
+            formData.append('nome', document.getElementById('user').value);
+            formData.append('email', document.getElementById('user').value);
+            formData.append('senha', document.getElementById('senha').value);
+
+            fetch(URL_APPS_SCRIPT, { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'sucesso') {
+                        localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+                        window.location.href = 'index.html';
+                    } else {
+                        msg.style.color = 'red';
+                        msg.innerText = data.mensagem;
+                    }
+                })
+                .catch(() => {
+                    msg.style.color = 'red';
+                    msg.innerText = "Erro ao conectar! Tente novamente ou Cadastre-se!";
+                })
+                .finally(() => btn.disabled = false);
+        });
     </script>
 </body>
 
