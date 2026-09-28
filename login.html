@@ -232,6 +232,41 @@ a{
             <p id="frase">Faça parte da família VitalPet e cuide<br>do seu melhor amigo !</p>
         </div>
     </main>
+    <script>
+     const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbysFJ7FyPTTP4fSg5ziT01UA4W8v1aXHBCZB7vL3bQ9RxurzPQwGnp3yzeHK-xOtaBu/exec';
+
+document.getElementById('formLogin').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const msg = document.getElementById('msg');
+  const btn = document.getElementById('btn');
+  
+  btn.disabled = true;
+  msg.innerText = "Validando...";
+
+  const formData = new FormData();
+  formData.append('action', 'login');
+  formData.append('nome', document.getElementById('user').value);
+  formData.append('email', document.getElementById('user').value);
+  formData.append('senha', document.getElementById('senha').value);
+
+  fetch(URL_APPS_SCRIPT, { method: 'POST', body: formData })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'sucesso') {
+        // Salva as informações do usuário na memória do navegador
+        localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+        
+        // Redireciona para a página restrita/protegida
+        window.location.href = 'index.html';
+      } else {
+        msg.style.color = 'red';
+        msg.innerText = data.mensagem;
+      }
+    })
+    .catch(() => { msg.style.color = 'red'; msg.innerText = "Erro ao conectar! Tente novamente ou Cadastre-se!"; })
+    .finally(() => btn.disabled = false);
+});
+    </script>
 </body>
 
 </html>
