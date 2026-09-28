@@ -8,5 +8,5 @@ Funcionalidades:
 *Agendar Exame
 *Agendar Banho e Tosa
 *Perfil
-*Caadastro
+*Cadastro
 *Login
