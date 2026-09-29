@@ -21,10 +21,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 /* NAVBAR */
 .navbar {
   background: #fff; display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 10px; padding: 15px 40px; border-radius: 0 0 25px 25px; margin: 0 20px;
+  flex-wrap: wrap; gap: 10px; padding: 8px 40px; border-radius: 0 0 25px 25px; margin: 0 20px;
 }
-.logo { display: flex; align-items: center; font-size: 26px; font-weight: bold; color: var(--primary-blue); }
-.logo img { height: 70px; max-width: 100%; object-fit: contain; }
+.logo { display: flex; align-items: center; font-size: 38px; font-weight: bold; letter-spacing: -1px; color: var(--primary-blue); transition: transform .25s; }
+.logo:hover { transform: scale(1.04); }
+.logo img { height: 84px; width: auto; max-width: 260px; flex-shrink: 0; object-fit: contain; display: block; }
+.logo-name { margin-left: 6px; white-space: nowrap; }
 .logo b { color: var(--secondary-orange); }
 .nav-links { display: flex; flex-wrap: wrap; gap: 4px; }
 .nav-links a { margin: 0 8px; padding-bottom: 2px; text-decoration: none; color: var(--text-dark); font-weight: bold; transition: color .3s; }
@@ -110,7 +112,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* RESPONSIVO */
 @media (max-width: 800px) {
-  .navbar { padding: 12px 18px; justify-content: center; }
+  .navbar { padding: 8px 18px; justify-content: center; }
+  .logo { font-size: 32px; }
+  .logo img { height: 68px; max-width: 220px; }
   .hero { flex-direction: column; align-items: center; text-align: center; }
   .hero-content { max-width: 100%; margin: 15px; }
   .hero-buttons { justify-content: center; }
@@ -126,7 +130,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 <header class="navbar">
   <a class="logo" href="#" style="text-decoration:none">
     <img src="Captura_de_tela_2026-09-04_094703-removebg-preview.png" alt="Logo VitalPet"
-         onerror="this.replaceWith(Object.assign(document.createElement('span'),{innerHTML:'🐾 Vital<b>Pet</b>'}))">
+         onerror="this.replaceWith(Object.assign(document.createElement('span'),{innerHTML:'🐾'}))">
+    <span class="logo-name">Vital<b>Pet</b></span>
   </a>
   <nav class="nav-links" aria-label="Menu principal">
     <a href="#" class="active">Início</a>
@@ -222,7 +227,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 <footer class="footer">
   <p><strong>VitalPet</strong> - Clínica Veterinária e Petshop</p>
-  <p>📞 <a href="tel:+5511999999999">(11) 99999-9999</a></p>
+  <p>📞 <a href="tel:+5579981656787">(79) 98165-6787</a></p>
   <p><a href="produtos.html">Loja</a> · <a href="login.html">Login</a> · <a href="Cadastro.html">Cadastre-se</a></p>
   <p>© 2026 VitalPet. Todos os direitos reservados.</p>
 </footer>
@@ -271,7 +276,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     <p style="color:#555;font-size:14px;margin-bottom:15px">Escolha o canal de atendimento de sua preferência:</p>
     <div style="display:flex;flex-direction:column;gap:10px">
       <button class="btn-primary" id="btnContatoWhats">💬 Conversar no WhatsApp</button>
-      <a href="tel:+5511999999999" class="btn-secondary" style="text-align:center">📞 Ligar: (11) 99999-9999</a>
+      <a href="tel:+5579981656787" class="btn-secondary" style="text-align:center">📞 Ligar: (79) 98165-6787</a>
     </div>
   </div>
 </div>
@@ -294,7 +299,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 <script>
 /* ---------- 1. SITE ---------- */
-const TELEFONE_WHATSAPP = "5511999999999";
+const TELEFONE_WHATSAPP = "5579981656787";
 
 function fecharModais() {
   document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
