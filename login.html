@@ -272,8 +272,15 @@
                 .then(data => {
                     if (data.status === 'sucesso') {
                         localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-                        window.location.href = 'index.html';
-                       alert(`Olá, ${usuarioLogado}!!\nBem-Vindo novamente ao VitalPet.`);
+                       const nomeUsuario = (typeof data.usuario === 'object' && data.usuario.nome) 
+                        ? data.usuario.nome 
+                        : data.usuario;
+
+                    // 3. Exibe o alerta com crases (Template String) ANTES do redirecionamento
+                    alert(`Olá, ${nomeUsuario}!!\nBem-Vindo novamente ao VitalPet.`);
+
+                    // 4. Redireciona somente após o usuário clicar em "OK"
+                    window.location.href = 'index.html
                     } else {
                         msg.style.color = 'red';
                         msg.innerText = data.mensagem;
