@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
+   <style>
         * {
             margin: 0;
             padding: 0;
@@ -23,6 +23,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px 15px; /* Adicionado padding para evitar cola na borda em telas pequenas */
         }
 
         #bloco_1 {
@@ -30,10 +31,10 @@
             border: 3px solid #E0913E;
             border-radius: 25px;
             padding: 25px;
-            width: 340px;
+            width: 100%;
+            max-width: 380px; /* Adapta-se fluidamente até 380px */
             text-align: center;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            /* Removido o margin-right excessivo */
         }
 
         h1 {
@@ -47,18 +48,23 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
+        }
+
+        .senha {
+            width: 100%;
         }
 
         input[type="text"],
         input[type="password"] {
-            width: 248px;
-            height: 38px;
+            width: 100%; /* Ocupa 100% da largura do formulário */
+            height: 42px; /* Aumentado ligeiramente para facilitar toque mobile */
             border-radius: 8px;
             padding: 0 12px;
             border: 2px solid #3B6BB0;
             background-color: #EFE6D5;
             margin-bottom: 12px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             outline: none;
         }
 
@@ -67,7 +73,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.72rem;
+            font-size: 0.78rem;
             margin-bottom: 18px;
             padding: 0 2px;
         }
@@ -75,15 +81,15 @@
         .lembrar {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             color: #000;
             font-weight: 600;
             cursor: pointer;
         }
 
         #lembrar {
-            width: 13px;
-            height: 13px;
+            width: 16px;
+            height: 16px;
             accent-color: #3B6BB0;
         }
 
@@ -95,13 +101,13 @@
 
         #btn {
             width: 100%;
-            height: 38px;
+            height: 42px;
             border-radius: 20px;
             background-color: #FF9425;
             color: #FFF;
             border: none;
             font-weight: bold;
-            font-size: 0.95rem;
+            font-size: 1rem;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             margin-bottom: 10px;
@@ -114,7 +120,7 @@
 
         #cadastrar {
             width: 100%;
-            height: 40px;
+            height: 42px;
             border-radius: 20px;
             background-color: #FFF;
             border: 2px solid #FF9425;
@@ -150,6 +156,7 @@
             position: relative;
             text-align: center;
             margin: 10px 0 20px 0;
+            width: 100%;
         }
 
         #linha::before {
@@ -197,11 +204,27 @@
         }
 
         #frase {
-            font-size: medium;
+            font-size: 0.95rem;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             font-weight: 800;
             color: #000;
             line-height: 1.3;
+        }
+        @media (max-width: 480px) {
+            #bloco_1 {
+                padding: 20px 16px;
+                border-radius: 20px;
+            }
+            h1 {
+                font-size: 1.75rem;
+                margin-bottom: 16px;
+            }
+            .opcoes {
+                font-size: 0.72rem;
+            }
+            #frase {
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
