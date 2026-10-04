@@ -2,769 +2,327 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>VitalPet - Loja Oficial</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
 
-    html, body {
-      width: 100%;
-      min-height: 100vh;
-      background-color: #fffde9;
-      overflow-x: hidden;
-    }
+    html, body { width: 100%; min-height: 100vh; background-color: #fffde9; overflow-x: hidden; }
+    img { max-width: 100%; }
 
-    /* Navbar */
+    /* ============ Navbar ============ */
     .navbar {
-      width: 100%;
-      background-color: #0b4ca1;
-      padding: 15px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: white;
-      position: relative;
-      z-index: 10;
+      width: 100%; background-color: #0b4ca1; padding: 15px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      color: white; position: relative; z-index: 10;
     }
+    .nav-left { display: flex; align-items: center; gap: 20px; flex: 1; max-width: 550px; min-width: 0; }
+    .brand-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; cursor: pointer; }
+    .brand-logo img { height: 70px; width: auto; object-fit: contain; }
+    .brand-logo .brand-name { color: #fff; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
 
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex: 1;
-      max-width: 550px;
-    }
+    .search-box { position: relative; width: 100%; }
+    .search-box input { width: 100%; padding: 10px 40px 10px 18px; border-radius: 20px; border: none; outline: none; font-size: 0.88rem; }
+    .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #0b4ca1; pointer-events: none; }
 
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      flex-shrink: 0;
-      cursor: pointer;
-    }
+    .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; font-size: 0.95rem; }
+    .nav-links a { color: white; text-decoration: none; font-weight: 500; cursor: pointer; }
+    .nav-links a.active { border-bottom: 3px solid #ff9d00; padding-bottom: 3px; }
 
-    .brand-logo img {
-      height: 70px;
-      width: auto;
-      object-fit: contain;
-    }
-
-    .brand-logo .brand-name {
-      color: #ffffff;
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .search-box {
-      position: relative;
-      width: 100%;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 10px 40px 10px 18px;
-      border-radius: 20px;
-      border: none;
-      outline: none;
-      font-size: 0.88rem;
-    }
-
-    .search-box i {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #0b4ca1;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-      list-style: none;
-      font-size: 0.95rem;
-    }
-
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .nav-links a.active {
-      border-bottom: 3px solid #ff9d00;
-      padding-bottom: 3px;
-    }
-
-    .nav-right-actions {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
+    .nav-right-actions { display: flex; align-items: center; gap: 20px; }
     .btn-contact {
-      background: #e07300;
-      color: white;
-      padding: 10px 22px;
-      border-radius: 25px;
-      border: none;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-      transition: background 0.2s;
+      background: #e07300; color: white; padding: 10px 22px; border-radius: 25px; border: none;
+      font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
+      transition: background 0.2s; white-space: nowrap;
     }
-
-    .btn-contact:hover {
-      background: #c96600;
-    }
-
-    .nav-right-icons {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      font-size: 1.3rem;
-      cursor: pointer;
-    }
+    .btn-contact:hover { background: #c96600; }
+    .nav-right-icons { display: flex; align-items: center; gap: 18px; font-size: 1.3rem; cursor: pointer; }
+    .menu-toggle { background: none; border: none; color: white; font-size: 1.3rem; cursor: pointer; padding: 6px; line-height: 1; }
 
     .hero-bg-curve {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 38vw;
-      height: 400px;
-      background-color: #0b4ca1;
-      border-bottom-left-radius: 100%;
-      z-index: 1;
-      pointer-events: none;
+      position: absolute; top: 0; right: 0; width: 38vw; height: 400px; background-color: #0b4ca1;
+      border-bottom-left-radius: 100%; z-index: 1; pointer-events: none;
     }
 
-    .main-content {
-      width: 100%;
-      padding: 30px 40px;
-      position: relative;
-      z-index: 2;
-    }
+    .main-content { width: 100%; padding: 30px 40px; position: relative; z-index: 2; }
 
-    /* Banner Horizontal */
+    /* ============ Banner ============ */
     .hero-banner {
-      width: 100%;
-      background-color: #f78d00;
-      border: 10px solid #0b4ca1;
-      border-radius: 18px;
-      padding: 15px 25px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 35px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      position: relative;
+      width: 100%; background-color: #f78d00; border: 10px solid #0b4ca1; border-radius: 18px;
+      padding: 15px 25px; display: flex; align-items: center; justify-content: space-between;
+      gap: 15px; margin-bottom: 35px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); position: relative;
     }
-
-    .banner-img-left {
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .banner-img-left img {
-      max-height: 170px;
-      width: auto;
-      object-fit: contain;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
-    }
-
-    .banner-center-content {
-      flex: 1 1 auto;
-      max-width: 480px;
-      padding: 0 10px;
-    }
-
-    .banner-center-content h2 {
-      font-size: 1.45rem;
-      font-weight: 900;
-      color: #0b4ca1;
-      line-height: 1.15;
-      margin-bottom: 6px;
-      text-transform: none;
-    }
-
-    .banner-center-content p {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #ffffff;
-      line-height: 1.3;
-      margin-bottom: 12px;
-    }
-
-    .banner-buttons {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
+    .banner-img-left, .banner-img-right { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; }
+    .banner-img-left img { max-height: 170px; width: auto; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); }
+    .banner-img-right img { max-height: 160px; width: auto; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); }
+    .banner-center-content { flex: 1 1 auto; max-width: 480px; padding: 0 10px; }
+    .banner-center-content h2 { font-size: 1.45rem; font-weight: 900; color: #0b4ca1; line-height: 1.15; margin-bottom: 6px; }
+    .banner-center-content p { font-size: 0.8rem; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 12px; }
+    .banner-buttons { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
     .btn-primary {
-      background-color: #0b4ca1;
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-weight: 800;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: transform 0.2s;
+      background-color: #0b4ca1; color: white; border: none; padding: 8px 20px; border-radius: 20px;
+      font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: transform 0.2s;
     }
-
-    .btn-primary:hover {
-      transform: scale(1.04);
-    }
-
+    .btn-primary:hover { transform: scale(1.04); }
     .btn-secondary {
-      background-color: #f78d00;
-      color: white;
-      border: 2px solid white;
-      padding: 7px 18px;
-      border-radius: 20px;
-      font-weight: 800;
-      font-size: 0.85rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: transform 0.2s;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      background-color: #f78d00; color: white; border: 2px solid white; padding: 7px 18px; border-radius: 20px;
+      font-weight: 800; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: transform 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
+    .btn-secondary:hover { transform: scale(1.04); background-color: #e07f00; }
+    .banner-discount-side { flex: 0 0 auto; text-align: center; color: #0b4ca1; font-weight: 900; line-height: 0.9; padding-left: 10px; white-space: nowrap; }
+    .banner-discount-side .big-num { font-size: 3.2rem; display: block; letter-spacing: -1px; }
+    .banner-discount-side .sub-text { font-size: 1.15rem; display: block; font-weight: 900; letter-spacing: 0.5px; }
 
-    .btn-secondary:hover {
-      transform: scale(1.04);
-      background-color: #e07f00;
-    }
-
-    .banner-img-right {
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .banner-img-right img {
-      max-height: 160px;
-      width: auto;
-      object-fit: contain;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
-    }
-
-    .banner-discount-side {
-      flex: 0 0 auto;
-      text-align: center;
-      color: #0b4ca1;
-      font-weight: 900;
-      line-height: 0.9;
-      padding-left: 10px;
-      white-space: nowrap;
-    }
-
-    .banner-discount-side .big-num {
-      font-size: 3.2rem;
-      display: block;
-      letter-spacing: -1px;
-    }
-
-    .banner-discount-side .sub-text {
-      font-size: 1.15rem;
-      display: block;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-    }
-
-    /* Categorias */
-    .categories {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 30px;
-      width: 100%;
-      flex-wrap: wrap;
-    }
-
+    /* ============ Categorias ============ */
+    .categories { display: flex; gap: 12px; margin-bottom: 30px; width: 100%; flex-wrap: wrap; }
     .cat-btn {
-      background-color: white;
-      border: 1px solid #e2e8f0;
-      padding: 9px 22px;
-      border-radius: 25px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #333;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s;
+      background-color: white; border: 1px solid #e2e8f0; padding: 9px 22px; border-radius: 25px;
+      font-size: 0.9rem; font-weight: 600; color: #333; cursor: pointer; display: flex; align-items: center;
+      gap: 8px; transition: all 0.2s; white-space: nowrap; flex-shrink: 0;
     }
+    .cat-btn.active { background-color: #0b4ca1; color: white; border-color: #0b4ca1; }
 
-    .cat-btn.active {
-      background-color: #0b4ca1;
-      color: white;
-      border-color: #0b4ca1;
-    }
-
-    /* Grid de Produtos */
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 25px;
-      width: 100%;
-    }
-
+    /* ============ Produtos ============ */
+    .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; width: 100%; }
     .product-card {
-      background-color: white;
-      border-radius: 14px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 1px solid #f1f5f9;
-      cursor: pointer;
+      background-color: white; border-radius: 14px; padding: 20px; text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; flex-direction: column; align-items: center;
+      justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid #f1f5f9; cursor: pointer;
     }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+    .product-image-container { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+    .product-image { max-width: 100%; max-height: 120px; object-fit: contain; }
+    .product-title { font-size: 0.92rem; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; line-height: 1.3; min-height: 2.6em; display: flex; align-items: center; justify-content: center; }
+    .rating { color: #ffc107; font-size: 0.85rem; margin-bottom: 8px; }
+    .rating span { color: #777; font-size: 0.75rem; font-weight: 500; margin-left: 4px; }
+    .price { font-size: 1.15rem; font-weight: 800; color: #000; }
+    .no-results { grid-column: 1 / -1; text-align: center; color: #64748b; font-weight: 600; padding: 40px 10px; }
 
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
-
-    .product-image-container {
-      width: 100%;
-      height: 130px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
-    }
-
-    .product-image {
-      max-width: 100%;
-      max-height: 120px;
-      object-fit: contain;
-    }
-
-    .product-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin-bottom: 8px;
-      line-height: 1.3;
-      min-height: 2.6em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .rating {
-      color: #ffc107;
-      font-size: 0.85rem;
-      margin-bottom: 8px;
-    }
-
-    .rating span {
-      color: #777;
-      font-size: 0.75rem;
-      font-weight: 500;
-      margin-left: 4px;
-    }
-
-    .price {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #000;
-    }
-
-    /* =========================================
-       ESTILOS DA PÁGINA DE COMPRAS (DETALHES)
-       ========================================= */
-    #productDetailView {
-      display: none; /* Escondido por padrão */
-      width: 100%;
-    }
-
-    .btn-back {
-      background: transparent;
-      border: none;
-      color: #0b4ca1;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 20px;
-      transition: color 0.2s;
-    }
-
-    .btn-back:hover {
-      color: #e07300;
-    }
-
+    /* ============ Detalhes ============ */
+    #productDetailView { display: none; width: 100%; }
+    .btn-back { background: transparent; border: none; color: #0b4ca1; font-size: 1rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; transition: color 0.2s; padding: 6px 0; }
+    .btn-back:hover { color: #e07300; }
     .product-detail-card {
-      background: white;
-      border-radius: 18px;
-      padding: 35px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 30px;
+      background: white; border-radius: 18px; padding: 35px; box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px; border: 1px solid #e2e8f0; margin-bottom: 30px;
     }
+    .detail-image-box { display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; border-radius: 14px; padding: 30px; border: 1px solid #f1f5f9; }
+    .detail-image-box img { max-width: 100%; max-height: 320px; object-fit: contain; }
+    .detail-info-box { display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
+    .detail-category-badge { align-self: flex-start; background: #e0f2fe; color: #0b4ca1; font-size: 0.8rem; font-weight: 700; padding: 4px 12px; border-radius: 12px; text-transform: uppercase; margin-bottom: 10px; display: inline-block; }
+    .detail-title { font-size: 1.8rem; font-weight: 800; color: #1e293b; line-height: 1.2; margin-bottom: 10px; }
+    .detail-price-box { margin: 20px 0; padding: 15px 0; border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; }
+    .detail-price-main { font-size: 2.2rem; font-weight: 900; color: #0b4ca1; }
+    .detail-price-installments { font-size: 0.88rem; color: #64748b; margin-top: 4px; }
 
-    .detail-image-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #f8fafc;
-      border-radius: 14px;
-      padding: 30px;
-      border: 1px solid #f1f5f9;
+    .quantity-selector { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
+    .quantity-selector label { font-weight: 600; color: #334155; font-size: 0.95rem; }
+    .qty-controls { display: flex; align-items: center; border: 1px solid #cbd5e1; border-radius: 20px; overflow: hidden; }
+    .qty-btn { background: #f1f5f9; border: none; width: 40px; height: 40px; font-size: 1.1rem; font-weight: bold; color: #334155; cursor: pointer; transition: background 0.2s; }
+    .qty-btn:hover { background: #e2e8f0; }
+    .qty-input { width: 45px; text-align: center; border: none; font-weight: 700; font-size: 1rem; outline: none; }
+
+    .buy-actions { display: flex; gap: 15px; margin-bottom: 25px; }
+    .btn-buy-now, .btn-add-cart {
+      flex: 1; color: white; border: none; padding: 14px; border-radius: 25px; font-size: 1rem; font-weight: 800;
+      cursor: pointer; text-align: center; transition: background 0.2s, transform 0.1s;
     }
+    .btn-buy-now { background: #f78d00; box-shadow: 0 4px 12px rgba(247,141,0,0.3); }
+    .btn-buy-now:hover { background: #e07f00; transform: translateY(-2px); }
+    .btn-add-cart { background: #0b4ca1; box-shadow: 0 4px 12px rgba(11,76,161,0.3); }
+    .btn-add-cart:hover { background: #083878; transform: translateY(-2px); }
 
-    .detail-image-box img {
-      max-width: 100%;
-      max-height: 320px;
-      object-fit: contain;
-    }
+    .shipping-box { background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px dashed #cbd5e1; }
+    .shipping-box p { font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 8px; }
+    .shipping-input-group { display: flex; gap: 8px; }
+    .shipping-input-group input { padding: 8px 12px; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; font-size: 0.88rem; flex: 1; min-width: 0; }
+    .shipping-input-group button { background: #0b4ca1; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
 
-    .detail-info-box {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+    .product-description-tabs { background: white; border-radius: 18px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; }
+    .product-description-tabs h3 { color: #0b4ca1; font-size: 1.2rem; margin-bottom: 12px; }
+    .product-description-tabs p { color: #475569; line-height: 1.6; font-size: 0.95rem; }
 
-    .detail-category-badge {
-      align-self: flex-start;
-      background: #e0f2fe;
-      color: #0b4ca1;
-      font-size: 0.8rem;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 12px;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
+    /* ============ Carrinho, modais e avisos ============ */
+    .cart-btn { position: relative; background: none; border: none; color: white; font-size: 1.3rem; cursor: pointer; padding: 6px; line-height: 1; }
+    .cart-count { position: absolute; top: -4px; right: -6px; background: #ff9d00; color: #fff; font-size: 0.65rem; font-weight: 800; min-width: 18px; height: 18px; border-radius: 9px; display: none; align-items: center; justify-content: center; padding: 0 4px; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: none; z-index: 10001; }
+    .overlay.open { display: block; }
+    .cart-drawer { position: fixed; top: 0; right: 0; height: 100dvh; width: 100%; max-width: 400px; background: #fff; z-index: 10002; transform: translateX(100%); transition: transform 0.25s; display: flex; flex-direction: column; box-shadow: -4px 0 20px rgba(0,0,0,0.2); }
+    .cart-drawer.open { transform: none; }
+    .drawer-header, .modal-header { background: #0b4ca1; color: white; padding: 16px 18px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+    .cart-items { flex: 1; overflow-y: auto; padding: 14px 16px; }
+    .cart-empty { text-align: center; color: #64748b; font-weight: 600; padding: 50px 10px; line-height: 2; }
+    .cart-empty i { font-size: 2rem; color: #cbd5e1; }
+    .cart-item { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+    .cart-item img { width: 60px; height: 60px; object-fit: contain; background: #f8fafc; border-radius: 10px; flex-shrink: 0; }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-title { font-size: 0.85rem; font-weight: 700; color: #1e293b; line-height: 1.25; }
+    .cart-item-price { font-size: 0.85rem; color: #0b4ca1; font-weight: 800; margin: 2px 0 6px; }
+    .mini-qty { display: inline-flex; align-items: center; border: 1px solid #cbd5e1; border-radius: 16px; overflow: hidden; }
+    .mini-qty button { background: #f1f5f9; border: none; width: 30px; height: 30px; font-weight: 700; cursor: pointer; }
+    .mini-qty span { min-width: 28px; text-align: center; font-size: 0.85rem; font-weight: 700; }
+    .remove-btn { background: none; border: none; color: #dc2626; cursor: pointer; font-size: 1rem; padding: 8px; }
+    .cart-footer { padding: 16px; border-top: 1px solid #e2e8f0; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: none; }
+    .cart-total { display: flex; justify-content: space-between; font-size: 1.1rem; margin-bottom: 12px; }
+    .cart-total strong { color: #0b4ca1; font-size: 1.3rem; }
+    .btn-buy-now.full { width: 100%; flex: none; }
+    .btn-link { background: none; border: none; color: #0b4ca1; font-weight: 700; width: 100%; padding: 12px; cursor: pointer; }
+    .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: calc(100% - 32px); max-width: 440px; max-height: 90dvh; overflow-y: auto; background: #fff; border-radius: 16px; z-index: 10002; display: none; }
+    .modal.open { display: block; }
+    .modal-body { padding: 20px; }
+    .modal-body p { color: #475569; font-size: 0.9rem; line-height: 1.5; margin-bottom: 12px; }
+    .modal-body textarea, .modal-body select { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 16px; outline: none; margin-bottom: 12px; resize: vertical; }
+    .contact-line { display: flex; align-items: center; gap: 10px; font-weight: 600; color: #1e293b; margin-bottom: 10px; }
+    .contact-line i { color: #0b4ca1; width: 20px; text-align: center; }
+    .btn-whats { background: #25d366; color: #fff; border: none; width: 100%; padding: 14px; border-radius: 25px; font-weight: 800; font-size: 1rem; cursor: pointer; }
+    .summary-row { display: flex; justify-content: space-between; gap: 10px; font-size: 0.88rem; padding: 6px 0; border-bottom: 1px dashed #e2e8f0; }
+    .summary-total { display: flex; justify-content: space-between; font-weight: 800; font-size: 1.1rem; margin: 12px 0; color: #0b4ca1; }
+    .done-box { text-align: center; padding: 10px 0; }
+    .done-box i { font-size: 3rem; color: #16a34a; margin-bottom: 10px; }
+    .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); background: #1e293b; color: #fff; padding: 12px 20px; border-radius: 25px; font-size: 0.88rem; font-weight: 600; opacity: 0; pointer-events: none; transition: all 0.25s; z-index: 10005; max-width: calc(100% - 32px); text-align: center; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .chat-action { margin-top: 8px; background: #0d6efd; color: #fff; border: none; border-radius: 14px; padding: 6px 14px; font-weight: 700; font-size: 13px; cursor: pointer; }
+    .close-btn.dark { color: #fff; }
 
-    .detail-title {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #1e293b;
-      line-height: 1.2;
-      margin-bottom: 10px;
-    }
-
-    .detail-price-box {
-      margin: 20px 0;
-      padding: 15px 0;
-      border-top: 1px solid #f1f5f9;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .detail-price-main {
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: #0b4ca1;
-    }
-
-    .detail-price-installments {
-      font-size: 0.88rem;
-      color: #64748b;
-      margin-top: 4px;
-    }
-
-    /* Seletor de Quantidade */
-    .quantity-selector {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 25px;
-    }
-
-    .quantity-selector label {
-      font-weight: 600;
-      color: #334155;
-      font-size: 0.95rem;
-    }
-
-    .qty-controls {
-      display: flex;
-      align-items: center;
-      border: 1px solid #cbd5e1;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .qty-btn {
-      background: #f1f5f9;
-      border: none;
-      width: 36px;
-      height: 36px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #334155;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .qty-btn:hover {
-      background: #e2e8f0;
-    }
-
-    .qty-input {
-      width: 45px;
-      text-align: center;
-      border: none;
-      font-weight: 700;
-      font-size: 1rem;
-      outline: none;
-    }
-
-    /* Botões de Ação de Compra */
-    .buy-actions {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .btn-buy-now {
-      flex: 1;
-      background: #f78d00;
-      color: white;
-      border: none;
-      padding: 14px;
-      border-radius: 25px;
-      font-size: 1rem;
-      font-weight: 800;
-      cursor: pointer;
-      text-align: center;
-      transition: background 0.2s, transform 0.1s;
-      box-shadow: 0 4px 12px rgba(247, 141, 0, 0.3);
-    }
-
-    .btn-buy-now:hover {
-      background: #e07f00;
-      transform: translateY(-2px);
-    }
-
-    .btn-add-cart {
-      flex: 1;
-      background: #0b4ca1;
-      color: white;
-      border: none;
-      padding: 14px;
-      border-radius: 25px;
-      font-size: 1rem;
-      font-weight: 800;
-      cursor: pointer;
-      text-align: center;
-      transition: background 0.2s, transform 0.1s;
-      box-shadow: 0 4px 12px rgba(11, 76, 161, 0.3);
-    }
-
-    .btn-add-cart:hover {
-      background: #083878;
-      transform: translateY(-2px);
-    }
-
-    /* Simulação de Frete */
-    .shipping-box {
-      background: #f8fafc;
-      padding: 15px;
-      border-radius: 12px;
-      border: 1px dashed #cbd5e1;
-    }
-
-    .shipping-box p {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #475569;
-      margin-bottom: 8px;
-    }
-
-    .shipping-input-group {
-      display: flex;
-      gap: 8px;
-    }
-
-    .shipping-input-group input {
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
-      outline: none;
-      font-size: 0.88rem;
-      flex: 1;
-    }
-
-    .shipping-input-group button {
-      background: #0b4ca1;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    /* Descrição estendida */
-    .product-description-tabs {
-      background: white;
-      border-radius: 18px;
-      padding: 30px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-      border: 1px solid #e2e8f0;
-    }
-
-    .product-description-tabs h3 {
-      color: #0b4ca1;
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-    }
-
-    .product-description-tabs p {
-      color: #475569;
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    /* Responsividade */
-    @media (max-width: 1100px) {
-      .hero-banner {
-        flex-wrap: wrap;
-        justify-content: center;
-        text-align: center;
-      }
-      .banner-center-content {
-        max-width: 100%;
-      }
-      .banner-buttons {
-        justify-content: center;
-      }
-      .product-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 850px) {
-      .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .product-detail-card {
-        grid-template-columns: 1fr;
-      }
-      .nav-links {
-        display: none;
-      }
-      .main-content {
-        padding: 20px;
-      }
-    }
-
-    @media (max-width: 550px) {
-      .product-grid {
-        grid-template-columns: 1fr;
-      }
-      .buy-actions {
-        flex-direction: column;
-      }
-    }
-
-    /* CHATBOT STYLES */
+    /* ============ Chatbot ============ */
     .chat-toggle-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #0d6efd;
-      color: white;
-      border: none;
-      font-size: 28px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      transition: transform 0.2s ease, background 0.2s ease;
+      position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); right: 20px; width: 60px; height: 60px;
+      border-radius: 50%; background: #0d6efd; color: white; border: none; font-size: 28px; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25); display: flex; justify-content: center; align-items: center;
+      z-index: 10000; transition: transform 0.2s ease, background 0.2s ease;
     }
-    .chat-toggle-btn:hover {
-      transform: scale(1.1);
-      background: #0b5ed7;
-    }
-
+    .chat-toggle-btn:hover { transform: scale(1.1); background: #0b5ed7; }
     .chat-container {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      width: 90%;
-      max-width: 400px;
-      height: 550px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-      z-index: 9999;
+      position: fixed; bottom: calc(90px + env(safe-area-inset-bottom, 0px)); right: 20px; width: 90%; max-width: 400px;
+      height: 550px; max-height: calc(100dvh - 120px); background: #fff; border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 9999;
     }
-
-    .chat-container.open {
-      display: flex !important;
-    }
-
-    .chat-header {
-      background: #0d6efd;
-      color: white;
-      padding: 15px;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .close-btn {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-      line-height: 1;
-    }
-
+    .chat-container.open { display: flex !important; }
+    .chat-header { background: #0d6efd; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+    .close-btn { background: none; border: none; color: white; font-size: 20px; cursor: pointer; line-height: 1; padding: 4px 8px; }
     .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
     .message { max-width: 80%; padding: 10px 14px; border-radius: 15px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
     .user { align-self: flex-end; background: #0d6efd; color: white; border-bottom-right-radius: 2px; }
     .bot { align-self: flex-start; background: #e9ecef; color: #333; border-bottom-left-radius: 2px; }
-    
     .chat-input { display: flex; padding: 10px; border-top: 1px solid #ddd; background: #fff; }
-    .chat-input input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px; outline: none; }
+    .chat-input input { flex: 1; min-width: 0; padding: 10px; border: 1px solid #ccc; border-radius: 20px; outline: none; font-size: 16px; }
     .chat-input button { margin-left: 8px; padding: 10px 18px; background: #0d6efd; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
     .chat-input button:hover { background: #0b5ed7; }
+
+    /* =====================================================
+       RESPONSIVIDADE (mesmo visual do computador, adaptado)
+       ===================================================== */
+
+    /* Notebook pequeno / tablet horizontal */
+    @media (max-width: 1100px) {
+      .navbar { padding: 12px 24px; }
+      .nav-links { gap: 20px; }
+      .main-content { padding: 24px; }
+      .hero-banner { flex-wrap: wrap; justify-content: center; text-align: center; }
+      .banner-center-content { max-width: 100%; order: 1; width: 100%; }
+      .banner-img-left, .banner-img-right, .banner-discount-side { order: 2; }
+      .banner-buttons { justify-content: center; }
+      .product-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    }
+
+    /* Tablet vertical e celular grande: menu vira botão sanduíche */
+    @media (max-width: 850px) {
+      .navbar { flex-wrap: wrap; padding: 10px 16px; row-gap: 10px; }
+      .nav-left { display: contents; }
+      .brand-logo { order: 1; }
+      .brand-logo img { height: 52px; }
+      .brand-logo .brand-name { font-size: 1.3rem; }
+      .nav-right-actions { order: 2; gap: 12px; margin-left: auto; }
+      .search-box { order: 3; flex: 0 0 100%; }
+      .search-box input { padding: 12px 42px 12px 18px; font-size: 16px; }
+      .nav-right-icons { gap: 14px; }
+
+      .nav-links {
+        display: none; order: 4; flex: 0 0 100%; flex-direction: column; align-items: stretch; gap: 0;
+        background: rgba(255,255,255,0.10); border-radius: 12px; overflow: hidden;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li a { display: block; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+      .nav-links li:last-child a { border-bottom: none; }
+      .nav-links a.active { border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 14px; background: rgba(255,157,0,0.25); }
+
+      .hero-bg-curve { width: 60vw; height: 260px; }
+      .main-content { padding: 18px 16px; }
+      .hero-banner { border-width: 7px; padding: 16px 14px; gap: 12px; margin-bottom: 24px; }
+      .banner-center-content h2 { font-size: 1.25rem; }
+      .banner-img-left img { max-height: 120px; }
+      .banner-img-right img { max-height: 110px; }
+      .banner-discount-side .big-num { font-size: 2.6rem; }
+      .banner-discount-side .sub-text { font-size: 0.95rem; }
+
+      /* Categorias em linha rolável */
+      .categories { flex-wrap: nowrap; overflow-x: auto; gap: 10px; padding-bottom: 8px; margin-bottom: 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .categories::-webkit-scrollbar { display: none; }
+
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .product-detail-card { grid-template-columns: 1fr; padding: 22px; gap: 24px; }
+      .detail-image-box { padding: 20px; }
+      .detail-image-box img { max-height: 260px; }
+      .detail-title { font-size: 1.5rem; }
+      .detail-price-main { font-size: 1.9rem; }
+      .product-description-tabs { padding: 22px; }
+    }
+
+    /* Celular */
+    @media (max-width: 600px) {
+      .btn-contact { padding: 10px 12px; font-size: 0; gap: 0; }
+      .btn-contact i { font-size: 1rem; }
+      .nav-right-icons .fa-user { display: inline-block; }
+
+      .hero-banner { border-radius: 14px; }
+      .banner-center-content { padding: 0; }
+      .banner-center-content h2 { font-size: 1.1rem; }
+      .banner-center-content p { font-size: 0.78rem; }
+      .banner-img-left img { max-height: 90px; }
+      .banner-img-right img { max-height: 85px; }
+      .banner-discount-side { padding-left: 0; }
+      .banner-discount-side .big-num { font-size: 2.1rem; }
+      .banner-discount-side .sub-text { font-size: 0.8rem; }
+      .banner-buttons { gap: 8px; }
+      .btn-primary, .btn-secondary { padding: 10px 16px; font-size: 0.82rem; }
+
+      .cat-btn { padding: 9px 16px; font-size: 0.85rem; }
+
+      .product-grid { gap: 12px; }
+      .product-card { padding: 12px 10px; border-radius: 12px; }
+      .product-card:hover { transform: none; }
+      .product-image-container { height: 100px; margin-bottom: 8px; }
+      .product-image { max-height: 92px; }
+      .product-title { font-size: 0.8rem; }
+      .rating { font-size: 0.72rem; margin-bottom: 6px; }
+      .rating span { font-size: 0.65rem; }
+      .price { font-size: 1rem; }
+
+      .product-detail-card { padding: 16px; border-radius: 14px; margin-bottom: 20px; }
+      .detail-title { font-size: 1.3rem; }
+      .detail-price-main { font-size: 1.7rem; }
+      .buy-actions { flex-direction: column; gap: 10px; }
+      .shipping-input-group { flex-direction: column; }
+      .shipping-input-group input { font-size: 16px; padding: 12px; }
+      .shipping-input-group button { padding: 12px; }
+      .product-description-tabs { padding: 18px; border-radius: 14px; }
+
+      .chat-toggle-btn { width: 54px; height: 54px; font-size: 24px; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+      .chat-container { right: 10px; left: 10px; width: auto; max-width: none; bottom: calc(80px + env(safe-area-inset-bottom, 0px)); height: 70dvh; }
+      .message { max-width: 88%; }
+    }
+
+    /* Celulares bem pequenos */
+    @media (max-width: 360px) {
+      .brand-logo .brand-name { font-size: 1.1rem; }
+      .brand-logo img { height: 44px; }
+      .product-title { font-size: 0.74rem; }
+      .price { font-size: 0.92rem; }
+    }
   </style>
 </head>
 <body>
@@ -785,28 +343,29 @@
       </div>
     </div>
 
-    <ul class="nav-links">
-      <li><a href="index.html" onclick="closeProductDetail()">Início</a></li>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#" onclick="event.preventDefault(); closeProductDetail()">Início</a></li>
       <li><a href="login.html">Login</a></li>
       <li><a href="Cadastro.html">Cadastre-se</a></li>
       <li><a class="active" onclick="closeProductDetail()">Loja</a></li>
     </ul>
 
     <div class="nav-right-actions">
-      <button class="btn-contact"><i class="fa-solid fa-phone"></i> Fale Conosco</button>
+      <button class="btn-contact" onclick="abrirContato()"><i class="fa-solid fa-phone"></i> Fale Conosco</button>
       <div class="nav-right-icons">
+        <button class="cart-btn" onclick="abrirCarrinho()" aria-label="Abrir carrinho"><i class="fa-solid fa-cart-shopping"></i><span class="cart-count" id="cartCount">0</span></button>
         <i class="fa-regular fa-user"></i>
-        <i class="fa-solid fa-bars"></i>
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
       </div>
     </div>
   </header>
 
   <!-- Conteúdo Principal -->
   <main class="main-content">
-    
+
     <!-- VITRINE DA LOJA (CATÁLOGO) -->
     <div id="catalogView">
-      
+
       <!-- Banner de Promoção -->
       <section class="hero-banner">
         <div class="banner-img-left">
@@ -817,8 +376,8 @@
           <h2>Remédios de farmácia para os seus pets, com segurança e qualidade!</h2>
           <p>Medicamentos e cuidados que protegem e garantem mais saúde para o seu pet!</p>
           <div class="banner-buttons">
-            <button class="btn-primary">Compre já!</button>
-            <button class="btn-secondary"><i class="fa-solid fa-cart-shopping"></i> Ver Ofertas</button>
+            <button class="btn-primary" onclick="comprarJa()">Compre já!</button>
+            <button class="btn-secondary" onclick="verOfertas()"><i class="fa-solid fa-cart-shopping"></i> Ver Ofertas</button>
           </div>
         </div>
 
@@ -843,7 +402,7 @@
 
       <!-- Grade de Produtos -->
       <div class="product-grid" id="productGrid">
-        
+
         <div class="product-card" data-category="remedios" data-description="Simparic é um comprimido mastigável altamente palatável para cães, indicado para o tratamento e prevenção de infestações por pulgas e carrapatos. Ação rápida e proteção contínua por até 35 dias.">
           <div class="product-image-container">
             <img src="Simparic.png" alt="Simparic" class="product-image">
@@ -926,12 +485,10 @@
       </button>
 
       <div class="product-detail-card">
-        <!-- Imagem do Produto -->
         <div class="detail-image-box">
           <img id="detailImage" src="" alt="Produto VitalPet">
         </div>
 
-        <!-- Informações e Ações de Compra -->
         <div class="detail-info-box">
           <div>
             <span class="detail-category-badge" id="detailCategory">Categoria</span>
@@ -941,10 +498,9 @@
 
           <div class="detail-price-box">
             <div class="detail-price-main" id="detailPrice">R$0,00</div>
-            <div class="detail-price-installments">ou até 3x de sem juros no cartão</div>
+            <div class="detail-price-installments" id="detailInstallments">ou até 3x de sem juros no cartão</div>
           </div>
 
-          <!-- Quantidade -->
           <div class="quantity-selector">
             <label>Quantidade:</label>
             <div class="qty-controls">
@@ -954,13 +510,11 @@
             </div>
           </div>
 
-          <!-- Botões de Compra -->
           <div class="buy-actions">
             <button class="btn-buy-now" onclick="finalizarCompraSimulada()"><i class="fa-solid fa-bolt"></i> Comprar Agora</button>
             <button class="btn-add-cart" onclick="adicionarAoCarrinho()"><i class="fa-solid fa-cart-plus"></i> Adicionar ao Carrinho</button>
           </div>
 
-          <!-- Cálculo de Frete -->
           <div class="shipping-box">
             <p><i class="fa-solid fa-truck"></i> Calcular frete e prazo de entrega</p>
             <div class="shipping-input-group">
@@ -972,7 +526,6 @@
         </div>
       </div>
 
-      <!-- Aba de Descrição -->
       <div class="product-description-tabs">
         <h3><i class="fa-solid fa-file-text"></i> Descrição do Produto</h3>
         <p id="detailDescription">Descrição detalhada do produto selecionado...</p>
@@ -980,6 +533,56 @@
     </div>
 
   </main>
+
+  <div class="overlay" id="overlay" onclick="fecharTudo()"></div>
+
+  <!-- Carrinho -->
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="drawer-header"><span><i class="fa-solid fa-cart-shopping"></i> Meu carrinho</span><button class="close-btn" onclick="fecharTudo()">✕</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer" id="cartFooter">
+      <div class="cart-total"><span>Total</span><strong id="cartTotal">R$0,00</strong></div>
+      <button class="btn-buy-now full" onclick="abrirCheckout()">Finalizar compra</button>
+      <button class="btn-link" onclick="fecharTudo()">Continuar comprando</button>
+    </div>
+  </aside>
+
+  <!-- Fale Conosco -->
+  <div class="modal" id="contactModal">
+    <div class="modal-header"><span><i class="fa-solid fa-phone"></i> Fale Conosco</span><button class="close-btn" onclick="fecharTudo()">✕</button></div>
+    <div class="modal-body">
+      <p>Tire dúvidas sobre produtos, pedidos e entregas direto com a nossa equipe.</p>
+      <div class="contact-line"><i class="fa-brands fa-whatsapp"></i> (79) 98165-6787</div>
+      <textarea id="contactMsg" rows="3" placeholder="Escreva sua mensagem..."></textarea>
+      <button class="btn-whats" onclick="enviarWhatsapp()"><i class="fa-brands fa-whatsapp"></i> Conversar no WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- Finalizar compra -->
+  <div class="modal" id="checkoutModal">
+    <div class="modal-header"><span><i class="fa-solid fa-bag-shopping"></i> Finalizar compra</span><button class="close-btn" onclick="fecharTudo()">✕</button></div>
+    <div class="modal-body">
+      <div id="checkoutForm">
+        <div id="checkoutSummary"></div>
+        <div class="summary-total"><span>Total</span><span id="checkoutTotal"></span></div>
+        <select id="payMethod">
+          <option>Pix</option>
+          <option>Cartão de crédito (até 3x sem juros)</option>
+          <option>Boleto</option>
+        </select>
+        <button class="btn-buy-now full" onclick="confirmarPedido()">Confirmar pedido</button>
+      </div>
+      <div class="done-box" id="checkoutDone" style="display:none;">
+        <i class="fa-solid fa-circle-check"></i>
+        <h3 style="color:#0b4ca1;margin-bottom:6px;">Pedido realizado!</h3>
+        <p id="orderCode"></p>
+        <p>Obrigado por comprar na VitalPet! 🐾</p>
+        <button class="btn-buy-now full" onclick="fecharTudo(); closeProductDetail()">Voltar para a loja</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
 
   <!-- Botão Flutuante do Chatbot -->
   <button class="chat-toggle-btn" onclick="toggleChat()" title="Abrir Chat">🐶</button>
@@ -1007,7 +610,6 @@
     const catalogView = document.getElementById('catalogView');
     const productDetailView = document.getElementById('productDetailView');
 
-    // Ao clicar em qualquer card de produto
     productCards.forEach(card => {
       card.addEventListener('click', () => {
         const title = card.querySelector('.product-title').innerText;
@@ -1016,7 +618,6 @@
         const ratingHTML = card.querySelector('.rating').innerHTML;
         const category = card.getAttribute('data-category');
         const description = card.getAttribute('data-description') || 'Produto com selo de garantia VitalPet, promovendo saúde e bem-estar para o seu bichinho.';
-
         openProductDetail({ title, price, imgSrc, ratingHTML, category, description });
       });
     });
@@ -1025,25 +626,26 @@
       catalogView.style.display = 'none';
       productDetailView.style.display = 'block';
 
+      produtoAtual = product;
       document.getElementById('detailTitle').innerText = product.title;
+      document.getElementById('detailInstallments').innerText = 'ou até 3x de ' + brl(parsePreco(product.price) / 3) + ' sem juros no cartão';
       document.getElementById('detailPrice').innerText = product.price;
       document.getElementById('detailImage').src = product.imgSrc;
       document.getElementById('detailRating').innerHTML = product.ratingHTML;
       document.getElementById('detailCategory').innerText = product.category;
       document.getElementById('detailDescription').innerText = product.description;
-      
-      // Reseta quantidade e resultado de frete
+
       document.getElementById('qtyInput').value = 1;
       document.getElementById('shippingResult').innerText = '';
       document.getElementById('cepInput').value = '';
 
-      // Rola para o topo
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function closeProductDetail() {
       productDetailView.style.display = 'none';
       catalogView.style.display = 'block';
+      document.getElementById('navLinks').classList.remove('open');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1067,131 +669,263 @@
       }
     }
 
-    function finalizarCompraSimulada() {
-      const titulo = document.getElementById('detailTitle').innerText;
-      const qtd = document.getElementById('qtyInput').value;
-      alert(`🎉 Pedido realizado com sucesso!\n\nProduto: ${titulo}\nQuantidade: ${qtd}\n\nObrigado por comprar na VitalPet!`);
+    // =========================================
+    // CARRINHO E COMPRA
+    // =========================================
+    const brl = n => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const parsePreco = t => parseFloat(t.replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
+    let produtoAtual = null;
+    let carrinho = [];
+    try { carrinho = JSON.parse(localStorage.getItem('vp_carrinho') || '[]'); } catch (e) { carrinho = []; }
+
+    function salvarCarrinho() {
+      try { localStorage.setItem('vp_carrinho', JSON.stringify(carrinho)); } catch (e) {}
+      const total = carrinho.reduce((s, i) => s + i.qtd, 0);
+      const c = document.getElementById('cartCount');
+      c.innerText = total;
+      c.style.display = total ? 'flex' : 'none';
+      renderCarrinho();
+    }
+
+    let toastTimer;
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    function adicionarItem(qtd) {
+      if (!produtoAtual) return;
+      const item = carrinho.find(i => i.titulo === produtoAtual.title);
+      if (item) item.qtd += qtd;
+      else carrinho.push({ titulo: produtoAtual.title, preco: parsePreco(produtoAtual.price), img: produtoAtual.imgSrc, qtd: qtd });
+      salvarCarrinho();
     }
 
     function adicionarAoCarrinho() {
-      const titulo = document.getElementById('detailTitle').innerText;
-      alert(`🛒 ${titulo} foi adicionado ao seu carrinho de compras!`);
+      adicionarItem(parseInt(document.getElementById('qtyInput').value) || 1);
+      toast('🛒 ' + produtoAtual.title + ' adicionado ao carrinho!');
+    }
+
+    function finalizarCompraSimulada() {
+      adicionarItem(parseInt(document.getElementById('qtyInput').value) || 1);
+      abrirCheckout();
+    }
+
+    function alterarItem(i, delta) {
+      carrinho[i].qtd += delta;
+      if (carrinho[i].qtd < 1) carrinho.splice(i, 1);
+      salvarCarrinho();
+    }
+
+    function removerItem(i) { carrinho.splice(i, 1); salvarCarrinho(); }
+    function totalCarrinho() { return carrinho.reduce((s, i) => s + i.preco * i.qtd, 0); }
+
+    function renderCarrinho() {
+      const lista = document.getElementById('cartItems');
+      const rodape = document.getElementById('cartFooter');
+      if (!carrinho.length) {
+        lista.innerHTML = '<p class="cart-empty"><i class="fa-solid fa-cart-shopping"></i><br>Seu carrinho está vazio.</p>';
+        rodape.style.display = 'none';
+        return;
+      }
+      rodape.style.display = 'block';
+      lista.innerHTML = carrinho.map((it, i) => `
+        <div class="cart-item">
+          <img src="${it.img}" alt="${it.titulo}">
+          <div class="cart-item-info">
+            <div class="cart-item-title">${it.titulo}</div>
+            <div class="cart-item-price">${brl(it.preco * it.qtd)}</div>
+            <div class="mini-qty"><button onclick="alterarItem(${i}, -1)">-</button><span>${it.qtd}</span><button onclick="alterarItem(${i}, 1)">+</button></div>
+          </div>
+          <button class="remove-btn" onclick="removerItem(${i})" aria-label="Remover"><i class="fa-solid fa-trash"></i></button>
+        </div>`).join('');
+      document.getElementById('cartTotal').innerText = brl(totalCarrinho());
+    }
+
+    // Janelas (carrinho, contato, checkout)
+    function fecharTudo() {
+      document.querySelectorAll('.overlay, .cart-drawer, .modal').forEach(e => e.classList.remove('open'));
+    }
+    function abrir(id) {
+      fecharTudo();
+      document.getElementById('overlay').classList.add('open');
+      document.getElementById(id).classList.add('open');
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharTudo(); });
+
+    function abrirCarrinho() { renderCarrinho(); abrir('cartDrawer'); }
+    function abrirContato() { abrir('contactModal'); }
+
+    function enviarWhatsapp() {
+      const msg = document.getElementById('contactMsg').value.trim() || 'Olá! Gostaria de falar com a VitalPet.';
+      window.open('https://wa.me/5579981656787?text=' + encodeURIComponent(msg), '_blank');
+    }
+
+    function abrirCheckout() {
+      if (!carrinho.length) { toast('Seu carrinho está vazio.'); return; }
+      document.getElementById('checkoutForm').style.display = 'block';
+      document.getElementById('checkoutDone').style.display = 'none';
+      document.getElementById('checkoutSummary').innerHTML = carrinho.map(it =>
+        `<div class="summary-row"><span>${it.qtd}x ${it.titulo}</span><strong>${brl(it.preco * it.qtd)}</strong></div>`).join('');
+      document.getElementById('checkoutTotal').innerText = brl(totalCarrinho());
+      abrir('checkoutModal');
+    }
+
+    function confirmarPedido() {
+      if (!carrinho.length) return;
+      const metodo = document.getElementById('payMethod').value;
+      const codigo = 'VP' + Math.floor(100000 + Math.random() * 900000);
+      document.getElementById('orderCode').innerText = 'Pedido ' + codigo + ' • ' + metodo + ' • ' + brl(totalCarrinho());
+      document.getElementById('checkoutForm').style.display = 'none';
+      document.getElementById('checkoutDone').style.display = 'block';
+      carrinho = [];
+      salvarCarrinho();
+    }
+
+    // Botões do banner
+    const ordemOriginal = [...productCards];
+    function restaurarOrdem() {
+      ordemOriginal.forEach(c => productGrid.insertBefore(c, semResultados));
+    }
+    function irParaProdutos() {
+      closeProductDetail();
+      setTimeout(() => document.getElementById('productGrid').scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    }
+    function ativarCategoria(cat) {
+      categoriaAtual = cat;
+      catButtons.forEach(b => b.classList.toggle('active', b.getAttribute('data-category') === cat));
+      searchInput.value = '';
+      aplicarFiltros();
+    }
+    function comprarJa() {
+      restaurarOrdem();
+      ativarCategoria('todos');
+      irParaProdutos();
+    }
+    function verOfertas() {
+      ativarCategoria('todos');
+      [...productCards].sort((x, y) => parsePreco(x.querySelector('.price').innerText) - parsePreco(y.querySelector('.price').innerText))
+        .forEach(c => productGrid.insertBefore(c, semResultados));
+      irParaProdutos();
+      toast('Ofertas ordenadas pelos menores preços');
+    }
+
+    // Menu sanduíche (celular/tablet)
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
     }
 
     // =========================================
-    // FILTROS E BUSCA DO CATÁLOGO
+    // FILTROS E BUSCA
     // =========================================
-    const categoryButtons = document.querySelectorAll('.cat-btn');
-
-    categoryButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        categoryButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        const category = button.getAttribute('data-category');
-
-        productCards.forEach(card => {
-          if (category === 'todos' || card.getAttribute('data-category') === category) {
-            card.style.display = 'flex';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-      });
-    });
-
+    const catButtons = document.querySelectorAll('.cat-btn');
     const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', (e) => {
-      const value = e.target.value.toLowerCase();
-      
-      // Se o usuário estiver na tela de detalhes e pesquisar, volta pro catálogo
-      if (productDetailView.style.display === 'block') {
-        closeProductDetail();
-      }
+    const productGrid = document.getElementById('productGrid');
+    let categoriaAtual = 'todos';
 
+    const semResultados = document.createElement('div');
+    semResultados.className = 'no-results';
+    semResultados.innerText = 'Nenhum produto encontrado.';
+    semResultados.style.display = 'none';
+    productGrid.appendChild(semResultados);
+
+    function aplicarFiltros() {
+      const termo = searchInput.value.trim().toLowerCase();
+      let visiveis = 0;
       productCards.forEach(card => {
-        const title = card.querySelector('.product-title').innerText.toLowerCase();
-        if (title.includes(value)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
+        const cat = card.getAttribute('data-category');
+        const titulo = card.querySelector('.product-title').innerText.toLowerCase();
+        const ok = (categoriaAtual === 'todos' || cat === categoriaAtual) && titulo.includes(termo);
+        card.style.display = ok ? 'flex' : 'none';
+        if (ok) visiveis++;
+      });
+      semResultados.style.display = visiveis === 0 ? 'block' : 'none';
+    }
+
+    catButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        catButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        categoriaAtual = btn.getAttribute('data-category');
+        restaurarOrdem();
+        aplicarFiltros();
       });
     });
 
+    searchInput.addEventListener('input', () => {
+      if (productDetailView.style.display === 'block') closeProductDetail();
+      aplicarFiltros();
+    });
+
     // =========================================
-    // CHATBOT (INTEGRAÇÃO GEMINI)
+    // CHATBOT BIGODERA
+    // (se você já tinha a lógica com a API do Gemini, mantenha a sua
+    //  versão de enviarMensagem() no lugar desta)
     // =========================================
     function toggleChat() {
-      const chat = document.getElementById("chatContainer");
-      chat.classList.toggle("open");
+      document.getElementById('chatContainer').classList.toggle('open');
     }
 
-    const API_KEY = "AIzaSyCXh2nWiySXfV6o2W27lMn-nUrJD-ot1y0"; 
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${API_KEY}`;
-
-    const instrucaoSistema = `
-        Você é um especialista exclusivo sobre pets e o assistente virtual do Petshop VitalPet.
-        Sua função é tirar dúvidas APENAS sobre cuidados, alimentação, saúde, acessórios e serviços para animais de estimação (como cães, gatos, pássaros e pequenos animais).
-        Se o usuário perguntar sobre qualquer outro assunto fora do universo pet ou do Petshop VitalPet, recuse educadamente explicando que seu foco é apenas o cuidado com os bichinhos.
-        Utilize uma linguagem descontraída e acessível, que se aproxime dos jovens e adolescentes.
-    `;
-
-    async function enviarMensagem() {
-      const input = document.getElementById("userInput");
-      const textoUsuario = input.value.trim();
-      if (!textoUsuario) return;
-
-      adicionarMensagem(textoUsuario, "user");
-      input.value = "";
-
-      const botTempMessage = adicionarMensagem("Pensando...", "bot");
-
-      try {
-        const resposta = await fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            system_instruction: {
-              parts: [{ text: instrucaoSistema }]
-            },
-            contents: [
-              {
-                role: "user",
-                parts: [{ text: textoUsuario }]
-              }
-            ]
-          })
-        });
-
-        const data = await resposta.json();
-
-        if (!resposta.ok) {
-          console.error("Erro retornado pela API:", data);
-          botTempMessage.innerText = `Erro (${resposta.status}): ${data.error?.message || 'Falha ao processar requisição.'}`;
-          return;
-        }
-
-        if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
-          botTempMessage.innerText = data.candidates[0].content.parts[0].text;
-        } else {
-          botTempMessage.innerText = "Ops! Ocorreu um erro ao gerar a resposta.";
-        }
-      } catch (erro) {
-        console.error("Erro na requisição:", erro);
-        botTempMessage.innerText = "Erro de conexão com a API do Gemini.";
+    function addMensagem(texto, tipo, acao) {
+      const box = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = 'message ' + tipo;
+      div.innerText = texto;
+      if (acao) {
+        div.appendChild(document.createElement('br'));
+        const b = document.createElement('button');
+        b.className = 'chat-action';
+        b.innerText = acao.label;
+        b.onclick = acao.fn;
+        div.appendChild(b);
       }
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
     }
 
-    function adicionarMensagem(texto, tipo) {
-      const container = document.getElementById("messages");
-      const msgDiv = document.createElement("div");
-      msgDiv.classList.add("message", tipo);
-      msgDiv.innerText = texto;
-      container.appendChild(msgDiv);
-      container.scrollTop = container.scrollHeight;
-      return msgDiv;
+    const normalizar = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    function responder(txt) {
+      const t = normalizar(txt);
+      const tem = (...p) => p.some(w => t.includes(w));
+      const fechar = () => document.getElementById('chatContainer').classList.remove('open');
+      const contato = { label: 'Falar no WhatsApp', fn: () => { fechar(); abrirContato(); } };
+
+      if (/\b(oi|ola|bom dia|boa tarde|boa noite)\b/.test(t)) return { texto: 'Olá! 🐾 Posso ajudar com produtos, preços, frete ou pagamento.' };
+      if (tem('carrinho')) return { texto: 'Claro! Seu carrinho está logo aqui.', acao: { label: 'Abrir carrinho', fn: () => { fechar(); abrirCarrinho(); } } };
+      if (tem('frete', 'entrega', 'prazo')) return { texto: 'Calcule o frete na página de cada produto digitando o CEP. Hoje temos frete grátis com entrega em até 3 dias úteis!' };
+      if (tem('pagamento', 'pagar', 'pix', 'cartao', 'boleto', 'parcel')) return { texto: 'Aceitamos Pix, boleto e cartão de crédito em até 3x sem juros.' };
+      if (tem('contato', 'telefone', 'whatsapp', 'atendente', 'humano', 'falar com')) return { texto: 'Você pode falar com a nossa equipe pelo WhatsApp: (79) 98165-6787.', acao: contato };
+      if (tem('desconto', 'oferta', 'promo')) return { texto: 'Temos até 50% de desconto! Veja as ofertas ordenadas pelos menores preços.', acao: { label: 'Ver ofertas', fn: () => { fechar(); verOfertas(); } } };
+
+      const palavras = t.split(/\s+/).filter(w => w.length >= 4);
+      const card = [...productCards].find(c => {
+        const n = normalizar(c.querySelector('.product-title').innerText + ' ' + c.getAttribute('data-category'));
+        return palavras.some(w => n.includes(w));
+      });
+      if (card) {
+        const nome = card.querySelector('.product-title').innerText;
+        const preco = card.querySelector('.price').innerText;
+        return { texto: 'Encontrei: ' + nome + ' por ' + preco + '.', acao: { label: 'Ver produto', fn: () => { fechar(); card.click(); } } };
+      }
+      return { texto: 'Não entendi bem 🤔. Pergunte sobre produtos, frete ou pagamento, ou fale com a nossa equipe.', acao: contato };
     }
+
+    function enviarMensagem() {
+      const input = document.getElementById('userInput');
+      const texto = input.value.trim();
+      if (!texto) return;
+      addMensagem(texto, 'user');
+      input.value = '';
+      const r = responder(texto);
+      setTimeout(() => addMensagem(r.texto, 'bot', r.acao), 450);
+    }
+
+    salvarCarrinho();
   </script>
+
 </body>
 </html>
