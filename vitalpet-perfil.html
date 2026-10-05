@@ -276,4 +276,505 @@
 </div>
 
 <script>
-  const DEFAULT_AVATAR = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100
+  const DEFAULT_AVATAR = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#fef3e2"/><circle cx="50" cy="38" r="20" fill="#0b4ca1"/><path d="M20 85c0-18 13-25 30-25s30 7 30 25" fill="#0b4ca1"/></svg>');
+
+  let userData = JSON.parse(localStorage.getItem('vp_user')) || {
+    name: 'Roberta Silva',
+    email: 'roberta.silva@email.com',
+    phone: '(11) 98765-4321',
+    address: 'Av. Paulista, 1000 - São Paulo, SP',
+    avatar: DEFAULT_AVATAR,
+    since: 'Membro desde Jan 2024'
+  };
+
+  let pets = JSON.parse(localStorage.getItem('vp_pets')) || [
+    { id: '1', name: 'Thor', type: 'dog', age: 4, breed: 'Golden Retriever' },
+    { id: '2', name: 'Luna', type: 'cat', age: 2, breed: 'Siamês' }
+  ];
+
+  let appointments = JSON.parse(localStorage.getItem('vp_appts')) || [
+    { id: '101', petName: 'Thor', service: 'Vacinação', date: '2026-10-15', time: '10:00', place: 'Clínica Central VitalPet', status: 'Agendado' },
+    { id: '102', petName: 'Luna', service: 'Consulta de Rotina', date: '2026-08-20', time: '14:30', place: 'Clínica Central VitalPet', status: 'Concluído' }
+  ];
+
+  let orders = JSON.parse(localStorage.getItem('vp_orders')) || [
+    { id: '#VP-9842', date: '02/10/2026', items: 'Ração Premium 10kg, Brinquedo Corda', total: 'R$ 189,90', status: 'Em Transporte' },
+    { id: '#VP-8711', date: '15/09/2026', items: 'Arranhador para Gatos', total: 'R$ 120,00', status: 'Entregue' }
+  ];
+
+  let notifications = JSON.parse(localStorage.getItem('vp_notifs')) || [
+    { id: '1', title: 'Lembrete de Consulta', text: 'Consulta do Thor agendada para 15/10/2026 às 10:00.', time: 'Há 2 horas', read: false },
+    { id: '2', title: 'Pedido Enviado', text: 'Seu pedido #VP-9842 está a caminho!', time: 'Ontem', read: false }
+  ];
+
+  let deleteCallback = null;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initUserData();
+    renderPets();
+    renderAppts();
+    renderOrders();
+    renderNotifs();
+    setupTabNavigation();
+    setupAvatarUpload();
+    setupMobileMenu();
+  });
+
+  function saveData() {
+    localStorage.setItem('vp_user', JSON.stringify(userData));
+    localStorage.setItem('vp_pets', JSON.stringify(pets));
+    localStorage.setItem('vp_appts', JSON.stringify(appointments));
+    localStorage.setItem('vp_orders', JSON.stringify(orders));
+    localStorage.setItem('vp_notifs', JSON.stringify(notifications));
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMessage').innerText = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  function initUserData() {
+    document.getElementById('fullName').value = userData.name;
+    document.getElementById('email').value = userData.email;
+    document.getElementById('phone').value = userData.phone;
+    document.getElementById('address').value = userData.address;
+
+    const firstName = userData.name.split(' ')[0] || 'Usuário';
+    document.getElementById('navUserName').innerText = firstName;
+    document.getElementById('sidebarUserName').innerText = userData.name;
+    document.getElementById('sidebarUserSince').innerText = userData.since;
+
+    const avatarSrc = userData.avatar || DEFAULT_AVATAR;
+    document.getElementById('navUserAvatar').src = avatarSrc;
+    document.getElementById('sidebarUserAvatar').src = avatarSrc;
+  }
+
+  function handleUserSubmit(e) {
+    e.preventDefault();
+    userData.name = document.getElementById('fullName').value;
+    userData.email = document.getElementById('email').value;
+    userData.phone = document.getElementById('phone').value;
+    userData.address = document.getElementById('address').value;
+    saveData();
+    initUserData();
+    showToast('Dados atualizados com sucesso!');
+  }
+
+  function setupAvatarUpload() {
+    const avatarBtn = document.getElementById('avatarBtn');
+    const avatarInput = document.getElementById('avatarInput');
+
+    avatarBtn.addEventListener('click', () => avatarInput.click());
+    avatarInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          userData.avatar = evt.target.result;
+          saveData();
+          initUserData();
+          showToast('Foto de perfil atualizada!');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  function setupTabNavigation() {
+    const links = document.querySelectorAll('.sidebar-link[data-tab]');
+    const contents = document.querySelectorAll('.tab-content');
+
+    links.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetTab = link.getAttribute('data-tab');
+
+        links.forEach(l => l.classList.remove('active'));
+        contents.forEach(c => c.classList.add('hidden'));
+
+        link.classList.add('active');
+        document.getElementById(targetTab).classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    document.getElementById('bellBtn').addEventListener('click', () => {
+      const notifLink = document.querySelector('[data-tab="tab-notificacoes"]');
+      if (notifLink) notifLink.click();
+    });
+
+    const logoutBtns = [document.getElementById('btnLogout'), document.getElementById('mobileLogout')];
+    logoutBtns.forEach(btn => {
+      if (btn) {
+        btn.addEventListener('click', () => {
+          showToast('Sessão encerrada com sucesso.');
+        });
+      }
+    });
+  }
+
+  function setupMobileMenu() {
+    const btn = document.getElementById('mobileMenuBtn');
+    const menu = document.getElementById('mobileMenu');
+    btn.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen);
+    });
+  }
+
+  function getPetTypeConfig(type) {
+    switch (type) {
+      case 'dog': return { icon: 'fa-dog', bg: 'bg-amber-100 text-amber-600', label: 'Cachorro' };
+      case 'cat': return { icon: 'fa-cat', bg: 'bg-purple-100 text-purple-600', label: 'Gato' };
+      case 'bird': return { icon: 'fa-crow', bg: 'bg-sky-100 text-sky-600', label: 'Pássaro' };
+      default: return { icon: 'fa-paw', bg: 'bg-emerald-100 text-emerald-600', label: 'Outro' };
+    }
+  }
+
+  function renderPets() {
+    const grids = [document.getElementById('petsGrid'), document.getElementById('standalonePetsGrid')];
+    
+    grids.forEach(grid => {
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      pets.forEach(pet => {
+        const conf = getPetTypeConfig(pet.type);
+        const card = document.createElement('div');
+        card.className = 'pet-card';
+        card.innerHTML = `
+          <div class="pet-icon-circle ${conf.bg}">
+            <i class="fa-solid ${conf.icon}"></i>
+          </div>
+          <h3 class="font-bold text-slate-800 text-base mb-0.5">${pet.name}</h3>
+          <p class="text-xs font-semibold text-slate-500 mb-1">${pet.breed}</p>
+          <span class="text-[0.7rem] bg-slate-100 text-slate-600 font-bold px-2.5 py-0.5 rounded-full mb-3">${pet.age} ${pet.age == 1 ? 'ano' : 'anos'}</span>
+          <div class="mt-auto flex gap-3 text-xs font-bold pt-2 border-t border-slate-100 w-full justify-center">
+            <button onclick="openPetModal('${pet.id}')" class="text-vital-blue hover:underline"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+            <button onclick="confirmDeletePet('${pet.id}')" class="text-red-500 hover:underline"><i class="fa-solid fa-trash-can"></i> Excluir</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      const addBtn = document.createElement('div');
+      addBtn.className = 'pet-card pet-card-add';
+      addBtn.onclick = () => openPetModal();
+      addBtn.innerHTML = `
+        <div class="w-10 h-10 rounded-full bg-amber-100 text-vital-orange flex items-center justify-center text-lg mb-2">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+        <span class="text-xs font-bold text-slate-600">Adicionar Pet</span>
+      `;
+      grid.appendChild(addBtn);
+    });
+
+    updateApptPetSelect();
+  }
+
+  function openPetModal(petId = null) {
+    const modal = document.getElementById('petModal');
+    const title = document.getElementById('modalTitle');
+    const form = document.getElementById('petForm');
+    
+    form.reset();
+    document.getElementById('petId').value = '';
+
+    if (petId) {
+      const pet = pets.find(p => p.id === petId);
+      if (pet) {
+        title.innerHTML = '<i class="fa-solid fa-pen-to-square text-vital-orange"></i> Editar Pet';
+        document.getElementById('petId').value = pet.id;
+        document.getElementById('petName').value = pet.name;
+        document.getElementById('petType').value = pet.type;
+        document.getElementById('petAge').value = pet.age;
+        document.getElementById('petBreed').value = pet.breed;
+      }
+    } else {
+      title.innerHTML = '<i class="fa-solid fa-paw text-vital-orange"></i> Adicionar Pet';
+    }
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  function closePetModal() {
+    closeModal('petModal');
+  }
+
+  function handlePetSubmit(e) {
+    e.preventDefault();
+    const id = document.getElementById('petId').value;
+    const name = document.getElementById('petName').value;
+    const type = document.getElementById('petType').value;
+    const age = parseInt(document.getElementById('petAge').value, 10);
+    const breed = document.getElementById('petBreed').value;
+
+    if (id) {
+      const idx = pets.findIndex(p => p.id === id);
+      if (idx !== -1) pets[idx] = { id, name, type, age, breed };
+      showToast('Pet atualizado com sucesso!');
+    } else {
+      const newPet = { id: Date.now().toString(), name, type, age, breed };
+      pets.push(newPet);
+      showToast('Pet cadastrado com sucesso!');
+    }
+
+    saveData();
+    renderPets();
+    closePetModal();
+  }
+
+  function confirmDeletePet(petId) {
+    const pet = pets.find(p => p.id === petId);
+    if (!pet) return;
+
+    document.getElementById('confirmTitle').innerText = 'Remover Pet';
+    document.getElementById('deleteModalMessage').innerText = `Deseja realmente remover o pet "${pet.name}"?`;
+    deleteCallback = () => {
+      pets = pets.filter(p => p.id !== petId);
+      saveData();
+      renderPets();
+      showToast('Pet removido.');
+    };
+    openModal('deleteModal');
+  }
+
+  function updateApptPetSelect() {
+    const select = document.getElementById('apptPet');
+    if (!select) return;
+    select.innerHTML = '';
+    if (pets.length === 0) {
+      select.innerHTML = '<option value="">Nenhum pet cadastrado</option>';
+      return;
+    }
+    pets.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.name;
+      opt.textContent = `${p.name} (${p.breed})`;
+      select.appendChild(opt);
+    });
+  }
+
+  function renderAppts() {
+    const container = document.getElementById('apptList');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (appointments.length === 0) {
+      container.innerHTML = '<p class="text-sm font-medium text-slate-400 text-center py-6">Nenhuma consulta agendada.</p>';
+      return;
+    }
+
+    appointments.forEach(appt => {
+      const item = document.createElement('div');
+      item.className = 'p-4 rounded-xl border border-slate-100 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4';
+      
+      const statusBg = appt.status === 'Agendado' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700';
+
+      item.innerHTML = `
+        <div class="flex items-start gap-3.5">
+          <div class="w-10 h-10 rounded-xl bg-vital-blue text-white flex items-center justify-center text-lg flex-shrink-0 mt-0.5">
+            <i class="fa-regular fa-calendar-check"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h4 class="font-bold text-slate-800 text-sm sm:text-base">${appt.service} - <span class="text-vital-blue">${appt.petName}</span></h4>
+              <span class="text-[0.65rem] font-bold px-2 py-0.5 rounded-full ${statusBg}">${appt.status}</span>
+            </div>
+            <p class="text-xs font-semibold text-slate-500 mt-1"><i class="fa-regular fa-clock text-vital-orange mr-1"></i> ${formatDate(appt.date)} às ${appt.time}</p>
+            <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot mr-1"></i> ${appt.place}</p>
+          </div>
+        </div>
+        ${appt.status === 'Agendado' ? `
+          <button onclick="cancelAppt('${appt.id}')" class="text-xs font-bold text-red-500 hover:text-red-700 hover:underline self-end sm:self-center">Cancelar</button>
+        ` : ''}
+      `;
+      container.appendChild(item);
+    });
+  }
+
+  function openApptModal() {
+    if (pets.length === 0) {
+      showToast('Cadastre um pet antes de agendar uma consulta.');
+      return;
+    }
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('apptDate').min = today;
+    document.getElementById('apptDate').value = today;
+    openModal('apptModal');
+  }
+
+  function handleApptSubmit(e) {
+    e.preventDefault();
+    const petName = document.getElementById('apptPet').value;
+    const service = document.getElementById('apptService').value;
+    const date = document.getElementById('apptDate').value;
+    const time = document.getElementById('apptTime').value;
+    const place = document.getElementById('apptPlace').value;
+
+    const newAppt = {
+      id: Date.now().toString(),
+      petName,
+      service,
+      date,
+      time,
+      place,
+      status: 'Agendado'
+    };
+
+    appointments.unshift(newAppt);
+    saveData();
+    renderAppts();
+    closeModal('apptModal');
+    showToast('Consulta agendada com sucesso!');
+  }
+
+  function cancelAppt(id) {
+    document.getElementById('confirmTitle').innerText = 'Cancelar Consulta';
+    document.getElementById('deleteModalMessage').innerText = 'Deseja realmente cancelar este agendamento?';
+    deleteCallback = () => {
+      appointments = appointments.filter(a => a.id !== id);
+      saveData();
+      renderAppts();
+      showToast('Consulta cancelada.');
+    };
+    openModal('deleteModal');
+  }
+
+  function renderOrders() {
+    const container = document.getElementById('orderList');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (orders.length === 0) {
+      container.innerHTML = '<p class="text-sm font-medium text-slate-400 text-center py-6">Você ainda não realizou pedidos.</p>';
+      return;
+    }
+
+    orders.forEach(order => {
+      const div = document.createElement('div');
+      div.className = 'p-4 rounded-xl border border-slate-100 bg-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4';
+      div.innerHTML = `
+        <div class="flex items-start gap-3.5">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 text-vital-orange flex items-center justify-center text-lg flex-shrink-0 mt-0.5">
+            <i class="fa-solid fa-box"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-slate-800 text-sm">${order.id}</span>
+              <span class="text-xs text-slate-400">• ${order.date}</span>
+            </div>
+            <p class="text-xs font-medium text-slate-600 mt-1">${order.items}</p>
+            <p class="text-xs font-bold text-vital-blue mt-0.5">${order.total}</p>
+          </div>
+        </div>
+        <span class="text-xs font-bold px-3 py-1 rounded-full self-start md:self-center ${order.status === 'Entregue' ? 'bg-emerald-100 text-emerald-700' : 'bg-sky-100 text-sky-700'}">${order.status}</span>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function renderNotifs() {
+    const container = document.getElementById('notifList');
+    if (!container) return;
+    container.innerHTML = '';
+
+    const unreadCount = notifications.filter(n => !n.read).length;
+    updateBadges(unreadCount);
+
+    if (notifications.length === 0) {
+      container.innerHTML = '<p class="text-sm font-medium text-slate-400 text-center py-6">Nenhuma notificação por aqui.</p>';
+      return;
+    }
+
+    notifications.forEach(n => {
+      const item = document.createElement('div');
+      item.className = `p-4 rounded-xl border transition-all flex items-start justify-between gap-3 ${n.read ? 'bg-slate-50 border-slate-100' : 'bg-amber-50/60 border-amber-200'}`;
+      item.innerHTML = `
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <h4 class="font-bold text-slate-800 text-sm">${n.title}</h4>
+            ${!n.read ? '<span class="w-2 h-2 rounded-full bg-vital-orange"></span>' : ''}
+          </div>
+          <p class="text-xs text-slate-600 font-medium leading-relaxed">${n.text}</p>
+          <span class="text-[0.65rem] text-slate-400 font-semibold block mt-1.5">${n.time}</span>
+        </div>
+        ${!n.read ? `<button onclick="markRead('${n.id}')" class="text-xs font-bold text-vital-blue hover:underline whitespace-nowrap">Lida</button>` : ''}
+      `;
+      container.appendChild(item);
+    });
+  }
+
+  function updateBadges(count) {
+    const bellBadge = document.getElementById('bellBadge');
+    const sideBadge = document.getElementById('sideBadge');
+
+    if (count > 0) {
+      bellBadge.innerText = count;
+      sideBadge.innerText = count;
+      bellBadge.classList.remove('hidden');
+      sideBadge.classList.remove('hidden');
+    } else {
+      bellBadge.classList.add('hidden');
+      sideBadge.classList.add('hidden');
+    }
+  }
+
+  function markRead(id) {
+    const notif = notifications.find(n => n.id === id);
+    if (notif) {
+      notif.read = true;
+      saveData();
+      renderNotifs();
+    }
+  }
+
+  function markAllRead() {
+    notifications.forEach(n => n.read = true);
+    saveData();
+    renderNotifs();
+    showToast('Todas as notificações foram lidas.');
+  }
+
+  function clearNotifs() {
+    notifications = [];
+    saveData();
+    renderNotifs();
+    showToast('Notificações limpadas.');
+  }
+
+  function openModal(id) {
+    const m = document.getElementById(id);
+    if (m) {
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+  }
+
+  function closeModal(id) {
+    const m = document.getElementById(id);
+    if (m) {
+      m.classList.remove('flex');
+      m.classList.add('hidden');
+    }
+  }
+
+  document.getElementById('btnConfirmDelete').addEventListener('click', () => {
+    if (deleteCallback) deleteCallback();
+    closeModal('deleteModal');
+    deleteCallback = null;
+  });
+
+  function formatDate(str) {
+    if (!str) return '';
+    const parts = str.split('-');
+    if (parts.length !== 3) return str;
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+</script>
+
+</body>
+</html>
