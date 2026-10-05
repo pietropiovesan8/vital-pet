@@ -1,0 +1,1004 @@
+<!DOCTYPE html> <!-- Declara que o documento é HTML5 -->
+<html lang="pt-BR"> <!-- Idioma da página: português do Brasil (ajuda leitores de tela e buscadores) -->
+<head>
+<meta charset="UTF-8"> <!-- Codificação de caracteres: garante que acentos e ç apareçam certo -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Faz a página se ajustar à largura do celular -->
+<title>VitalPet - Perfil do Usuário</title> <!-- Título que aparece na aba do navegador -->
+
+<!-- Fonte Poppins do Google Fonts, em vários pesos (400 normal até 900 extra negrito) -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Font Awesome: biblioteca de ícones (fa-paw, fa-bell, fa-user etc.) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Tailwind CSS via CDN: permite usar classes prontas (flex, rounded-2xl, bg-white...) direto no HTML -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  /* ===== RESET E BASE ===== */
+  /* Zera margens/espaçamentos padrão, usa box-sizing que inclui padding no tamanho e aplica a fonte Poppins em tudo */
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+  /* Impede que o celular aumente o texto sozinho ao girar a tela */
+  html{-webkit-text-size-adjust:100%}
+  /* Fundo creme, texto cinza escuro, ocupa no mínimo a altura da tela e organiza o conteúdo em coluna (header, main...) */
+  body{background:#fffde9;color:#333;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+
+  /* ===== CORES DA MARCA ===== */
+  /* Azul VitalPet (fundo e texto) */
+  .bg-vital-blue{background:#0b4ca1}.text-vital-blue{color:#0b4ca1}
+  /* Laranja VitalPet: fundo, fundo no hover (mais escuro) e texto */
+  .bg-vital-orange{background:#f78d00}.hover-bg-vital-orange:hover{background:#e07f00}.text-vital-orange{color:#f78d00}
+
+  /* ===== CAMPOS DE FORMULÁRIO ===== */
+  /* Campo escuro da aba "Meus Dados": fundo cinza escuro, texto branco em negrito, cantos arredondados */
+  .dark-input{background:#313335;color:#fff;font-weight:700;border:1px solid #454749;border-radius:8px;padding:12px 16px;width:100%;outline:none;transition:.2s;font-size:.92rem}
+  /* Quando o campo recebe foco: borda laranja e um brilho ao redor */
+  .dark-input:focus{border-color:#f78d00;box-shadow:0 0 0 3px rgba(247,141,0,.25)}
+  /* Campo claro usado dentro dos modais (janelas) */
+  .modal-input{width:100%;border:1px solid #e2e8f0;border-radius:12px;padding:10px;font-size:.875rem;font-weight:600;outline:none;background:#fff}
+  /* Foco do campo claro: anel amarelo */
+  .modal-input:focus{box-shadow:0 0 0 2px #fbbf24}
+
+  /* ===== AVATAR (FOTO DE PERFIL) ===== */
+  /* Círculo amarelo de 110px que guarda a foto; "overflow:hidden" corta a imagem no formato redondo */
+  .avatar-yellow-circle{background:#ffc837;width:110px;height:110px;border-radius:50%;margin:0 auto 12px;box-shadow:0 4px 10px rgba(0,0,0,.08);overflow:hidden;position:relative;cursor:pointer}
+  /* A imagem preenche todo o círculo sem deformar */
+  .avatar-yellow-circle img{width:100%;height:100%;object-fit:cover}
+  /* Faixa "Trocar" na parte de baixo do círculo, invisível por padrão (opacity:0) */
+  .avatar-yellow-circle .cam{position:absolute;inset:auto 0 0 0;background:rgba(0,0,0,.45);color:#fff;font-size:.65rem;font-weight:600;padding:4px 0;opacity:0;transition:.2s}
+  /* Ao passar o mouse no avatar, a faixa aparece */
+  .avatar-yellow-circle:hover .cam{opacity:1}
+
+  /* ===== MENU LATERAL ===== */
+  /* Cada item do menu: ícone + texto lado a lado, cantos bem arredondados, cinza por padrão */
+  .sidebar-link{display:flex;align-items:center;gap:14px;padding:10px 18px;border-radius:20px;font-size:.95rem;font-weight:600;color:#718096;cursor:pointer;transition:.2s;margin-bottom:6px;text-decoration:none;white-space:nowrap;position:relative}
+  /* Ícone com largura fixa para os textos ficarem alinhados */
+  .sidebar-link i{font-size:1.15rem;width:22px;text-align:center}
+  /* Hover: fundo laranja bem clarinho e texto azul */
+  .sidebar-link:hover{background:#fef3e2;color:#0b4ca1}
+  /* Item da aba atual: fundo laranja claro e texto azul em negrito */
+  .sidebar-link.active{background:#fde3c2;color:#0b4ca1;font-weight:700}
+  /* Botão "Sair" em vermelho, separado dos demais por uma margem em cima */
+  .sidebar-link.logout-link{color:#dc2626;margin-top:15px}
+  .sidebar-link.logout-link:hover{background:#fee2e2;color:#b91c1c}
+
+  /* ===== CARTÕES DE PETS ===== */
+  /* Cartão branco com sombra leve, conteúdo centralizado em coluna */
+  .pet-card{background:#fff;border-radius:14px;padding:18px 16px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.03);border:1px solid #f1f5f9;display:flex;flex-direction:column;align-items:center;transition:transform .2s,box-shadow .2s;min-height:170px}
+  /* Hover: o cartão sobe 3px e a sombra aumenta */
+  .pet-card:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(0,0,0,.06)}
+  /* Círculo colorido com o ícone do animal */
+  .pet-icon-circle{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:8px}
+  /* Cartão especial "Adicionar Pet": borda tracejada, fundo cinza claro */
+  .pet-card-add{border:2px dashed #cbd5e1;cursor:pointer;background:#fafafa;justify-content:center}
+  .pet-card-add:hover{background:#fff;border-color:#f78d00}
+
+  /* ===== TOAST (MENSAGEM FLUTUANTE) ===== */
+  /* Fica fixo no canto inferior direito, escondido fora da tela (translateY 160%) */
+  #toast{position:fixed;bottom:25px;right:25px;left:auto;max-width:calc(100vw - 50px);transform:translateY(160%);transition:transform .3s cubic-bezier(.175,.885,.32,1.275);z-index:1000}
+  /* Com a classe .show, desliza para dentro da tela */
+  #toast.show{transform:translateY(0)}
+
+  /* ===== MODAIS ===== */
+  /* Fundo escuro semitransparente com leve desfoque atrás das janelas */
+  .modal-backdrop{background:rgba(0,0,0,.5);backdrop-filter:blur(2px)}
+  /* Caixa do modal: altura máxima de 90% da tela, com rolagem se o conteúdo for grande */
+  .modal-box{max-height:90vh;overflow-y:auto}
+
+  /* Logo: cabe inteira dentro do círculo branco do cabeçalho */
+  #logoImg {width: 100%; height: 100%; object-fit: contain;padding: 2px;}
+
+  /* ===== MENU MOBILE (HAMBÚRGUER) ===== */
+  /* Fechado: altura 0 e conteúdo cortado; a animação acontece pela mudança de max-height */
+  #mobileMenu{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  /* Aberto: libera até 420px de altura */
+  #mobileMenu.open{max-height:420px}
+
+  /* ===== BADGE (BOLINHA VERMELHA DE NOTIFICAÇÕES) ===== */
+  .badge{position:absolute;top:-4px;right:-4px;background:#dc2626;color:#fff;font-size:.6rem;font-weight:700;min-width:16px;height:16px;border-radius:9999px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+
+  /* ===== RESPONSIVO: TELAS ATÉ 1023px (tablet/celular) ===== */
+  @media(max-width:1023px){
+    /* Menor espaçamento no cartão lateral */
+    #sideCard{padding:16px}
+    /* Foto e nome ficam lado a lado, alinhados à esquerda */
+    #sideHead{display:flex;align-items:center;gap:14px;text-align:left;margin-bottom:12px}
+    /* Avatar menor (64px) */
+    #sideHead .avatar-yellow-circle{width:64px;height:64px;margin:0;flex-shrink:0}
+    /* Menu vira uma linha horizontal com rolagem lateral (sem mostrar a barra) */
+    #sideNav{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:4px;scrollbar-width:none}
+    #sideNav::-webkit-scrollbar{display:none}
+    /* Itens do menu menores, em formato de "pílula" com borda */
+    .sidebar-link{margin:0;padding:8px 14px;font-size:.82rem;gap:8px;flex-shrink:0;border:1px solid #f1f5f9}
+    .sidebar-link.logout-link{margin-top:0}
+  }
+  /* ===== RESPONSIVO: CELULARES PEQUENOS (até 480px) ===== */
+  @media(max-width:480px){
+    /* Toast ocupa a largura toda, com margem de 12px nas laterais */
+    #toast{right:12px;left:12px;bottom:14px}
+    .dark-input{padding:11px 12px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     CABEÇALHO (topo do site)
+     ============================================================ -->
+<header class="bg-vital-blue text-white px-4 sm:px-6 py-3.5 shadow-md relative z-30">
+  <div class="flex items-center justify-between">
+
+    <!-- Logo + nome: link que leva para a página inicial -->
+    <a href="index.html" class="flex items-center gap-3 no-underline text-white">
+      <div class="bg-white rounded-full p-1 flex items-center justify-center shadow-sm w-11 h-15 overflow-hidden">
+        <img id="logoImg" src="Captura_de_tela_2026-09-04_094703-removebg-preview.png" alt="VitalPet">
+      </div>
+      <span class="text-xl sm:text-2xl font-extrabold tracking-tight">VitalPet</span>
+    </a>
+
+    <!-- Menu de navegação do desktop: "hidden md:flex" = escondido no celular, visível a partir de telas médias -->
+    <nav class="hidden md:flex items-center gap-8 font-medium text-sm">
+      <a href="index.html" class="hover:text-amber-300 transition-colors">Início</a>
+      <a href="produtos.html" class="hover:text-amber-300 transition-colors">Loja</a>
+      <!-- Página atual (Perfil) destacada em amarelo com sublinhado -->
+      <a href="#" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-0.5">Perfil</a>
+    </nav>
+
+    <!-- Lado direito: sino, foto, nome e botão do menu mobile -->
+    <div class="flex items-center gap-3">
+      <!-- Sino de notificações; o badge (bolinha) começa escondido e o JS atualiza o número -->
+      <button id="bellBtn" class="relative text-white text-lg focus:outline-none" aria-label="Notificações">
+        <i class="fa-regular fa-bell"></i><span id="bellBadge" class="badge hidden">0</span>
+      </button>
+      <!-- Foto pequena do usuário (o src é preenchido pelo JS) -->
+      <div class="w-9 h-9 rounded-full overflow-hidden border-2 border-amber-400 bg-amber-100 flex items-center justify-center">
+        <img id="navUserAvatar" src="" alt="Perfil" class="w-full h-full object-cover">
+      </div>
+      <!-- Primeiro nome do usuário (escondido em telas muito pequenas) -->
+      <span id="navUserName" class="font-bold text-base tracking-wide hidden sm:inline">Roberta</span>
+      <!-- Botão hambúrguer: só aparece no celular (md:hidden) -->
+      <button id="mobileMenuBtn" class="md:hidden text-white text-xl ml-1 focus:outline-none" aria-label="Abrir Menu" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menu que abre/fecha no celular (animado pelo CSS #mobileMenu) -->
+  <div id="mobileMenu" class="md:hidden">
+    <nav class="flex flex-col pt-3 mt-3 border-t border-white/20 text-sm font-semibold">
+      <a href="index.html" class="py-2.5 px-2 rounded-lg hover:bg-white/10"><i class="fa-solid fa-house w-6"></i> Início</a>
+      <a href="produtos.html" class="py-2.5 px-2 rounded-lg hover:bg-white/10"><i class="fa-solid fa-store w-6"></i> Loja</a>
+      <a href="#" class="py-2.5 px-2 rounded-lg bg-white/10 text-amber-300"><i class="fa-solid fa-user w-6"></i> Perfil</a>
+      <button id="mobileLogout" class="py-2.5 px-2 rounded-lg hover:bg-white/10 text-left text-red-200"><i class="fa-solid fa-right-from-bracket w-6"></i> Sair</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     CONTEÚDO PRINCIPAL
+     ============================================================ -->
+<main class="max-w-7xl mx-auto w-full p-4 sm:p-6 lg:p-8 flex-1">
+  <!-- Grade de 12 colunas: no celular tudo empilhado; no desktop, menu lateral (4 ou 3 colunas) + conteúdo (8 ou 9) -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-start">
+
+    <!-- ===== BARRA LATERAL (perfil + menu de abas) ===== -->
+    <aside id="sideCard" class="lg:col-span-4 xl:col-span-3 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 w-full min-w-0">
+      <div id="sideHead" class="text-center mb-6">
+        <!-- Avatar clicável: o JS abre o seletor de arquivos ao clicar -->
+        <div class="avatar-yellow-circle" id="avatarBtn" title="Trocar foto">
+          <img id="sidebarUserAvatar" src="" alt="Foto do usuário">
+          <div class="cam hidden lg:block text-center"><i class="fa-solid fa-camera"></i> Trocar</div>
+        </div>
+        <!-- Input de arquivo invisível; é acionado quando se clica no avatar. Só aceita imagens -->
+        <input type="file" id="avatarInput" accept="image/*" class="hidden">
+        <div>
+          <!-- Nome completo e "Membro desde..." (preenchidos pelo JS) -->
+          <h1 id="sidebarUserName" class="text-lg sm:text-xl font-bold text-slate-800 tracking-tight leading-snug break-words"></h1>
+          <p id="sidebarUserSince" class="text-xs font-medium text-slate-400 mt-1"></p>
+        </div>
+      </div>
+
+      <!-- Menu de abas. O atributo data-tab diz qual seção (id) cada link mostra -->
+      <nav id="sideNav" class="flex flex-col">
+        <a class="sidebar-link active" data-tab="tab-meus-dados"><i class="fa-regular fa-user"></i><span>Meus Dados</span></a>
+        <a class="sidebar-link" data-tab="tab-meus-pets"><i class="fa-solid fa-paw"></i><span>Meus pets</span></a>
+        <a class="sidebar-link" data-tab="tab-consultas"><i class="fa-regular fa-calendar-days"></i><span>Consultas</span></a>
+        <a class="sidebar-link" data-tab="tab-pedidos"><i class="fa-solid fa-bag-shopping"></i><span>Meus Pedidos</span></a>
+        <!-- Aba de notificações com um badge ao lado (posição estática para ficar na mesma linha) -->
+        <a class="sidebar-link" data-tab="tab-notificacoes"><i class="fa-regular fa-bell"></i><span>Notificações</span><span id="sideBadge" class="badge hidden" style="position:static;margin-left:4px">0</span></a>
+        <!-- Botão Sair (sem data-tab, então não troca de aba) -->
+        <a class="sidebar-link logout-link" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i><span>Sair</span></a>
+      </nav>
+    </aside>
+
+    <!-- ===== ÁREA DAS ABAS (só uma fica visível por vez) ===== -->
+    <section class="lg:col-span-8 xl:col-span-9 flex flex-col gap-8 min-w-0 w-full">
+
+      <!-- ABA 1: MEUS DADOS (visível por padrão: classe "block") -->
+      <div id="tab-meus-dados" class="tab-content block">
+        <div class="mb-8">
+          <h2 class="text-xl sm:text-2xl font-extrabold text-vital-blue mb-1">Meus dados</h2>
+          <p class="text-sm font-medium text-slate-400 mb-4">Mantenha suas informações sempre atualizadas</p>
+          <div class="bg-white rounded-2xl p-4 sm:p-8 shadow-sm border border-slate-100">
+            <!-- Formulário: ao enviar, chama handleUserSubmit() -->
+            <form id="userDataForm" onsubmit="handleUserSubmit(event)">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+                <!-- "required" impede enviar o campo vazio; type="email" valida o formato do e-mail -->
+                <div class="flex flex-col gap-1.5"><label for="fullName" class="text-xs font-semibold text-slate-400">Nome completo</label><input type="text" id="fullName" class="dark-input" required></div>
+                <div class="flex flex-col gap-1.5"><label for="email" class="text-xs font-semibold text-slate-400">E-mail</label><input type="email" id="email" class="dark-input" required></div>
+                <!-- inputmode="tel" mostra o teclado numérico no celular; maxlength limita os caracteres -->
+                <div class="flex flex-col gap-1.5"><label for="phone" class="text-xs font-semibold text-slate-400">Telefone</label><input type="tel" id="phone" class="dark-input" inputmode="tel" maxlength="16" required></div>
+                <div class="flex flex-col gap-1.5"><label for="address" class="text-xs font-semibold text-slate-400">Endereço</label><input type="text" id="address" class="dark-input" required></div>
+              </div>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <!-- Salvar: dispara o submit do formulário -->
+                <button type="submit" class="bg-vital-orange hover-bg-vital-orange text-white font-extrabold text-sm px-7 py-3 rounded-xl shadow-md transition-all active:scale-95 inline-flex items-center justify-center gap-2"><i class="fa-solid fa-check text-xs"></i> Salvar Alterações</button>
+                <!-- Descartar: recarrega os dados salvos nos campos (desfaz o que foi digitado) e mostra um aviso -->
+                <button type="button" onclick="initUserData();showToast('Alterações descartadas.')" class="px-7 py-3 rounded-xl text-sm font-bold text-slate-500 hover:bg-slate-100 border border-slate-200">Descartar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Prévia dos pets dentro da aba Meus Dados -->
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl sm:text-2xl font-extrabold text-vital-blue">Meus pets</h2>
+            <button onclick="openPetModal()" class="text-xs font-bold text-vital-orange hover:underline">+ Adicionar Pet</button>
+          </div>
+          <!-- Os cartões são criados pelo JS (renderPets) -->
+          <div id="petsGrid" class="grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 gap-4"></div>
+        </div>
+      </div>
+
+      <!-- ABA 2: MEUS PETS (escondida: classe "hidden") -->
+      <div id="tab-meus-pets" class="tab-content hidden">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-vital-blue">Gerenciar Pets</h2>
+            <p class="text-sm font-medium text-slate-400">Cadastre, edite e acompanhe seus melhores amigos</p>
+          </div>
+          <button onclick="openPetModal()" class="bg-vital-orange text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-sm hover-bg-vital-orange inline-flex items-center justify-center gap-2"><i class="fa-solid fa-plus text-xs"></i> Novo Pet</button>
+        </div>
+        <!-- Segunda grade de pets (preenchida pelo mesmo renderPets) -->
+        <div id="standalonePetsGrid" class="grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 gap-4"></div>
+      </div>
+
+      <!-- ABA 3: CONSULTAS -->
+      <div id="tab-consultas" class="tab-content hidden">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-vital-blue">Minhas Consultas</h2>
+            <p class="text-sm font-medium text-slate-400">Histórico e agendamentos veterinários</p>
+          </div>
+          <!-- Abre o modal de agendamento -->
+          <button onclick="openApptModal()" class="bg-vital-orange text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-sm hover-bg-vital-orange inline-flex items-center justify-center gap-2"><i class="fa-solid fa-plus text-xs"></i> Agendar</button>
+        </div>
+        <!-- Lista de consultas (preenchida por renderAppts) -->
+        <div id="apptList" class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-100 space-y-4"></div>
+      </div>
+
+      <!-- ABA 4: PEDIDOS -->
+      <div id="tab-pedidos" class="tab-content hidden">
+        <h2 class="text-xl sm:text-2xl font-extrabold text-vital-blue mb-1">Meus Pedidos</h2>
+        <p class="text-sm font-medium text-slate-400 mb-6">Acompanhe suas compras recentes no VitalPet</p>
+        <!-- Lista de pedidos (preenchida por renderOrders) -->
+        <div id="orderList" class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-100 space-y-4"></div>
+      </div>
+
+      <!-- ABA 5: NOTIFICAÇÕES -->
+      <div id="tab-notificacoes" class="tab-content hidden">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-6">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-vital-blue">Notificações</h2>
+            <p class="text-sm font-medium text-slate-400">Alertas e avisos sobre seus pets</p>
+          </div>
+          <div class="flex gap-4">
+            <button onclick="markAllRead()" class="text-xs font-bold text-vital-blue hover:underline">Marcar todas como lidas</button>
+            <button onclick="clearNotifs()" class="text-xs font-bold text-red-500 hover:underline">Limpar</button>
+          </div>
+        </div>
+        <!-- Lista de notificações (preenchida por renderNotifs) -->
+        <div id="notifList" class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-100 space-y-3"></div>
+      </div>
+
+    </section>
+  </div>
+</main>
+
+<!-- ============================================================
+     MODAL: ADICIONAR / EDITAR PET
+     (começa "hidden"; o JS troca para "flex" para exibir)
+     ============================================================ -->
+<div id="petModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-4 z-50">
+  <div class="modal-box bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-xl border border-slate-100">
+    <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
+      <!-- Título muda entre "Adicionar Pet" e "Editar Pet" via JS -->
+      <h3 id="modalTitle" class="text-lg sm:text-xl font-bold text-vital-blue flex items-center gap-2"></h3>
+      <button onclick="closePetModal()" class="text-slate-400 hover:text-slate-600 font-bold text-lg" aria-label="Fechar">✕</button>
+    </div>
+    <form id="petForm" onsubmit="handlePetSubmit(event)">
+      <!-- Campo escondido: vazio = novo pet; com valor = editando o pet daquele id -->
+      <input type="hidden" id="petId">
+      <div class="space-y-4 mb-6">
+        <div><label class="block text-xs font-semibold text-slate-500 mb-1">Nome do Pet</label><input type="text" id="petName" class="modal-input" placeholder="Ex: Luna" required></div>
+        <div class="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3">
+          <!-- Tipo do animal: o "value" (dog, cat, bird, other) é o que fica salvo -->
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Tipo de Animal</label>
+            <select id="petType" class="modal-input"><option value="dog">Cachorro 🐶</option><option value="cat">Gato 🐱</option><option value="bird">Pássaro 🦜</option><option value="other">Outro 🐾</option></select></div>
+          <!-- Idade: número entre 0 e 60 -->
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Idade (anos)</label><input type="number" id="petAge" min="0" max="60" class="modal-input" placeholder="Ex: 3" required></div>
+        </div>
+        <div><label class="block text-xs font-semibold text-slate-500 mb-1">Raça / Descrição</label><input type="text" id="petBreed" class="modal-input" placeholder="Ex: Vira Lata" required></div>
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+        <button type="button" onclick="closePetModal()" class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100">Cancelar</button>
+        <button type="submit" class="bg-vital-orange hover-bg-vital-orange text-white text-xs font-extrabold px-5 py-2.5 rounded-xl shadow-sm">Salvar Pet</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: AGENDAR CONSULTA
+     ============================================================ -->
+<div id="apptModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-4 z-50">
+  <div class="modal-box bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-xl border border-slate-100">
+    <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
+      <h3 class="text-lg sm:text-xl font-bold text-vital-blue flex items-center gap-2"><i class="fa-regular fa-calendar-days text-vital-orange"></i> Agendar Consulta</h3>
+      <button onclick="closeModal('apptModal')" class="text-slate-400 hover:text-slate-600 font-bold text-lg" aria-label="Fechar">✕</button>
+    </div>
+    <form onsubmit="handleApptSubmit(event)">
+      <div class="space-y-4 mb-6">
+        <!-- Lista de pets: as opções são criadas pelo JS (updateApptPetSelect) -->
+        <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pet</label><select id="apptPet" class="modal-input" required></select></div>
+        <div><label class="block text-xs font-semibold text-slate-500 mb-1">Serviço</label>
+          <select id="apptService" class="modal-input"><option>Consulta de Rotina</option><option>Vacinação</option><option>Exames</option><option>Banho e Tosa</option><option>Retorno</option></select></div>
+        <div class="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3">
+          <!-- Seletor de data (o JS define o mínimo como hoje) e de horário (padrão 09:00) -->
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Data</label><input type="date" id="apptDate" class="modal-input" required></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Horário</label><input type="time" id="apptTime" class="modal-input" value="09:00" required></div>
+        </div>
+        <div><label class="block text-xs font-semibold text-slate-500 mb-1">Local</label>
+          <select id="apptPlace" class="modal-input"><option>Clínica Central VitalPet</option><option>Atendimento Domiciliar</option></select></div>
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+        <button type="button" onclick="closeModal('apptModal')" class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100">Cancelar</button>
+        <button type="submit" class="bg-vital-orange hover-bg-vital-orange text-white text-xs font-extrabold px-5 py-2.5 rounded-xl shadow-sm">Confirmar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: CONFIRMAÇÃO (reutilizado para excluir pet e cancelar consulta)
+     O título e a mensagem são trocados pelo JS conforme a ação
+     ============================================================ -->
+<div id="deleteModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-4 z-50">
+  <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-100 text-center">
+    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl"><i id="confirmIcon" class="fa-solid fa-trash-can"></i></div>
+    <h3 id="confirmTitle" class="text-lg font-bold text-slate-800 mb-1">Remover</h3>
+    <p id="deleteModalMessage" class="text-xs text-slate-500 mb-6"></p>
+    <div class="flex justify-center gap-3">
+      <button onclick="closeModal('deleteModal')" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100">Cancelar</button>
+      <!-- O clique neste botão é tratado no JS (executa o deleteCallback) -->
+      <button id="btnConfirmDelete" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-5 py-2 rounded-xl shadow-sm">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST: mensagem de feedback que desliza na tela (ex.: "Dados atualizados com sucesso!") -->
+<div id="toast" class="bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700">
+  <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+  <span id="toastMessage" class="text-sm font-medium"></span>
+</div>
+
+<script>
+  // ============================================================
+  // DADOS INICIAIS
+  // Padrão: tenta ler do localStorage; se não existir (primeiro acesso),
+  // usa os valores de exemplo depois do "||".
+  // ============================================================
+
+  // Avatar padrão: um SVG desenhado em código (círculo claro com silhueta azul), convertido em URL de dados
+  const DEFAULT_AVATAR = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#fef3e2"/><circle cx="50" cy="38" r="20" fill="#0b4ca1"/><path d="M20 85c0-18 13-25 30-25s30 7 30 25" fill="#0b4ca1"/></svg>');
+
+  // Dados do usuário (chave "vp_user" no localStorage)
+  let userData = JSON.parse(localStorage.getItem('vp_user')) || {
+    name: 'Roberta Silva',
+    email: 'roberta.silva@email.com',
+    phone: '(11) 98765-4321',
+    address: 'Av. Paulista, 1000 - São Paulo, SP',
+    avatar: DEFAULT_AVATAR,
+    since: 'Membro desde Jan 2024'
+  };
+
+  // Lista de pets (chave "vp_pets"). Cada pet tem id, nome, tipo, idade e raça
+  let pets = JSON.parse(localStorage.getItem('vp_pets')) || [
+    { id: '1', name: 'Thor', type: 'dog', age: 4, breed: 'Golden Retriever' },
+    { id: '2', name: 'Luna', type: 'cat', age: 2, breed: 'Siamês' }
+  ];
+
+  // Lista de consultas (chave "vp_appts"). Status pode ser "Agendado" ou "Concluído"
+  let appointments = JSON.parse(localStorage.getItem('vp_appts')) || [
+    { id: '101', petName: 'Thor', service: 'Vacinação', date: '2026-10-15', time: '10:00', place: 'Clínica Central VitalPet', status: 'Agendado' },
+    { id: '102', petName: 'Luna', service: 'Consulta de Rotina', date: '2026-08-20', time: '14:30', place: 'Clínica Central VitalPet', status: 'Concluído' }
+  ];
+
+  // Lista de pedidos (chave "vp_orders"). Esta página só exibe; não cria pedidos
+  let orders = JSON.parse(localStorage.getItem('vp_orders')) || [
+    { id: '#VP-9842', date: '02/10/2026', items: 'Ração Premium 10kg, Brinquedo Corda', total: 'R$ 189,90', status: 'Em Transporte' },
+    { id: '#VP-8711', date: '15/09/2026', items: 'Arranhador para Gatos', total: 'R$ 120,00', status: 'Entregue' }
+  ];
+
+  // Lista de notificações (chave "vp_notifs"). "read" indica se já foi lida
+  let notifications = JSON.parse(localStorage.getItem('vp_notifs')) || [
+    { id: '1', title: 'Lembrete de Consulta', text: 'Consulta do Thor agendada para 15/10/2026 às 10:00.', time: 'Há 2 horas', read: false },
+    { id: '2', title: 'Pedido Enviado', text: 'Seu pedido #VP-9842 está a caminho!', time: 'Ontem', read: false }
+  ];
+
+  // Guarda a função que será executada quando o usuário clicar em "Confirmar" no modal de confirmação
+  let deleteCallback = null;
+
+  // ============================================================
+  // INICIALIZAÇÃO
+  // Roda quando o HTML terminou de carregar e desenha tudo na tela
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', () => {
+    initUserData();       // preenche formulário, nome e fotos
+    renderPets();         // desenha os cartões dos pets
+    renderAppts();        // desenha a lista de consultas
+    renderOrders();       // desenha a lista de pedidos
+    renderNotifs();       // desenha as notificações e atualiza os badges
+    setupTabNavigation(); // ativa a troca de abas, o sino e o botão Sair
+    setupAvatarUpload();  // ativa a troca da foto de perfil
+    setupMobileMenu();    // ativa o menu hambúrguer
+  });
+
+  // ============================================================
+  // FUNÇÕES UTILITÁRIAS
+  // ============================================================
+
+  // Salva todos os dados no localStorage (o navegador guarda mesmo se a página for fechada)
+  // JSON.stringify transforma objetos/listas em texto, que é o que o localStorage aceita
+  function saveData() {
+    localStorage.setItem('vp_user', JSON.stringify(userData));
+    localStorage.setItem('vp_pets', JSON.stringify(pets));
+    localStorage.setItem('vp_appts', JSON.stringify(appointments));
+    localStorage.setItem('vp_orders', JSON.stringify(orders));
+    localStorage.setItem('vp_notifs', JSON.stringify(notifications));
+  }
+
+  // Mostra a mensagem flutuante por 3 segundos
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMessage').innerText = msg; // escreve o texto
+    toast.classList.add('show');                              // desliza para dentro da tela
+    setTimeout(() => toast.classList.remove('show'), 3000);   // após 3s, esconde de novo
+  }
+
+  // ============================================================
+  // DADOS DO USUÁRIO
+  // ============================================================
+
+  // Preenche a tela com os dados do usuário
+  function initUserData() {
+    // Campos do formulário
+    document.getElementById('fullName').value = userData.name;
+    document.getElementById('email').value = userData.email;
+    document.getElementById('phone').value = userData.phone;
+    document.getElementById('address').value = userData.address;
+
+    // Pega só o primeiro nome (antes do primeiro espaço) para o cabeçalho
+    const firstName = userData.name.split(' ')[0] || 'Usuário';
+    document.getElementById('navUserName').innerText = firstName;
+    document.getElementById('sidebarUserName').innerText = userData.name;
+    document.getElementById('sidebarUserSince').innerText = userData.since;
+
+    // Foto: usa a do usuário ou, se não tiver, a padrão
+    const avatarSrc = userData.avatar || DEFAULT_AVATAR;
+    document.getElementById('navUserAvatar').src = avatarSrc;
+    document.getElementById('sidebarUserAvatar').src = avatarSrc;
+  }
+
+  // Chamada ao clicar em "Salvar Alterações"
+  function handleUserSubmit(e) {
+    e.preventDefault(); // impede a página de recarregar (comportamento padrão do formulário)
+    // Copia o que foi digitado para o objeto userData
+    userData.name = document.getElementById('fullName').value;
+    userData.email = document.getElementById('email').value;
+    userData.phone = document.getElementById('phone').value;
+    userData.address = document.getElementById('address').value;
+    saveData();     // grava no localStorage
+    initUserData(); // atualiza nome e fotos na tela
+    showToast('Dados atualizados com sucesso!');
+  }
+
+  // Troca da foto de perfil
+  function setupAvatarUpload() {
+    const avatarBtn = document.getElementById('avatarBtn');
+    const avatarInput = document.getElementById('avatarInput');
+
+    // Clicar no círculo "clica" no input de arquivo escondido, abrindo o seletor
+    avatarBtn.addEventListener('click', () => avatarInput.click());
+
+    // Quando o usuário escolhe um arquivo...
+    avatarInput.addEventListener('change', (e) => {
+      const file = e.target.files[0]; // pega o primeiro arquivo escolhido
+      if (file) {
+        const reader = new FileReader(); // leitor de arquivos do navegador
+        // Quando terminar de ler, o resultado é a imagem em base64 (texto)
+        reader.onload = (evt) => {
+          userData.avatar = evt.target.result; // guarda a imagem no objeto do usuário
+          saveData();
+          initUserData();                      // atualiza as fotos na tela
+          showToast('Foto de perfil atualizada!');
+        };
+        reader.readAsDataURL(file); // começa a leitura convertendo para base64
+      }
+    });
+  }
+
+  // ============================================================
+  // NAVEGAÇÃO (ABAS, SINO, SAIR, MENU MOBILE)
+  // ============================================================
+  function setupTabNavigation() {
+    const links = document.querySelectorAll('.sidebar-link[data-tab]'); // todos os links que têm data-tab
+    const contents = document.querySelectorAll('.tab-content');          // todas as abas
+
+    links.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetTab = link.getAttribute('data-tab'); // id da aba que deve aparecer
+
+        links.forEach(l => l.classList.remove('active'));      // tira o destaque de todos os links
+        contents.forEach(c => c.classList.add('hidden'));      // esconde todas as abas
+
+        link.classList.add('active');                                      // destaca o link clicado
+        document.getElementById(targetTab).classList.remove('hidden');    // mostra a aba escolhida
+        window.scrollTo({ top: 0, behavior: 'smooth' });                   // rola suavemente para o topo
+      });
+    });
+
+    // Clicar no sino do cabeçalho = clicar no item "Notificações" do menu
+    document.getElementById('bellBtn').addEventListener('click', () => {
+      const notifLink = document.querySelector('[data-tab="tab-notificacoes"]');
+      if (notifLink) notifLink.click();
+    });
+
+    // Botões "Sair" (desktop e mobile). Atenção: por enquanto só mostram um aviso, não deslogam de verdade
+    const logoutBtns = [document.getElementById('btnLogout'), document.getElementById('mobileLogout')];
+    logoutBtns.forEach(btn => {
+      if (btn) {
+        btn.addEventListener('click', () => {
+          showToast('Sessão encerrada com sucesso.');
+        });
+      }
+    });
+  }
+
+  // Abre/fecha o menu hambúrguer do celular
+  function setupMobileMenu() {
+    const btn = document.getElementById('mobileMenuBtn');
+    const menu = document.getElementById('mobileMenu');
+    btn.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open'); // liga/desliga a classe "open" e devolve true/false
+      btn.setAttribute('aria-expanded', isOpen);    // informa o estado para leitores de tela
+    });
+  }
+
+  // ============================================================
+  // PETS
+  // ============================================================
+
+  // Devolve ícone, cores e rótulo de acordo com o tipo do animal
+  function getPetTypeConfig(type) {
+    switch (type) {
+      case 'dog': return { icon: 'fa-dog', bg: 'bg-amber-100 text-amber-600', label: 'Cachorro' };
+      case 'cat': return { icon: 'fa-cat', bg: 'bg-purple-100 text-purple-600', label: 'Gato' };
+      case 'bird': return { icon: 'fa-crow', bg: 'bg-sky-100 text-sky-600', label: 'Pássaro' };
+      default: return { icon: 'fa-paw', bg: 'bg-emerald-100 text-emerald-600', label: 'Outro' };
+    }
+  }
+
+  // Desenha os cartões dos pets nas DUAS grades (aba Meus Dados e aba Meus pets)
+  function renderPets() {
+    const grids = [document.getElementById('petsGrid'), document.getElementById('standalonePetsGrid')];
+
+    grids.forEach(grid => {
+      if (!grid) return;
+      grid.innerHTML = ''; // limpa a grade antes de redesenhar
+
+      // Um cartão para cada pet
+      pets.forEach(pet => {
+        const conf = getPetTypeConfig(pet.type);
+        const card = document.createElement('div');
+        card.className = 'pet-card';
+        // Monta o HTML do cartão. Os botões já levam o id do pet para editar/excluir
+        // (ex.: openPetModal('1') abre a edição do pet de id 1)
+        card.innerHTML = `
+          <div class="pet-icon-circle ${conf.bg}">
+            <i class="fa-solid ${conf.icon}"></i>
+          </div>
+          <h3 class="font-bold text-slate-800 text-base mb-0.5">${pet.name}</h3>
+          <p class="text-xs font-semibold text-slate-500 mb-1">${pet.breed}</p>
+          <span class="text-[0.7rem] bg-slate-100 text-slate-600 font-bold px-2.5 py-0.5 rounded-full mb-3">${pet.age} ${pet.age == 1 ? 'ano' : 'anos'}</span>
+          <div class="mt-auto flex gap-3 text-xs font-bold pt-2 border-t border-slate-100 w-full justify-center">
+            <button onclick="openPetModal('${pet.id}')" class="text-vital-blue hover:underline"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+            <button onclick="confirmDeletePet('${pet.id}')" class="text-red-500 hover:underline"><i class="fa-solid fa-trash-can"></i> Excluir</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      // Cartão tracejado "Adicionar Pet" no final da grade
+      const addBtn = document.createElement('div');
+      addBtn.className = 'pet-card pet-card-add';
+      addBtn.onclick = () => openPetModal();
+      addBtn.innerHTML = `
+        <div class="w-10 h-10 rounded-full bg-amber-100 text-vital-orange flex items-center justify-center text-lg mb-2">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+        <span class="text-xs font-bold text-slate-600">Adicionar Pet</span>
+      `;
+      grid.appendChild(addBtn);
+    });
+
+    updateApptPetSelect(); // mantém o dropdown de pets do agendamento sincronizado
+  }
+
+  // Abre o modal de pet. Sem id = cadastrar novo; com id = editar o pet existente
+  function openPetModal(petId = null) {
+    const modal = document.getElementById('petModal');
+    const title = document.getElementById('modalTitle');
+    const form = document.getElementById('petForm');
+
+    form.reset();                              // limpa os campos
+    document.getElementById('petId').value = ''; // zera o id escondido
+
+    if (petId) {
+      // Modo edição: procura o pet e preenche o formulário
+      const pet = pets.find(p => p.id === petId);
+      if (pet) {
+        title.innerHTML = '<i class="fa-solid fa-pen-to-square text-vital-orange"></i> Editar Pet';
+        document.getElementById('petId').value = pet.id;
+        document.getElementById('petName').value = pet.name;
+        document.getElementById('petType').value = pet.type;
+        document.getElementById('petAge').value = pet.age;
+        document.getElementById('petBreed').value = pet.breed;
+      }
+    } else {
+      // Modo cadastro
+      title.innerHTML = '<i class="fa-solid fa-paw text-vital-orange"></i> Adicionar Pet';
+    }
+
+    // Mostra o modal (troca hidden por flex)
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  // Fecha o modal de pet (atalho para closeModal)
+  function closePetModal() {
+    closeModal('petModal');
+  }
+
+  // Chamada ao salvar o formulário de pet
+  function handlePetSubmit(e) {
+    e.preventDefault();
+    const id = document.getElementById('petId').value; // se tiver valor, é edição
+    const name = document.getElementById('petName').value;
+    const type = document.getElementById('petType').value;
+    const age = parseInt(document.getElementById('petAge').value, 10); // converte o texto em número inteiro
+    const breed = document.getElementById('petBreed').value;
+
+    if (id) {
+      // Edição: acha a posição do pet na lista e substitui pelos novos dados
+      const idx = pets.findIndex(p => p.id === id);
+      if (idx !== -1) pets[idx] = { id, name, type, age, breed };
+      showToast('Pet atualizado com sucesso!');
+    } else {
+      // Novo pet: usa o horário atual em milissegundos como id único
+      const newPet = { id: Date.now().toString(), name, type, age, breed };
+      pets.push(newPet);
+      showToast('Pet cadastrado com sucesso!');
+    }
+
+    saveData();
+    renderPets();   // redesenha os cartões
+    closePetModal();
+  }
+
+  // Prepara e abre a confirmação para excluir um pet
+  function confirmDeletePet(petId) {
+    const pet = pets.find(p => p.id === petId);
+    if (!pet) return;
+
+    document.getElementById('confirmTitle').innerText = 'Remover Pet';
+    document.getElementById('deleteModalMessage').innerText = `Deseja realmente remover o pet "${pet.name}"?`;
+    // Guarda a ação que só será executada se o usuário clicar em "Confirmar"
+    deleteCallback = () => {
+      pets = pets.filter(p => p.id !== petId); // mantém todos os pets, menos o excluído
+      saveData();
+      renderPets();
+      showToast('Pet removido.');
+    };
+    openModal('deleteModal');
+  }
+
+  // Preenche o <select> de pets do modal de agendamento
+  function updateApptPetSelect() {
+    const select = document.getElementById('apptPet');
+    if (!select) return;
+    select.innerHTML = '';
+    if (pets.length === 0) {
+      select.innerHTML = '<option value="">Nenhum pet cadastrado</option>';
+      return;
+    }
+    pets.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.name;                          // o valor salvo é o nome do pet
+      opt.textContent = `${p.name} (${p.breed})`;  // o texto exibido inclui a raça
+      select.appendChild(opt);
+    });
+  }
+
+  // ============================================================
+  // CONSULTAS
+  // ============================================================
+
+  // Desenha a lista de consultas
+  function renderAppts() {
+    const container = document.getElementById('apptList');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // Mensagem quando não há nenhuma consulta
+    if (appointments.length === 0) {
+      container.innerHTML = '<p class="text-sm font-medium text-slate-400 text-center py-6">Nenhuma consulta agendada.</p>';
+      return;
+    }
+
+    appointments.forEach(appt => {
+      const item = document.createElement('div');
+      item.className = 'p-4 rounded-xl border border-slate-100 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4';
+
+      // Cor da etiqueta de status: amarelo para "Agendado", verde para os demais
+      const statusBg = appt.status === 'Agendado' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700';
+
+      // O botão "Cancelar" só aparece nas consultas ainda agendadas
+      item.innerHTML = `
+        <div class="flex items-start gap-3.5">
+          <div class="w-10 h-10 rounded-xl bg-vital-blue text-white flex items-center justify-center text-lg flex-shrink-0 mt-0.5">
+            <i class="fa-regular fa-calendar-check"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h4 class="font-bold text-slate-800 text-sm sm:text-base">${appt.service} - <span class="text-vital-blue">${appt.petName}</span></h4>
+              <span class="text-[0.65rem] font-bold px-2 py-0.5 rounded-full ${statusBg}">${appt.status}</span>
+            </div>
+            <p class="text-xs font-semibold text-slate-500 mt-1"><i class="fa-regular fa-clock text-vital-orange mr-1"></i> ${formatDate(appt.date)} às ${appt.time}</p>
+            <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot mr-1"></i> ${appt.place}</p>
+          </div>
+        </div>
+        ${appt.status === 'Agendado' ? `
+          <button onclick="cancelAppt('${appt.id}')" class="text-xs font-bold text-red-500 hover:text-red-700 hover:underline self-end sm:self-center">Cancelar</button>
+        ` : ''}
+      `;
+      container.appendChild(item);
+    });
+  }
+
+  // Abre o modal de agendamento
+  function openApptModal() {
+    // Não deixa agendar se não houver nenhum pet cadastrado
+    if (pets.length === 0) {
+      showToast('Cadastre um pet antes de agendar uma consulta.');
+      return;
+    }
+    // Data de hoje no formato AAAA-MM-DD (usada como data mínima e padrão do campo)
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('apptDate').min = today;
+    document.getElementById('apptDate').value = today;
+    openModal('apptModal');
+  }
+
+  // Chamada ao confirmar o agendamento
+  function handleApptSubmit(e) {
+    e.preventDefault();
+    const petName = document.getElementById('apptPet').value;
+    const service = document.getElementById('apptService').value;
+    const date = document.getElementById('apptDate').value;
+    const time = document.getElementById('apptTime').value;
+    const place = document.getElementById('apptPlace').value;
+
+    // Cria a consulta nova já com o status "Agendado"
+    const newAppt = {
+      id: Date.now().toString(),
+      petName,
+      service,
+      date,
+      time,
+      place,
+      status: 'Agendado'
+    };
+
+    appointments.unshift(newAppt); // unshift = coloca no INÍCIO da lista (a mais nova aparece primeiro)
+    saveData();
+    renderAppts();
+    closeModal('apptModal');
+    showToast('Consulta agendada com sucesso!');
+  }
+
+  // Prepara e abre a confirmação para cancelar uma consulta
+  function cancelAppt(id) {
+    document.getElementById('confirmTitle').innerText = 'Cancelar Consulta';
+    document.getElementById('deleteModalMessage').innerText = 'Deseja realmente cancelar este agendamento?';
+    deleteCallback = () => {
+      appointments = appointments.filter(a => a.id !== id); // remove a consulta da lista
+      saveData();
+      renderAppts();
+      showToast('Consulta cancelada.');
+    };
+    openModal('deleteModal');
+  }
+
+  // ============================================================
+  // PEDIDOS
+  // ============================================================
+
+  // Desenha a lista de pedidos (somente leitura nesta página)
+  function renderOrders() {
+    const container = document.getElementById('orderList');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (orders.length === 0) {
+      container.innerHTML = '<p class="text-sm font-medium text-slate-400 text-center py-6">Você ainda não realizou pedidos.</p>';
+      return;
+    }
+
+    orders.forEach(order => {
+      const div = document.createElement('div');
+      div.className = 'p-4 rounded-xl border border-slate-100 bg-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4';
+      // Etiqueta verde se "Entregue", azul para qualquer outro status
+      div.innerHTML = `
+        <div class="flex items-start gap-3.5">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 text-vital-orange flex items-center justify-center text-lg flex-shrink-0 mt-0.5">
+            <i class="fa-solid fa-box"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-slate-800 text-sm">${order.id}</span>
+              <span class="text-xs text-slate-400">• ${order.date}</span>
+            </div>
+            <p class="text-xs font-medium text-slate-600 mt-1">${order.items}</p>
+            <p class="text-xs font-bold text-vital-blue mt-0.5">${order.total}</p>
+          </div>
+        </div>
+        <span class="text-xs font-bold px-3 py-1 rounded-full self-start md:self-center ${order.status === 'Entregue' ? 'bg-emerald-100 text-emerald-700' : 'bg-sky-100 text-sky-700'}">${order.status}</span>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  // ============================================================
+  // NOTIFICAÇÕES
+  // ============================================================
+
+  // Desenha a lista de notificações e atualiza os badges
+  function renderNotifs() {
+    const container = document.getElementById('notifList');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // Conta quantas ainda não foram lidas e atualiza as bolinhas vermelhas
+    const unreadCount = notifications.filter(n => !n.read).length;
+    updateBadges(unreadCount);
+
+    if (notifications.length === 0) {
+      container.innerHTML = '<p class="text-sm font-medium text-slate-400 text-center py-6">Nenhuma notificação por aqui.</p>';
+      return;
+    }
+
+    notifications.forEach(n => {
+      const item = document.createElement('div');
+      // Não lida: fundo amarelado e borda laranja. Lida: fundo cinza claro
+      item.className = `p-4 rounded-xl border transition-all flex items-start justify-between gap-3 ${n.read ? 'bg-slate-50 border-slate-100' : 'bg-amber-50/60 border-amber-200'}`;
+      // Se não foi lida: mostra um pontinho laranja e o botão "Lida"
+      item.innerHTML = `
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <h4 class="font-bold text-slate-800 text-sm">${n.title}</h4>
+            ${!n.read ? '<span class="w-2 h-2 rounded-full bg-vital-orange"></span>' : ''}
+          </div>
+          <p class="text-xs text-slate-600 font-medium leading-relaxed">${n.text}</p>
+          <span class="text-[0.65rem] text-slate-400 font-semibold block mt-1.5">${n.time}</span>
+        </div>
+        ${!n.read ? `<button onclick="markRead('${n.id}')" class="text-xs font-bold text-vital-blue hover:underline whitespace-nowrap">Lida</button>` : ''}
+      `;
+      container.appendChild(item);
+    });
+  }
+
+  // Mostra ou esconde as bolinhas vermelhas (sino e menu lateral) conforme a quantidade de não lidas
+  function updateBadges(count) {
+    const bellBadge = document.getElementById('bellBadge');
+    const sideBadge = document.getElementById('sideBadge');
+
+    if (count > 0) {
+      bellBadge.innerText = count;
+      sideBadge.innerText = count;
+      bellBadge.classList.remove('hidden');
+      sideBadge.classList.remove('hidden');
+    } else {
+      bellBadge.classList.add('hidden');
+      sideBadge.classList.add('hidden');
+    }
+  }
+
+  // Marca UMA notificação como lida
+  function markRead(id) {
+    const notif = notifications.find(n => n.id === id);
+    if (notif) {
+      notif.read = true;
+      saveData();
+      renderNotifs();
+    }
+  }
+
+  // Marca TODAS como lidas
+  function markAllRead() {
+    notifications.forEach(n => n.read = true);
+    saveData();
+    renderNotifs();
+    showToast('Todas as notificações foram lidas.');
+  }
+
+  // Apaga todas as notificações
+  function clearNotifs() {
+    notifications = [];
+    saveData();
+    renderNotifs();
+    showToast('Notificações limpadas.');
+  }
+
+  // ============================================================
+  // MODAIS (funções genéricas, servem para qualquer janela)
+  // ============================================================
+
+  // Mostra o modal pelo id: remove "hidden" e adiciona "flex"
+  function openModal(id) {
+    const m = document.getElementById(id);
+    if (m) {
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+  }
+
+  // Esconde o modal pelo id: remove "flex" e adiciona "hidden"
+  function closeModal(id) {
+    const m = document.getElementById(id);
+    if (m) {
+      m.classList.remove('flex');
+      m.classList.add('hidden');
+    }
+  }
+
+  // Botão "Confirmar" do modal de confirmação:
+  // executa a ação guardada em deleteCallback (excluir pet ou cancelar consulta),
+  // fecha o modal e limpa a ação para não rodar duas vezes
+  document.getElementById('btnConfirmDelete').addEventListener('click', () => {
+    if (deleteCallback) deleteCallback();
+    closeModal('deleteModal');
+    deleteCallback = null;
+  });
+
+  // Converte data de "2026-10-15" para "15/10/2026" (formato brasileiro)
+  function formatDate(str) {
+    if (!str) return '';
+    const parts = str.split('-'); // separa em [ano, mês, dia]
+    if (parts.length !== 3) return str;
+    return `${parts[2]}/${parts[1]}/${parts[0]}`; // remonta como dia/mês/ano
+  }
+</script>
+
+</body>
+</html>
