@@ -860,69 +860,93 @@
       aplicarFiltros();
     });
 
-    // =========================================
-    // CHATBOT BIGODERA
-    // (se você já tinha a lógica com a API do Gemini, mantenha a sua
-    //  versão de enviarMensagem() no lugar desta)
-    // =========================================
-    function toggleChat() {
-      document.getElementById('chatContainer').classList.toggle('open');
-    }
+  // =========================================================
+// BIGODERA COM GEMINI
+// Cole este bloco no <script>, SUBSTITUINDO a função
+// enviarMensagem() antiga. Mantenha todo o resto (responder,
+// addMensagem, toggleChat, etc.), pois o fallback usa responder().
+// =========================================================
 
-    function addMensagem(texto, tipo, acao) {
-      const box = document.getElementById('messages');
-      const div = document.createElement('div');
-      div.className = 'message ' + tipo;
-      div.innerText = texto;
-      if (acao) {
-        div.appendChild(document.createElement('br'));
-        const b = document.createElement('button');
-        b.className = 'chat-action';
-        b.innerText = acao.label;
-        b.onclick = acao.fn;
-        div.appendChild(b);
-      }
-      box.appendChild(div);
-      box.scrollTop = box.scrollHeight;
-    }
+const GEMINI_API_KEY = 'AQ.Ab8RN6JFO_a-zfczjUUba_okBOGp8Qx-cdf05IwcZYbVlBwZHQ';
+const GEMINI_MODEL = 'gemini-2.5-flash'; // troque aqui se quiser outro modelo
+const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODEL + ':generateContent';
 
-    const normalizar = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const historicoChat = [];   // memória da conversa (últimas mensagens)
+let aguardandoIA = false;   // evita enviar duas mensagens ao mesmo tempo
 
-    function responder(txt) {
-      const t = normalizar(txt);
-      const tem = (...p) => p.some(w => t.includes(w));
-      const fechar = () => document.getElementById('chatContainer').classList.remove('open');
-      const contato = { label: 'Falar no WhatsApp', fn: () => { fechar(); abrirContato(); } };
+// Monta a lista de produtos a partir dos cards da página,
+// assim o Bigodera sempre conhece o catálogo atual.
+function catalogoParaIA() {
+  return [...productCards].map(c =>
+    '- ' + c.querySelector('.product-title').innerText +
+    ' (' + c.getAttribute('data-category') + '): ' +
+    c.querySelector('.price').innerText + '. ' +
+    (c.getAttribute('data-description') || '')
+  ).join('\n');
+}
 
-      if (/\b(oi|ola|bom dia|boa tarde|boa noite)\b/.test(t)) return { texto: 'Olá! 🐾 Posso ajudar com produtos, preços, frete ou pagamento.' };
-      if (tem('carrinho')) return { texto: 'Claro! Seu carrinho está logo aqui.', acao: { label: 'Abrir carrinho', fn: () => { fechar(); abrirCarrinho(); } } };
-      if (tem('frete', 'entrega', 'prazo')) return { texto: 'Calcule o frete na página de cada produto digitando o CEP. Hoje temos frete grátis com entrega em até 3 dias úteis!' };
-      if (tem('pagamento', 'pagar', 'pix', 'cartao', 'boleto', 'parcel')) return { texto: 'Aceitamos Pix, boleto e cartão de crédito em até 3x sem juros.' };
-      if (tem('contato', 'telefone', 'whatsapp', 'atendente', 'humano', 'falar com')) return { texto: 'Você pode falar com a nossa equipe pelo WhatsApp: (79) 98165-6787.', acao: contato };
-      if (tem('desconto', 'oferta', 'promo')) return { texto: 'Temos até 50% de desconto! Veja as ofertas ordenadas pelos menores preços.', acao: { label: 'Ver ofertas', fn: () => { fechar(); verOfertas(); } } };
+function instrucaoDoSistema() {
+  return 'Você é o Bigodera, assistente virtual simpático da VitalPet, loja de produtos para pets. ' +
+    'Responda sempre em português do Brasil, de forma curta (no máximo 3 frases) e amigável. ' +
+    'Use apenas os produtos e preços do catálogo abaixo e não invente itens nem valores. ' +
+    'Informações da loja: aceita Pix, boleto e cartão em até 3x sem juros; frete grátis com entrega em até 3 dias úteis; ' +
+    'WhatsApp (79) 98165-6787; promoção de até 50% de desconto. ' +
+    'Você não é veterinário: para dúvidas de saúde, dosagem ou diagnóstico, recomende consultar um veterinário. ' +
+    'Se não souber algo, sugira falar com a equipe pelo WhatsApp.\n\nCATÁLOGO:\n' + catalogoParaIA();
+}
 
-      const palavras = t.split(/\s+/).filter(w => w.length >= 4);
-      const card = [...productCards].find(c => {
-        const n = normalizar(c.querySelector('.product-title').innerText + ' ' + c.getAttribute('data-category'));
-        return palavras.some(w => n.includes(w));
-      });
-      if (card) {
-        const nome = card.querySelector('.product-title').innerText;
-        const preco = card.querySelector('.price').innerText;
-        return { texto: 'Encontrei: ' + nome + ' por ' + preco + '.', acao: { label: 'Ver produto', fn: () => { fechar(); card.click(); } } };
-      }
-      return { texto: 'Não entendi bem 🤔. Pergunte sobre produtos, frete ou pagamento, ou fale com a nossa equipe.', acao: contato };
-    }
+async function perguntarGemini(texto) {
+  historicoChat.push({ role: 'user', parts: [{ text: texto }] });
 
-    function enviarMensagem() {
-      const input = document.getElementById('userInput');
-      const texto = input.value.trim();
-      if (!texto) return;
-      addMensagem(texto, 'user');
-      input.value = '';
-      const r = responder(texto);
-      setTimeout(() => addMensagem(r.texto, 'bot', r.acao), 450);
-    }
+  const resp = await fetch(GEMINI_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': GEMINI_API_KEY },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: instrucaoDoSistema() }] },
+      contents: historicoChat.slice(-10),
+      generationConfig: { temperature: 0.6, maxOutputTokens: 400 }
+    })
+  });
+
+  if (!resp.ok) throw new Error('Gemini HTTP ' + resp.status);
+  const data = await resp.json();
+  const resposta = data.candidates?.[0]?.content?.parts?.map(p => p.text).join('').trim();
+  if (!resposta) throw new Error('Resposta vazia');
+
+  historicoChat.push({ role: 'model', parts: [{ text: resposta }] });
+  return resposta;
+}
+
+async function enviarMensagem() {
+  if (aguardandoIA) return;
+  const input = document.getElementById('userInput');
+  const texto = input.value.trim();
+  if (!texto) return;
+
+  addMensagem(texto, 'user');
+  input.value = '';
+  aguardandoIA = true;
+
+  // aviso "digitando..." enquanto a IA responde
+  addMensagem('Digitando... 🐾', 'bot');
+  const box = document.getElementById('messages');
+  const aviso = box.lastElementChild;
+
+  try {
+    const resposta = await perguntarGemini(texto);
+    aviso.remove();
+    addMensagem(resposta, 'bot');
+  } catch (erro) {
+    // se a API falhar (chave, internet, limite), usa as respostas por regras
+    console.warn('Bigodera: usando respostas offline.', erro);
+    historicoChat.pop(); // remove a pergunta que ficou sem resposta
+    aviso.remove();
+    const r = responder(texto);
+    addMensagem(r.texto, 'bot', r.acao);
+  } finally {
+    aguardandoIA = false;
+  }
+}
 
     salvarCarrinho();
   </script>
