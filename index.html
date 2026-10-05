@@ -363,21 +363,82 @@ function toggleChat() {
   document.getElementById("chatContainer").classList.toggle("open");
 }
 
-/* ATENÇÃO: a chave antiga ficou exposta no código. Revogue-a no Google AI Studio,
-   crie uma nova e, para o site ir ao ar, use um backend/proxy em vez de deixar a chave aqui. */
+/* ATENÇÃO: a chave fica visível no código para quem abrir o site. Restrinja o uso dela
+   no Google AI Studio e, para o site ir ao ar, use um backend/proxy em vez de deixar a chave aqui. */
 const API_KEY = "AQ.Ab8RN6JFO_a-zfczjUUba_okBOGp8Qx-cdf05IwcZYbVlBwZHQ";
-const MODELO = "gemini-3.6-flash"; // confirme o nome do modelo no Google AI Studio
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODELO}:generateContent?key=${API_KEY}`;
+const MODELOS = ["gemini-3.6-flash", "gemini-3.7-flash", "gemini-flash-latest"]; // tenta em ordem se um não existir
+const BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/";
+const MODO_DEBUG = false; // true: mostra o motivo do erro no chat (use só para testar).
 
 const instrucaoSistema = `
   Você é um especialista exclusivo sobre pets e o assistente virtual do Petshop VitalPet.
   Sua função é tirar dúvidas APENAS sobre cuidados, alimentação, saúde, acessórios e serviços para animais de estimação (como cães, gatos, pássaros e pequenos animais).
   Se o usuário perguntar sobre qualquer outro assunto fora do universo pet ou do Petshop VitalPet, recuse educadamente explicando que seu foco é apenas o cuidado com os bichinhos.
   Utilize uma linguagem descontraída e acessível, que se aproxime dos jovens e adolescentes.
+  Responda de forma curta (no máximo 4 frases).
+  Serviços da VitalPet: consultas, vacinação, exames, banho e tosa, odontologia e atendimento domiciliar. WhatsApp: (79) 98165-6787.
   Em caso de sintomas graves, recomende levar o pet a um veterinário.
 `;
 
-const historico = []; // mantém o contexto da conversa
+const historico = [];     // mantém o contexto da conversa
+let modeloAtivo = null;   // guarda o modelo que funcionou
+
+// Faz UMA chamada ao Gemini. Autentica pelo cabeçalho ou, se pedido, pela URL.
+async function chamarGemini(modelo, chaveNaUrl) {
+  const url = BASE_URL + modelo + ":generateContent" + (chaveNaUrl ? "?key=" + encodeURIComponent(API_KEY) : "");
+  const headers = { "Content-Type": "application/json" };
+  if (!chaveNaUrl) headers["x-goog-api-key"] = API_KEY;
+
+  const r = await fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      system_instruction: { parts: [{ text: instrucaoSistema }] },
+      contents: historico.slice(-12),
+      generationConfig: { temperature: 0.7, maxOutputTokens: 600 }
+    })
+  });
+  const texto = await r.text();
+  let data = {};
+  try { data = JSON.parse(texto); } catch (e) {}
+  return { ok: r.ok, status: r.status, data, texto };
+}
+
+async function perguntarGemini() {
+  const lista = modeloAtivo ? [modeloAtivo, ...MODELOS.filter(m => m !== modeloAtivo)] : MODELOS;
+  let ultimoErro = "sem resposta";
+
+  for (const modelo of lista) {
+    let res = await chamarGemini(modelo, false);
+    if (res.status === 401) res = await chamarGemini(modelo, true); // 2ª tentativa com a chave na URL
+
+    if (res.ok) {
+      const resp = res.data.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("").trim();
+      if (resp) { modeloAtivo = modelo; return resp; }
+      throw new Error("A IA respondeu vazio (possível filtro de segurança).");
+    }
+
+    ultimoErro = "HTTP " + res.status + " (" + modelo + "): " + (res.data.error?.message || res.texto.slice(0, 200));
+    if (res.status !== 404) break; // 404 = modelo inexistente: tenta o próximo; outros erros: para
+  }
+  throw new Error(ultimoErro);
+}
+
+// Respostas básicas para quando a IA não estiver disponível
+const normalizar = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+function respostaOffline(txt) {
+  const t = normalizar(txt);
+  const tem = (...p) => p.some(w => t.includes(w));
+  if (/\b(oi|ola|bom dia|boa tarde|boa noite)\b/.test(t)) return "Olá! 🐾 Posso ajudar com os serviços da VitalPet, agendamentos e dúvidas sobre seu pet.";
+  if (tem("vacina")) return "Temos vacinação completa para cães e gatos! Clique em 'Vacinação' em Nossos Serviços para agendar. 💉";
+  if (tem("banho", "tosa")) return "O Banho e Tosa é feito com muito carinho e segurança! Clique em 'Banho e Tosa' nos serviços para agendar. 🛁";
+  if (tem("consulta", "veterin", "doente", "vomit", "febre", "sintoma")) return "Para consultas e qualquer sintoma, o ideal é levar seu pet a um veterinário. Agende em 'Consultas' nos nossos serviços! 🩺";
+  if (tem("exame")) return "Fazemos exames laboratoriais e de imagem com agilidade. Agende em 'Exames' nos serviços! 🔬";
+  if (tem("dente", "odonto")) return "Temos odontologia veterinária para cuidar do sorriso do seu pet! 🦷";
+  if (tem("domicilio", "casa")) return "Fazemos atendimento domiciliar, no conforto da sua casa! 🏠";
+  if (tem("agendar", "agenda", "marcar", "horario", "contato", "telefone", "whatsapp")) return "Você pode agendar pelo botão 'Agende uma Consulta' ou falar no WhatsApp: (79) 98165-6787. 📲";
+  return "Não consegui falar com a IA agora 🤔, mas você pode chamar a equipe no WhatsApp: (79) 98165-6787.";
+}
 
 async function enviarMensagem() {
   const input = document.getElementById("userInput");
@@ -393,35 +454,14 @@ async function enviarMensagem() {
   historico.push({ role: "user", parts: [{ text: texto }] });
 
   try {
-    const resposta = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: instrucaoSistema }] },
-        contents: historico.slice(-12)
-      })
-    });
-    const data = await resposta.json();
-
-    if (!resposta.ok) {
-      console.error("Erro da API:", data);
-      historico.pop();
-      temp.innerText = `Erro (${resposta.status}): ${data.error?.message || 'Falha ao processar requisição.'}`;
-      return;
-    }
-
-    const resp = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (resp) {
-      historico.push({ role: "model", parts: [{ text: resp }] });
-      temp.innerText = resp;
-    } else {
-      historico.pop();
-      temp.innerText = "Ops! Não consegui gerar uma resposta. Tente reformular a pergunta.";
-    }
+    const resp = await perguntarGemini();
+    historico.push({ role: "model", parts: [{ text: resp }] });
+    temp.innerText = resp;
   } catch (erro) {
-    console.error(erro);
+    console.error("Bigodera:", erro);
     historico.pop();
-    temp.innerText = "Erro de conexão com a API do Gemini.";
+    const motivo = erro && erro.message ? erro.message : String(erro);
+    temp.innerText = respostaOffline(texto) + (MODO_DEBUG ? "\n\n[debug] " + motivo : "");
   } finally {
     btn.disabled = false;
     input.focus();
